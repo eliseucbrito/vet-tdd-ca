@@ -1,4 +1,8 @@
 // interface segregation principle S.O.L.I.D
+export type HttpPostParams = {
+  url: string
+}
+
 export interface HttpPostClient {
-  post(url: string): Promise<void>
+  post(params: HttpPostParams): Promise<void>
 }
