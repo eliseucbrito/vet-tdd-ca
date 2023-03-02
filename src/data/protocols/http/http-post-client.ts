@@ -1,6 +1,7 @@
 // interface segregation principle S.O.L.I.D
 export type HttpPostParams = {
   url: string
+  body?: object
 }
 
 export interface HttpPostClient {
