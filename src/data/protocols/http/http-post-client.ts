@@ -1,4 +1,4 @@
-import { HttpResponse } from './http-response'
+import { HttpResponse } from '.'
 
 // interface segregation principle S.O.L.I.D
 export type HttpPostParams<T> = {
