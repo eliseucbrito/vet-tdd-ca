@@ -10,7 +10,8 @@
     "test": "jest --passWithNoTests",
     "test:watch": "npm test -- --watch",
     "test:staged": "npm test -- --findRelatedTests",
-    "test:ci": "npm test -- --coverage"
+    "test:ci": "npm test -- --coverage",
+    "clear:jest": "jest --clearCache"
   },
   "dependencies": {
     "@types/node": "18.14.1",
