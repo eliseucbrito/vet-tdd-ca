@@ -7,7 +7,7 @@ export enum Roles {
   INTERN,
 }
 
-export type Staff = {
+export type StaffModel = {
   id: number
   role: Roles
   fullName: string
