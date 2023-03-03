@@ -1,11 +1,4 @@
-export enum Roles {
-  CEO,
-  GENERAL_MANAGER,
-  MANAGER,
-  VETERINARY,
-  ASSISTANT,
-  INTERN,
-}
+import { RoleModel, Roles } from './RoleHistoricModel'
 
 export type StaffModel = {
   id: number
@@ -19,6 +12,6 @@ export type StaffModel = {
   onDuty: boolean
   weeklyWorkLoad: number
   workLoadCompleted: number
-  role_historic: Array<string>
+  role_historic: Array<RoleModel>
   // TODO: SET ROLE HISTORIC
 }
