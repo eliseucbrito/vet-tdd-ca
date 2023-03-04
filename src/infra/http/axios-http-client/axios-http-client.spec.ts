@@ -38,5 +38,3 @@ describe("AxiosHttpAxios", () => {
   })
 })
 
-export { };
-
