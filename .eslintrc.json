@@ -1,9 +1,11 @@
-// {
-//   "extends": ["@rocketseat/eslint-config/react", "prettier"],
-//   "rules": {
-//     "no-unused-vars": "off",
-//     "no-useless-constructor": "off",
-//     "react/no-unescaped-entities": "off",
-//     "@next/next/no-page-custom-font": "off"
-//   }
-// }
+{
+  "extends": ["standard-with-typescript", "plugin:react/recommended"],
+  "rules": {
+    "no-unused-vars": "off",
+    "no-useless-constructor": "off",
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-var": "error"
+  }
+}
