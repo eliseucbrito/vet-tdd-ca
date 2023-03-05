@@ -203,6 +203,9 @@ export default {
   collectCoverageFrom: ['<rootDir>/src/**/*.{ts, tsx}'],
   coverageDirectory: 'coverage',
   testEnvironment: 'jsdom',
+  moduleNameMapper: {
+    '\\.css$': 'identity-obj-proxy'
+  }
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [
