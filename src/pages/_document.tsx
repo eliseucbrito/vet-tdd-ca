@@ -15,10 +15,6 @@ export default function Document() {
           rel="stylesheet"
         />
 
-        <meta name='viewport' content='width=device-width, initial-scale=1'/>
-        <title>VET.</title>
-
-
       </Head>
       <body>
         <Main />

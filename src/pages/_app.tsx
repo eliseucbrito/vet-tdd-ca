@@ -1,6 +1,6 @@
 import { ChakraProvider, Flex } from '@chakra-ui/react'
 import type { AppProps } from 'next/app'
-import { defaultTheme } from 'styles/theme/defaultTheme'
+import { defaultTheme } from 'presentation/styles/theme/defaultTheme'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
