@@ -1,11 +1,13 @@
 {
-  "extends": ["standard-with-typescript", "plugin:react/recommended"],
+  "extends": [
+    // "standard-with-typescript",
+    "plugin:react/recommended",
+    "@rocketseat/eslint-config/react"
+  ],
   "rules": {
     "no-unused-vars": "off",
     "no-useless-constructor": "off",
     "react/no-unescaped-entities": "off",
-    "@next/next/no-page-custom-font": "off",
-    "react/jsx-uses-react": "error",
-    "react/jsx-uses-var": "error"
+    "@next/next/no-page-custom-font": "off"
   }
 }
