@@ -107,6 +107,7 @@ export const defaultTheme = extendTheme({
         },
       },
     },
+
     Text: {
       variants: {
         cardLabel: {
