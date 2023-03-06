@@ -1,16 +1,28 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, RenderResult, screen } from '@testing-library/react'
 import { ChakraProvider } from '@chakra-ui/react'
 import { defaultTheme } from '../../presentation/styles/theme/defaultTheme'
 import Login from './index'
 import '../../presentation/tests/mock-match-media'
 
-describe('', () => {
+type SutTypes = {
+  sut: RenderResult
+}
+
+const makeSut = (): SutTypes => {
+  const sut = render(
+    <ChakraProvider theme={defaultTheme}>
+      <Login />
+    </ChakraProvider>,
+  )
+
+  return {
+    sut,
+  }
+}
+
+describe('Login component', () => {
   test('', () => {
-    render(
-      <ChakraProvider theme={defaultTheme}>
-        <Login />
-      </ChakraProvider>,
-    )
+    const sut = makeSut()
   })
 })
