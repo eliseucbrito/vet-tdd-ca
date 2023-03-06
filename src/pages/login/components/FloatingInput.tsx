@@ -6,12 +6,11 @@ export function FloatingInput({ ...InputProps }: InputProps) {
       type="text"
       variant="flushed"
       px={2}
-      borderRadius={8}
       _focus={{
         'box-shadow': '0px 5px 10px 0px rgba(0, 0, 0, 0.5)',
         borderRadius: 8,
         border: 'none',
-        transform: 'translateY(-3px)',
+        transform: 'translateY(-2px)',
       }}
       bg={['none', 'white']}
       {...InputProps}
