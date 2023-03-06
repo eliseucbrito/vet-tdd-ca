@@ -22,6 +22,8 @@ export const defaultTheme = extendTheme({
       base: '#FBA94C',
     },
 
+    black: '#252525',
+
     red: {
       '100': '#AB222E',
       '300': '#FC8181',
