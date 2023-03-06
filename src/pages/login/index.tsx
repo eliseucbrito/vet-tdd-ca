@@ -21,10 +21,15 @@ import Logo from '../../presentation/Assets/logo.svg'
 import { MdOutlineLogin } from 'react-icons/md'
 import { useState } from 'react'
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai'
-import { Button } from 'presentation/components/Buttons/Button'
+import { Button } from '../../presentation/components/Buttons/Button'
 import Link from 'next/link'
+import { Validation } from './../../presentation/protocols/validation'
 
-export default function Login() {
+type Props = {
+  validation: Validation
+}
+
+export default function Login({ validation }: Props) {
   const [show, setShow] = useState<boolean>(false)
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const handleClick = () => setShow(!show)
@@ -51,7 +56,7 @@ export default function Login() {
             <FormLabel pt={4} htmlFor="email-input">
               E-mail
             </FormLabel>
-            <FloatingInput id="email-input" />
+            <FloatingInput id="email-input" data-testid="email-input" />
 
             <FormLabel pt={4} htmlFor="password-input">
               Senha
@@ -67,6 +72,7 @@ export default function Login() {
             >
               <FloatingInput
                 id="password-input"
+                data-testid="password-input"
                 type={show ? 'text' : 'password'}
                 onFocus={() => {
                   setIsFocused(true)
