@@ -13,36 +13,69 @@ import {
   InputRightElement,
   HStack,
   Checkbox,
+  Input,
 } from '@chakra-ui/react'
 import { FloatingInput } from './components/FloatingInput'
 import Image from 'next/image'
 import Veterinary from '../../presentation/Assets/veterinary.svg'
 import Logo from '../../presentation/Assets/logo.svg'
 import { MdOutlineLogin } from 'react-icons/md'
-import { useState } from 'react'
+import { FocusEvent, useEffect, useState } from 'react'
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai'
 import { Button } from '../../presentation/components/Buttons/Button'
 import Link from 'next/link'
 import { Validation } from './../../presentation/protocols/validation'
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 type Props = {
   validation: Validation
 }
+
+const validationSchema = z.object({
+  email: z.string().email({ message: 'Email invalido!' }),
+  password: z
+    .string()
+    .min(6, { message: 'A senhora precisa ter no mínimo 6 caracteres!' }),
+  rememberMe: z.boolean().default(false),
+})
+
+type validationData = z.infer<typeof validationSchema>
 
 export default function Login({ validation }: Props) {
   const [show, setShow] = useState<boolean>(false)
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const handleClick = () => setShow(!show)
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<validationData>({
+    resolver: zodResolver(validationSchema),
+  })
+
+  function handleSubmitValidation(data: validationData) {
+    console.log(data)
+  }
+
   return (
     <Flex w="100%">
       <VStack w="100%" h="100%" align="center" justify="center" p="1rem">
         <Heading w="100%" justifyContent="flex-start">
-          <ChakraImage as={Image} alt="" src={Logo} />
+          <ChakraImage alt="" src={Logo} />
         </Heading>
 
         <Flex w="100%" h="100%" align="center" justify="center" p="1rem">
-          <Box as={'form'} bg="white" borderRadius={12} py={8} px={12}>
+          <Box
+            as={'form'}
+            onSubmit={handleSubmit(handleSubmitValidation)}
+            bg="white"
+            borderRadius={12}
+            py={8}
+            px={12}
+          >
             <Flex align="center" gap="0.5rem">
               <MdOutlineLogin size={24} color="#18C29C" />
               <Text fontSize="1.5rem" fontWeight={600} color="green.700">
@@ -53,14 +86,15 @@ export default function Login({ validation }: Props) {
               Entre com suas informações de cadastro.
             </Text>
 
-            <FormLabel pt={4} htmlFor="email-input">
-              E-mail
-            </FormLabel>
-            <FloatingInput id="email-input" data-testid="email-input" />
+            <FloatingInput
+              data-testid="email-input"
+              error={!!errors.email}
+              errorMessage={errors?.email?.message}
+              name="email"
+              label="E-mail"
+              {...register('email')}
+            />
 
-            <FormLabel pt={4} htmlFor="password-input">
-              Senha
-            </FormLabel>
             <InputGroup
               w="100%"
               transition="all 0.2s"
@@ -71,8 +105,9 @@ export default function Login({ validation }: Props) {
               }
             >
               <FloatingInput
-                id="password-input"
                 data-testid="password-input"
+                error={!!errors.password}
+                errorMessage={errors?.password?.message}
                 type={show ? 'text' : 'password'}
                 onFocus={() => {
                   setIsFocused(true)
@@ -80,24 +115,27 @@ export default function Login({ validation }: Props) {
                 onBlur={() => {
                   setIsFocused(false)
                 }}
-              />
-
-              <InputRightElement>
-                <ChakraButton
-                  variant="unstyled"
-                  onClick={handleClick}
-                  display="flex"
-                >
-                  {show ? (
-                    <Icon as={AiOutlineEyeInvisible} boxSize={'20px'} />
-                  ) : (
-                    <Icon as={AiOutlineEye} boxSize={'20px'} />
-                  )}
-                </ChakraButton>
-              </InputRightElement>
+                name="password"
+                label="Senha"
+                {...register('password')}
+              >
+                <InputRightElement>
+                  <ChakraButton
+                    variant="unstyled"
+                    onClick={handleClick}
+                    display="flex"
+                  >
+                    {show ? (
+                      <Icon as={AiOutlineEyeInvisible} boxSize={'20px'} />
+                    ) : (
+                      <Icon as={AiOutlineEye} boxSize={'20px'} />
+                    )}
+                  </ChakraButton>
+                </InputRightElement>
+              </FloatingInput>
             </InputGroup>
             <HStack py={2} justify="space-between">
-              <Checkbox>Lembrar-me</Checkbox>
+              <Checkbox {...register('rememberMe')}>Lembrar-me</Checkbox>
 
               <Text
                 as={Link}
@@ -110,7 +148,13 @@ export default function Login({ validation }: Props) {
                 Esqueci minha senha
               </Text>
             </HStack>
-            <Button w="100%" bg="green.600" color="white">
+            <Button
+              data-testid="submit-button"
+              w="100%"
+              type="submit"
+              bg="green.600"
+              color="white"
+            >
               ENTRAR
             </Button>
           </Box>
