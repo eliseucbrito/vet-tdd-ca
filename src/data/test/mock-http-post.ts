@@ -1,7 +1,7 @@
-import { faker } from "@faker-js/faker";
-import { HttpPostParams } from "data/protocols/http";
+import { faker } from '@faker-js/faker'
+import { HttpPostParams } from 'data/protocols/http'
 
 export const mockPostRequest = (): HttpPostParams<any> => ({
   url: faker.internet.url(),
-  body: faker.helpers.objectValue({ myProperty: 'myValue' })
+  body: faker.helpers.objectValue({ myProperty: 'myValue' }),
 })
