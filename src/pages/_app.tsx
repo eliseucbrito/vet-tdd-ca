@@ -5,7 +5,7 @@ import { defaultTheme } from 'presentation/styles/theme/defaultTheme'
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={defaultTheme}>
-      <Flex w='100vw' h='100vh' overflow='auto'>
+      <Flex w="100vw" h="100vh" overflow="auto">
         <Component {...pageProps} />
       </Flex>
     </ChakraProvider>
