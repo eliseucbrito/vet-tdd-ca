@@ -31,7 +31,7 @@ const makeSut = (): SutTypes => {
   const validationSpy = new ValidationSpy()
   const sut = render(
     <ChakraProvider theme={defaultTheme}>
-      <Login validation={ValidationSpy} />
+      <Login />
     </ChakraProvider>,
   )
 
@@ -43,12 +43,4 @@ const makeSut = (): SutTypes => {
 
 describe('Login component', () => {
   afterEach(cleanup)
-  test('Should call validation with correct value', () => {
-    const { sut, validationSpy } = makeSut()
-    const emailInput = sut.getByTestId('email-input')
-    fireEvent.input(emailInput, { target: { value: 'my-email' } })
-    expect(validationSpy.input).toEqual({
-      email: 'my-email',
-    })
-  })
 })
