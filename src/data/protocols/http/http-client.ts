@@ -16,7 +16,7 @@ export type HttpPostParams<T> = {
   authorization?: string
 }
 
-export type HttpResponse<T> = {
+export type HttpResponse<T = any> = {
   statusCode: number
   body?: T
 }
