@@ -7,31 +7,27 @@ import {
   Image as ChakraImage,
   Button as ChakraButton,
   Heading,
-  FormLabel,
   Box,
   InputGroup,
   InputRightElement,
   HStack,
   Checkbox,
-  Input,
 } from '@chakra-ui/react'
-import { FloatingInput } from './components/FloatingInput'
+import { FloatingInput } from '../../presentation/components/Form/FloatingInput'
 import Image from 'next/image'
 import Veterinary from '../../presentation/Assets/veterinary.svg'
 import Logo from '../../presentation/Assets/logo.svg'
 import { MdOutlineLogin } from 'react-icons/md'
 import { FocusEvent, useEffect, useState } from 'react'
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai'
-import { Button } from '../../presentation/components/Buttons/Button'
+import { Button } from '../../presentation/components/Form/Button'
 import Link from 'next/link'
 import { Validation } from './../../presentation/protocols/validation'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-
-type Props = {
-  validation: Validation
-}
+import { Authentication } from 'domain/usecases/authentication'
+import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
 
 const validationSchema = z.object({
   email: z.string().email({ message: 'Email invalido!' }),
@@ -43,7 +39,7 @@ const validationSchema = z.object({
 
 type validationData = z.infer<typeof validationSchema>
 
-export default function Login({ validation }: Props) {
+export default function Login() {
   const [show, setShow] = useState<boolean>(false)
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const handleClick = () => setShow(!show)
@@ -56,8 +52,22 @@ export default function Login({ validation }: Props) {
     resolver: zodResolver(validationSchema),
   })
 
-  function handleSubmitValidation(data: validationData) {
+  async function handleSignIn() {
+    console.log('Entrou')
+    const axios = new AxiosHttpClient()
+    const url = 'http://localhost:8080/auth/signin'
+    const method = 'post'
+    const body = {
+      username: 'leandro',
+      password: 'admin123',
+    }
+    const response = await axios.request({ url, method, body })
+    console.log('RESPONSE AXIOS', response)
+  }
+
+  async function handleSubmitValidation(data: validationData) {
     console.log(data)
+    handleSignIn()
   }
 
   return (
