@@ -9,8 +9,10 @@ import {
 } from '@chakra-ui/react'
 import { Sidebar } from 'presentation/components/Sidebar/Sidebar'
 import { DataCards } from './components/DataCards'
+import { FinanceCard } from './components/FinanceCard'
 import { LastPatients } from './components/LastPatients'
 import { SearchBar } from './components/SearchBar'
+import { Reports } from './Reports'
 
 export default function Dashboard() {
   return (
@@ -50,7 +52,8 @@ export default function Dashboard() {
           </GridItem>
           <GridItem>
             <VStack>
-              <SearchBar />
+              <FinanceCard />
+              <Reports />
             </VStack>
           </GridItem>
         </Grid>
