@@ -4,7 +4,7 @@ export enum Kinds {
   REPTILE,
   BIRD,
   FISH,
-  CATTLE
+  CATTLE,
 }
 
 export type PatientModel = {
