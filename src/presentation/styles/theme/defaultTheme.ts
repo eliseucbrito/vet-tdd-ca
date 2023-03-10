@@ -112,21 +112,8 @@ export const defaultTheme = extendTheme({
 
     Text: {
       variants: {
-        cardLabel: {
-          fontSize: '0.875rem',
-          fontWeight: '400',
-          Color: '#A0A1A3',
-          lineHeight: 1,
-
-          strong: {
-            color: '#18C29C',
-          },
-        },
-        cardNumber: {
-          fontSize: '1.75rem',
-          fontWeight: '700',
-          Color: '#000000',
-          lineHeight: 1,
+        subtitle: {
+          color: 'gray.200',
         },
       },
     },
