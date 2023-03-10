@@ -5,14 +5,22 @@ import {
   HttpResponse,
 } from './../../../data/protocols/http/http-client'
 
+const api = axios.create({
+  baseURL: 'http://localhost:80',
+  headers: {
+    Authorization: `Bearer `,
+  },
+})
+
 export class AxiosHttpClient implements HttpClient {
   async request(data: HttpRequest): Promise<HttpResponse> {
     let axiosResponse: AxiosResponse
     try {
-      axiosResponse = await axios.request({
+      axiosResponse = await api.request({
         url: data.url,
         method: data.method,
         data: data.body,
+        params: data.params,
         headers: data.headers,
       })
     } catch (error) {
