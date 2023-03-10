@@ -55,13 +55,17 @@ export default function Login() {
   async function handleSignIn() {
     console.log('Entrou')
     const axios = new AxiosHttpClient()
-    const url = 'http://localhost:8080/auth/signin'
+    const url = '/auth/signin'
     const method = 'post'
     const body = {
       username: 'leandro',
       password: 'admin123',
     }
-    const response = await axios.request({ url, method, body })
+    const response = await axios.request({
+      url,
+      method,
+      body,
+    })
     console.log('RESPONSE AXIOS', response)
   }
 
