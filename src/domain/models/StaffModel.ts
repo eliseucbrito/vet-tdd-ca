@@ -15,3 +15,11 @@ export type StaffModel = {
   role_historic: Array<RoleModel>
   // TODO: SET ROLE HISTORIC
 }
+
+export type StaffReduced = {
+  id: number
+  fullName: string
+  role: Roles
+  avatarUrl: string
+  onDuty: boolean
+}
