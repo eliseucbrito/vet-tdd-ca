@@ -115,6 +115,14 @@ export const defaultTheme = extendTheme({
         subtitle: {
           color: 'gray.200',
         },
+        'subtitle-12': {
+          color: 'gray.200',
+          fontSize: '0.75rem',
+        },
+        'subtitle-8': {
+          color: 'gray.200',
+          fontSize: '0.5rem',
+        },
       },
     },
   },
