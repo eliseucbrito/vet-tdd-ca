@@ -73,7 +73,7 @@ export function Sidebar() {
             icon={FiClipboard}
             label="Relatórios"
           />
-          <SidebarButton href="/finance" icon={FiPieChart} label="Finanças" />
+          <SidebarButton href="/finances" icon={FiPieChart} label="Finanças" />
         </VStack>
 
         <Flex
