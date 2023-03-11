@@ -12,7 +12,7 @@ import { DataCards } from './components/DataCards'
 import { FinanceCard } from './components/FinanceCard'
 import { LastPatients } from './components/LastPatients'
 import { SearchBar } from './components/SearchBar'
-import { Reports } from './Reports'
+import { Reports } from './components/Reports'
 
 export default function Dashboard() {
   return (
