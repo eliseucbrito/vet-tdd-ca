@@ -3,6 +3,7 @@ import { FiPlus } from 'react-icons/fi'
 import { FcSalesPerformance, FcDocument } from 'react-icons/fc'
 import { ReportModel, ReportTypes } from 'domain/models/ReportModel'
 import Link from 'next/link'
+import { NewReportModal } from 'presentation/components/Modals/NewReportModal'
 
 export function Reports() {
   const reports: Array<ReportModel> = []
@@ -18,7 +19,7 @@ export function Reports() {
         bg="white"
       >
         <Text>Relatórios</Text>
-        <Icon bg="green.600" borderRadius="full" boxSize={5} as={FiPlus} />
+        <NewReportModal />
       </Flex>
 
       {reports.map((report) => (
