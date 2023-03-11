@@ -4,7 +4,7 @@ import dog404 from 'presentation/Assets/dog-404.svg'
 
 export default function Custom404() {
   return (
-    <VStack>
+    <VStack w="100%" h="100%" align="center" justify="center">
       <Image alt="Página não encontrada" src={dog404} />
     </VStack>
   )
