@@ -3,7 +3,7 @@ import React from 'react'
 import { Sidebar } from '../../presentation/components/Sidebar/Sidebar'
 import { StaffCard } from './components/StaffCard'
 
-export default function Patients() {
+export default function Staff() {
   return (
     <Flex w="100vw" h="100vh">
       <Sidebar />
