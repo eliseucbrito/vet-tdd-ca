@@ -5,7 +5,7 @@ import { StaffCard } from './components/StaffCard'
 
 export default function StaffDetails() {
   return (
-    <VStack p="1rem 1rem 1rem 1.5rem" w="100%">
+    <VStack p="1rem 1rem 1rem 1.5rem" gap={4} w="100%">
       <HStack w="100%">
         <StaffCard />
         <DetailsCard />
