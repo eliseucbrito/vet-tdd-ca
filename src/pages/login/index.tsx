@@ -18,15 +18,13 @@ import Image from 'next/image'
 import Veterinary from '../../presentation/Assets/veterinary.svg'
 import Logo from '../../presentation/Assets/logo.svg'
 import { MdOutlineLogin } from 'react-icons/md'
-import { FocusEvent, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai'
 import { Button } from '../../presentation/components/Form/Button'
 import Link from 'next/link'
-import { Validation } from './../../presentation/protocols/validation'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Authentication } from 'domain/usecases/authentication'
 import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
 
 const validationSchema = z.object({
@@ -66,7 +64,6 @@ export default function Login() {
       method,
       body,
     })
-    console.log('RESPONSE AXIOS', response)
   }
 
   async function handleSubmitValidation(data: validationData) {
