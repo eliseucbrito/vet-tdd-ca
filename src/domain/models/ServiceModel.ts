@@ -1,12 +1,12 @@
-import { PatientModel } from "./PatientModel"
-import { StaffModel } from "./StaffModel"
+import { PatientModel } from './PatientModel'
+import { StaffModel } from './StaffModel'
 
 export enum ServiceType {
   EXAM,
   MEDICAL_CARE,
   HOME_CARE,
   SURGERY,
-  EMERGENCY
+  EMERGENCY,
 }
 
 export enum ServiceStatus {
@@ -14,21 +14,20 @@ export enum ServiceStatus {
   NOT_INITIALIZED,
   IN_PROGRESS,
   COMPLETED,
-  CANCELED
+  CANCELED,
 }
 
 export enum PaymentStatus {
   WAITING_PAYMENT,
   PAID,
-  CANCELED
+  CANCELED,
 }
 
 export enum City {
   TRINDADE_PE,
   ARARIPINA_PE,
-  OURICURI_PE
+  OURICURI_PE,
 }
-
 
 export type ServiceModel = {
   id: number
