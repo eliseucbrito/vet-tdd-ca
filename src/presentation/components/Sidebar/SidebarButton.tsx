@@ -19,6 +19,8 @@ export function SidebarButton({ icon, label, href }: SidebarButtonProps) {
   return (
     <Flex
       bg={activeLink ? 'green.300' : 'transparent'}
+      transition="background 0.3s"
+      _hover={{ background: 'green.300' }}
       as={Link}
       href={href}
       w="100%"
