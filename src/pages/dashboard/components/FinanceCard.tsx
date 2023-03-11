@@ -1,10 +1,32 @@
-import { Flex, Text, VStack } from '@chakra-ui/react'
+import {
+  Flex,
+  Stat,
+  StatArrow,
+  StatGroup,
+  StatHelpText,
+  StatLabel,
+  StatNumber,
+  Text,
+  VStack,
+} from '@chakra-ui/react'
 import { ApexOptions } from 'apexcharts'
+import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
+require('dayjs/locale/pt-br')
 
 const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 })
+
+const lastSevenDaysName: Array<string> = []
+
+dayjs.locale('pt-br')
+
+for (let index = 6; index > -1; index--) {
+  const dayName = dayjs().subtract(index, 'days').locale('pt').format('dddd')
+
+  lastSevenDaysName.push(dayName)
+}
 
 export const lineAreaChartOptionsTotalSpent: ApexOptions = {
   chart: {
@@ -47,14 +69,14 @@ export const lineAreaChartOptionsTotalSpent: ApexOptions = {
     curve: 'smooth',
   },
   xaxis: {
-    type: 'numeric',
-    labels: {
-      show: false,
-    },
+    categories: lastSevenDaysName,
     axisBorder: {
       show: false,
     },
     axisTicks: {
+      show: false,
+    },
+    labels: {
       show: false,
     },
   },
@@ -90,17 +112,23 @@ export function FinanceCard() {
       borderRadius={12}
     >
       <Chart
-        height="70%"
+        height="80%"
         w="100%"
         type="area"
         options={lineAreaChartOptionsTotalSpent}
         series={seriesIncomes}
       />
-      <VStack align="start" px={4}>
-        <Text variant="subtitle">Estatísticas Semanal</Text>
-        <Text fontSize="1.5rem" fontWeight={700}>
-          R$ 1.297,53
-        </Text>
+      <VStack align="start" px={2}>
+        <StatGroup>
+          <Stat>
+            <StatLabel color="gray.200">Receita Semanal</StatLabel>
+            <StatNumber fontSize="1.2 5rem">R$ 1.297,53</StatNumber>
+            <StatHelpText>
+              <StatArrow type="increase" />
+              23.36%
+            </StatHelpText>
+          </Stat>
+        </StatGroup>
       </VStack>
     </Flex>
   )
