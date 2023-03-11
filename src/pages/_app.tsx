@@ -16,8 +16,8 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={defaultTheme}>
         <Flex w="100vw" h="100vh" overflow="auto">
-          <Sidebar />
-          <Flex w="100%" h="100%" align="center" justify="center">
+          {!isLoginPage && <Sidebar />}
+          <Flex w="100%" h="100%">
             <Component {...pageProps} />
           </Flex>
         </Flex>
