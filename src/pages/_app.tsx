@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <ChakraProvider theme={defaultTheme}>
         <Flex w="100vw" h="100vh" overflow="auto">
           {!isLoginPage && <Sidebar />}
-          <Flex w="100%" h="100%">
+          <Flex w="100%" h="100%" overflow="auto">
             <Component {...pageProps} />
           </Flex>
         </Flex>
