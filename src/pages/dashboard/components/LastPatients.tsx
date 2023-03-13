@@ -1,8 +1,9 @@
 import { Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react'
+import Link from 'next/link'
 
 // id - name - owner - city - status - payment status
 
-const mockPatients = [
+const mockServices = [
   {
     id: 1,
     name: 'Diggle',
@@ -41,9 +42,9 @@ export function LastPatients() {
         </Tr>
       </Thead>
       <Tbody>
-        {mockPatients.slice(0, 10).map((patient) => (
+        {mockServices.slice(0, 10).map((service) => (
           <Tr
-            key={patient.id}
+            key={service.id}
             sx={{
               td: {
                 background: 'white',
@@ -57,10 +58,12 @@ export function LastPatients() {
               },
             }}
           >
-            <Td>{patient.id}</Td>
-            <Td>{patient.name}</Td>
-            <Td>{patient.owner}</Td>
-            <Td>{patient.city}</Td>
+            <Td>
+              <Link href={`/services/${service.id}`}>{service.id}</Link>
+            </Td>
+            <Td>{service.name}</Td>
+            <Td>{service.owner}</Td>
+            <Td>{service.city}</Td>
             <Td
               display="flex"
               alignItems="center"
@@ -73,7 +76,7 @@ export function LastPatients() {
                 borderRadius: '100%',
               }}
             >
-              {patient.status}
+              {service.status}
             </Td>
             <Td>
               <Text
@@ -88,7 +91,7 @@ export function LastPatients() {
                   borderRadius: '100%',
                 }}
               >
-                {patient.payment}
+                {service.payment}
               </Text>
             </Td>
           </Tr>
