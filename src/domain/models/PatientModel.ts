@@ -10,11 +10,12 @@ export enum Kinds {
 export type PatientModel = {
   id: number
   owner: string
-  createdAt: Date
+  createdAt: string
   name: string
   ownerContact: number
   breed: string
-  birthDate: Date
+  birthDate: string
   avatarUrl: string
   kind: Kinds
+  sex: 'MALE' | 'FEMALE'
 }

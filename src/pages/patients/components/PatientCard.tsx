@@ -1,10 +1,20 @@
-import { Avatar, Flex, HStack, Tag, Text, VStack } from '@chakra-ui/react'
+import {
+  Avatar,
+  Flex,
+  HStack,
+  Spinner,
+  Tag,
+  Text,
+  VStack,
+} from '@chakra-ui/react'
+import { PatientModel } from 'domain/models/PatientModel'
 
 interface PatientCardProps {
   rounded?: boolean
+  patient: PatientModel
 }
 
-export function PatientCard({ rounded }: PatientCardProps) {
+export function PatientCard({ rounded, patient }: PatientCardProps) {
   return (
     <VStack
       w="max-content"
@@ -14,26 +24,32 @@ export function PatientCard({ rounded }: PatientCardProps) {
       borderLeftRadius="2xl"
       borderRightRadius={rounded ? '2xl' : 0}
     >
-      <Avatar size="lg" />
-      <Text lineHeight={1} whiteSpace="nowrap">
-        Nome do paciente
-      </Text>
-      <Text variant="subtitle" lineHeight={1}>
-        Dono
-      </Text>
-      <Tag
-        bg="green.600"
-        color="white"
-        fontWeight={600}
-        px={4}
-        aria-label="Raça do animal"
-      >
-        Poodle
-      </Tag>
-      <HStack>
-        <Text fontWeight={600}>ID</Text>
-        <Text fontWeight={600}>2</Text>
-      </HStack>
+      {patient === undefined ? (
+        <Spinner />
+      ) : (
+        <>
+          <Avatar size="lg" src={patient.avatarUrl} />
+          <Text lineHeight={1} whiteSpace="nowrap">
+            {patient.name}
+          </Text>
+          <Text variant="subtitle" whiteSpace="nowrap" lineHeight={1}>
+            {patient.owner}
+          </Text>
+          <Tag
+            bg="green.600"
+            color="white"
+            fontWeight={600}
+            px={4}
+            aria-label="Raça do animal"
+          >
+            {patient.breed}
+          </Tag>
+          <HStack>
+            <Text fontWeight={600}>ID</Text>
+            <Text fontWeight={600}>{patient.id}</Text>
+          </HStack>
+        </>
+      )}
     </VStack>
   )
 }
