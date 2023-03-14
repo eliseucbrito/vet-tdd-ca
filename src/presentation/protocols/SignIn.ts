@@ -4,6 +4,7 @@ import {
 } from './../../infra/http/axios-http-client/axios-http-client'
 import { setCookie } from 'nookies'
 import { StaffReduced } from 'domain/models/StaffModel'
+import { HttpResponse } from 'data/protocols/http'
 
 type credentialsProps = {
   email: string
@@ -11,7 +12,9 @@ type credentialsProps = {
   rememberMe: boolean
 }
 
-export async function SignIn(credentials: credentialsProps) {
+export async function SignIn(
+  credentials: credentialsProps,
+): Promise<HttpResponse<StaffReduced>> {
   const axios = new AxiosHttpClient()
   const url = '/auth/signin'
   const method = 'post'
@@ -48,10 +51,20 @@ export async function SignIn(credentials: credentialsProps) {
       throw error
     })
 
-  const { body: UserData } = await axios.request<StaffReduced>({
-    url: '/api/staff/v1/me',
-    method: 'get',
-  })
+  const { statusCode, body: userData } = await axios
+    .request<StaffReduced>({
+      url: '/api/staff/v1/me',
+      method: 'get',
+    })
+    .catch((error) => {
+      return {
+        statusCode: error.statusCode,
+        body: error,
+      }
+    })
 
-  return UserData
+  return {
+    statusCode,
+    body: userData,
+  }
 }

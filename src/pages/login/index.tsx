@@ -22,28 +22,19 @@ import { useContext, useState } from 'react'
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai'
 import { Button } from '../../presentation/components/Form/Button'
 import Link from 'next/link'
-import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { SignIn } from 'presentation/protocols/SignIn'
-import { UserContext } from 'presentation/context/UserContext'
-import Router from 'next/router'
-
-const validationSchema = z.object({
-  email: z.string().email({ message: 'Email invalido!' }),
-  password: z
-    .string()
-    .min(6, { message: 'A senhora precisa ter no mínimo 6 caracteres!' }),
-  rememberMe: z.boolean().default(false),
-})
-
-type validationData = z.infer<typeof validationSchema>
+import {
+  UserContext,
+  validationData,
+  validationSchema,
+} from 'presentation/context/UserContext'
 
 export default function Login() {
   const [show, setShow] = useState<boolean>(false)
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const handleClick = () => setShow(!show)
-  const { handleSetUser } = useContext(UserContext)
+  const { handleSignIn, loginError } = useContext(UserContext)
 
   const {
     register,
@@ -52,24 +43,6 @@ export default function Login() {
   } = useForm<validationData>({
     resolver: zodResolver(validationSchema),
   })
-
-  async function handleSignIn(data: validationData) {
-    await SignIn({
-      email: data.email,
-      password: data.password,
-      rememberMe: false,
-    })
-      .then((response) => {
-        handleSetUser({
-          ...response,
-        })
-
-        Router.push('/dashboard')
-      })
-      .catch((error) => {
-        throw error
-      })
-  }
 
   async function handleSubmitValidation(data: validationData) {
     handleSignIn(data)
@@ -103,8 +76,8 @@ export default function Login() {
 
             <FloatingInput
               data-testid="email-input"
-              error={!!errors.email}
-              errorMessage={errors?.email?.message}
+              error={!!errors.email || !!loginError}
+              errorMessage={errors?.email?.message || loginError?.body?.message}
               name="email"
               label="E-mail"
               {...register('email')}
@@ -121,8 +94,10 @@ export default function Login() {
             >
               <FloatingInput
                 data-testid="password-input"
-                error={!!errors.password}
-                errorMessage={errors?.password?.message}
+                error={!!errors.password || !!loginError}
+                errorMessage={
+                  errors?.password?.message || loginError?.body?.message
+                }
                 type={show ? 'text' : 'password'}
                 onFocus={() => {
                   setIsFocused(true)
