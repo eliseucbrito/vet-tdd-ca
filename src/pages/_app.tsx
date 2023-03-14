@@ -14,8 +14,8 @@ export default function App({ Component, pageProps }: AppProps) {
   console.log(isLoginPage, router.asPath, isValidPage)
 
   return (
-    <UserContextProvider>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <UserContextProvider>
         <ChakraProvider theme={defaultTheme}>
           <Flex w="100vw" h="100vh" overflow="auto">
             {!isLoginPage && <Sidebar />}
@@ -24,7 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
             </Flex>
           </Flex>
         </ChakraProvider>
-      </QueryClientProvider>
-    </UserContextProvider>
+      </UserContextProvider>
+    </QueryClientProvider>
   )
 }
