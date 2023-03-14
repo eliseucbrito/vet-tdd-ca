@@ -18,7 +18,7 @@ import Image from 'next/image'
 import Veterinary from '../../presentation/Assets/veterinary.svg'
 import Logo from '../../presentation/Assets/logo.svg'
 import { MdOutlineLogin } from 'react-icons/md'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai'
 import { Button } from '../../presentation/components/Form/Button'
 import Link from 'next/link'
@@ -26,6 +26,8 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
+import { SignIn } from 'presentation/protocols/SignIn'
+import { UserContext } from 'presentation/context/UserContext'
 
 const validationSchema = z.object({
   email: z.string().email({ message: 'Email invalido!' }),
@@ -41,6 +43,7 @@ export default function Login() {
   const [show, setShow] = useState<boolean>(false)
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const handleClick = () => setShow(!show)
+  const { handleSetUser } = useContext(UserContext)
 
   const {
     register,
@@ -50,25 +53,24 @@ export default function Login() {
     resolver: zodResolver(validationSchema),
   })
 
-  async function handleSignIn() {
-    console.log('Entrou')
-    const axios = new AxiosHttpClient()
-    const url = '/auth/signin'
-    const method = 'post'
-    const body = {
-      username: 'leandro',
-      password: 'admin123',
-    }
-    const response = await axios.request({
-      url,
-      method,
-      body,
+  async function handleSignIn(data: validationData) {
+    await SignIn({
+      email: data.email,
+      password: data.password,
+      rememberMe: false,
     })
+      .then((response) => {
+        handleSetUser({
+          ...response,
+        })
+      })
+      .catch((error) => {
+        throw error
+      })
   }
 
   async function handleSubmitValidation(data: validationData) {
-    console.log(data)
-    handleSignIn()
+    handleSignIn(data)
   }
 
   return (
