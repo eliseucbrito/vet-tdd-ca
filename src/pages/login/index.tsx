@@ -25,9 +25,9 @@ import Link from 'next/link'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
 import { SignIn } from 'presentation/protocols/SignIn'
 import { UserContext } from 'presentation/context/UserContext'
+import Router from 'next/router'
 
 const validationSchema = z.object({
   email: z.string().email({ message: 'Email invalido!' }),
@@ -63,6 +63,8 @@ export default function Login() {
         handleSetUser({
           ...response,
         })
+
+        Router.push('/dashboard')
       })
       .catch((error) => {
         throw error
