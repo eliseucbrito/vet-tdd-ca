@@ -6,8 +6,11 @@ import Link from 'next/link'
 import { useQuery } from 'react-query'
 import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
 import { GetServerSideProps } from 'next/types'
+import { parseCookies } from 'nookies'
 
 export default function Patients({ patients }) {
+  console.log('patients', patients)
+
   return (
     <Wrap
       flexWrap="wrap"
@@ -34,18 +37,16 @@ export default function Patients({ patients }) {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const axios = new AxiosHttpClient()
+  const { 'vet.token': token } = parseCookies(ctx)
   const { body: patients } = await axios.request({
     method: 'get',
-    url: '/api/patients/v1',
+    url: 'api/patients/v1',
     headers: {
-      Authorization:
-        'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZWFuZHJvIiwicm9sZXMiOlsiQ0VPIiwiR0VORVJBTF9NQU5BR0VSIl0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJleHAiOjE2Nzg2NzQzNTMsImlhdCI6MTY3ODY3MDc1M30.tX-LcneDHoFdYpL6OeaQ08y1ddKFlCsYqJ3xG7t5Zm0',
+      Authorization: `Bearer ${token}`,
     },
   })
 
   return {
-    props: {
-      patients,
-    },
+    props: { patients },
   }
 }
