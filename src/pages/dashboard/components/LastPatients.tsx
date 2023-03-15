@@ -1,28 +1,12 @@
 import { Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react'
 import Link from 'next/link'
+import { ServiceModel } from 'domain/models/ServiceModel'
 
-// id - name - owner - city - status - payment status
+interface LastPatientsProps {
+  services: ServiceModel[]
+}
 
-const mockServices = [
-  {
-    id: 1,
-    name: 'Diggle',
-    owner: 'Eliseu Cordeiro',
-    city: 'Araripina-PE',
-    status: 'Em progresso',
-    payment: 'Aguardando',
-  },
-  {
-    id: 2,
-    name: 'Baiano',
-    owner: 'Eliseu Cordeiro',
-    city: 'Trindade-PE',
-    status: 'Em progresso',
-    payment: 'Aguardando',
-  },
-]
-
-export function LastPatients() {
+export function LastPatients({ services }: LastPatientsProps) {
   return (
     <Table
       sx={{
@@ -42,7 +26,7 @@ export function LastPatients() {
         </Tr>
       </Thead>
       <Tbody>
-        {mockServices.slice(0, 10).map((service) => (
+        {services.slice(0, 10).map((service) => (
           <Tr
             key={service.id}
             sx={{
@@ -61,8 +45,8 @@ export function LastPatients() {
             <Td>
               <Link href={`/services/${service.id}`}>{service.id}</Link>
             </Td>
-            <Td>{service.name}</Td>
-            <Td>{service.owner}</Td>
+            <Td>{service.patient.name}</Td>
+            <Td>{service.patient.owner}</Td>
             <Td>{service.city}</Td>
             <Td
               display="flex"
@@ -91,7 +75,7 @@ export function LastPatients() {
                   borderRadius: '100%',
                 }}
               >
-                {service.payment}
+                {service.paymentStatus}
               </Text>
             </Td>
           </Tr>

@@ -13,8 +13,15 @@ import { FinanceCard } from './components/FinanceCard'
 import { LastPatients } from './components/LastPatients'
 import { SearchBar } from './components/SearchBar'
 import { Reports } from './components/Reports'
+import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
+import { GetServerSideProps } from 'next'
+import { useEffect } from 'react'
+import { parseCookies } from 'nookies'
 
-export default function Dashboard() {
+export default function Dashboard({ lastServices }) {
+  console.log(lastServices)
+
+  console.log()
   return (
     <Box p="1rem 1rem 1rem 1.5rem" w="100%" h="100%">
       <Flex mb={5}>
@@ -45,7 +52,7 @@ export default function Dashboard() {
         <GridItem w="100%">
           <VStack w="100%">
             <SearchBar />
-            <LastPatients />
+            <LastPatients services={lastServices} />
           </VStack>
         </GridItem>
         <GridItem>
@@ -57,4 +64,20 @@ export default function Dashboard() {
       </Grid>
     </Box>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const axios = new AxiosHttpClient()
+  const { 'vet.token': token } = parseCookies(ctx)
+  const { body: lastServices } = await axios.request({
+    method: 'get',
+    url: 'api/services/v1',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  return {
+    props: { lastServices },
+  }
 }
