@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosHeaders, AxiosResponse } from 'axios'
+import axios, { AxiosError, AxiosHeaders } from 'axios'
 import { HttpRequest } from 'data/protocols/http'
 import {
   HttpClient,
@@ -56,7 +56,7 @@ export class AxiosHttpClient implements HttpClient {
   ): Promise<HttpResponse<{ accessToken: string; refreshToken: string }>> {
     const axiosResponse = await api.request({
       url: '/auth/refresh',
-      method: 'get',
+      method: 'put',
       headers: {
         Authorization,
       },
@@ -131,8 +131,6 @@ api.interceptors.response.use(
             },
           })
         })
-      } else {
-        SignOut()
       }
 
       return Promise.reject(error)
