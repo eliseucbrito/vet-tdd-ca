@@ -1,18 +1,12 @@
-import {
-  Avatar,
-  Divider,
-  Flex,
-  HStack,
-  Tag,
-  Text,
-  VStack,
-} from '@chakra-ui/react'
+import { Avatar, Divider, HStack, Tag, Text, VStack } from '@chakra-ui/react'
+import { StaffModel } from 'domain/models/StaffModel'
 
 interface StaffCardProps {
   rounded?: boolean
+  staff: StaffModel
 }
 
-export function StaffCard({ rounded }: StaffCardProps) {
+export function StaffCard({ rounded, staff }: StaffCardProps) {
   return (
     <VStack
       w="max-content"
@@ -25,31 +19,25 @@ export function StaffCard({ rounded }: StaffCardProps) {
     >
       <Avatar size="lg" />
       <Text lineHeight={1} whiteSpace="nowrap">
-        Nome Completo Aqui
+        {staff.fullName}
       </Text>
       <Text variant="subtitle" whiteSpace="nowrap" fontSize="xs" lineHeight={1}>
-        seuemail@gmail.com
+        {staff.email}
       </Text>
-      <Tag
-        bg="green.600"
-        color="white"
-        fontWeight={600}
-        px={4}
-        aria-label="Raça do animal"
-      >
-        CEO & CTO
+      <Tag bg="green.600" color="white" fontWeight={600} px={4}>
+        {staff.role.description}
       </Tag>
       <HStack>
         <VStack>
           <Text fontWeight={600}>ID</Text>
-          <Text fontWeight={600}>2</Text>
+          <Text fontWeight={600}>{staff.id}</Text>
         </VStack>
 
         <Divider />
 
         <VStack>
           <Text fontWeight={600}>Plantão</Text>
-          <Text fontWeight={600}>Sim</Text>
+          <Text fontWeight={600}>{staff.onDuty}</Text>
         </VStack>
       </HStack>
     </VStack>
