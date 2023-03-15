@@ -4,8 +4,10 @@ import {
   Authentication,
   AuthenticationParams,
 } from '../../../domain/usecases/authentication'
-import { HttpPostClient } from '../../protocols/http/http-post-client'
-import { HttpStatusCode } from '../../protocols/http/http-client'
+import {
+  HttpPostClient,
+  HttpStatusCode,
+} from '../../protocols/http/http-client'
 import { UnexpectedError } from './../../../domain/errors/unexpected-error'
 
 export class RemoteAuthentication implements Authentication {
