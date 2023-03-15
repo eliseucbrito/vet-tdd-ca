@@ -22,6 +22,7 @@ import Image from 'next/image'
 import Logo from '../../Assets/logo-dark.svg'
 import { createContext, useState } from 'react'
 import { CgLogOut } from 'react-icons/cg'
+import { SignOut } from 'presentation/context/UserContext'
 
 type SidebarContextData = {
   sidebarOpen: boolean
@@ -101,7 +102,9 @@ export function Sidebar() {
             </Text>
           </VStack>
 
-          <Icon margin="0 auto" as={CgLogOut} boxSize={6} />
+          <Button variant="unstyled" onClick={SignOut}>
+            <Icon margin="0 auto" as={CgLogOut} boxSize={6} />
+          </Button>
         </Flex>
       </SidebarContext.Provider>
     </VStack>

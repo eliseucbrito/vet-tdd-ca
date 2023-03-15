@@ -6,7 +6,7 @@ import { z } from 'zod'
 import { useMutation } from 'react-query'
 import { HttpResponse } from 'data/protocols/http'
 import { AxiosError } from 'axios'
-import { parseCookies } from 'nookies'
+import { destroyCookie, parseCookies } from 'nookies'
 import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
 import { StaffReduced } from 'domain/models/StaffModel'
 
@@ -30,6 +30,12 @@ export const UserContext = createContext({} as UserContextData)
 
 interface UserContextProps {
   children: ReactNode
+}
+
+export function SignOut() {
+  destroyCookie(undefined, 'vet.token')
+  destroyCookie(undefined, 'vet.refreshToken')
+  Router.push('/login')
 }
 
 export function UserContextProvider({ children }: UserContextProps) {
@@ -85,7 +91,6 @@ export function UserContextProvider({ children }: UserContextProps) {
         Router.push('/dashboard')
       },
       onError: (error: AxiosError<{ message: string }>) => {
-        console.log('ERROR CODE', error.response.status)
         setLoginError({
           statusCode: error.response.status,
           body: { message: error.response.data.message },
