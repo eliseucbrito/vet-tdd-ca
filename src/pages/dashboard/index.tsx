@@ -15,8 +15,8 @@ import { SearchBar } from './components/SearchBar'
 import { Reports } from './components/Reports'
 import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
 import { GetServerSideProps } from 'next'
-import { useEffect } from 'react'
 import { parseCookies } from 'nookies'
+import { NewPatientModal } from 'presentation/components/Modals/NewPatientModal'
 
 export default function Dashboard({ lastServices }) {
   console.log(lastServices)
@@ -24,7 +24,7 @@ export default function Dashboard({ lastServices }) {
   console.log()
   return (
     <Box p="1rem 1rem 1rem 1.5rem" w="100%" h="100%">
-      <Flex mb={5}>
+      <Flex mb={5} w="100%" justify="space-between" align="center">
         <VStack align="start">
           <Text
             lineHeight={1}
@@ -44,6 +44,8 @@ export default function Dashboard({ lastServices }) {
             Sua clinica está trabalhando no modo: <span>Normal</span>
           </Text>
         </VStack>
+
+        <NewPatientModal />
       </Flex>
 
       <DataCards />
