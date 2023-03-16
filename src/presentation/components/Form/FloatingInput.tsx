@@ -37,7 +37,7 @@ const FloatingInputBase: ForwardRefRenderFunction<
             variant="flushed"
             px={2}
             _focus={{
-              'box-shadow': '0px 5px 10px 0px rgba(0, 0, 0, 0.5)',
+              boxShadow: '0px 5px 10px 0px rgba(0, 0, 0, 0.5)',
               borderRadius: 8,
               border: 'none',
               transform: 'translateY(-2px)',
@@ -56,7 +56,7 @@ const FloatingInputBase: ForwardRefRenderFunction<
           variant="flushed"
           px={2}
           _focus={{
-            'box-shadow': '0px 5px 10px 0px rgba(0, 0, 0, 0.5)',
+            boxShadow: '0px 5px 10px 0px rgba(0, 0, 0, 0.5)',
             borderRadius: 8,
             border: 'none',
             transform: 'translateY(-2px)',
