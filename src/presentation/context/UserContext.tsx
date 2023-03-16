@@ -59,6 +59,11 @@ export function UserContextProvider({ children }: UserContextProps) {
           url: '/api/staff/v1/me',
           method: 'get',
         })
+        .then((response) => {
+          setUser({
+            ...response.body,
+          })
+        })
         .catch((error) => {
           console.log('GET /ME ERROR')
 
