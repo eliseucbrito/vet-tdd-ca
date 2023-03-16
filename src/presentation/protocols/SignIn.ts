@@ -12,9 +12,7 @@ type credentialsProps = {
   rememberMe: boolean
 }
 
-export async function SignIn(
-  credentials: credentialsProps,
-): Promise<HttpResponse<StaffReduced>> {
+export async function SignIn(credentials: credentialsProps) {
   const axios = new AxiosHttpClient()
   const url = '/auth/signin'
   const method = 'post'
@@ -25,7 +23,7 @@ export async function SignIn(
 
   const maxAgeValue = credentials.rememberMe ? 60 * 60 * 24 * 30 : 60 * 60 * 24
 
-  await axios
+  axios
     .authentication({
       url,
       method,
@@ -50,21 +48,4 @@ export async function SignIn(
     .catch((error) => {
       throw error
     })
-
-  const { statusCode, body: userData } = await axios
-    .request<StaffReduced>({
-      url: '/api/staff/v1/me',
-      method: 'get',
-    })
-    .catch((error) => {
-      return {
-        statusCode: error.statusCode,
-        body: error,
-      }
-    })
-
-  return {
-    statusCode,
-    body: userData,
-  }
 }

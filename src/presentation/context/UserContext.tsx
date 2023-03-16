@@ -46,10 +46,9 @@ export function UserContextProvider({ children }: UserContextProps) {
       }>
     | undefined
   >()
+  console.log(user, loginError)
 
   const axios = new AxiosHttpClient()
-
-  console.log(user, loginError)
 
   useEffect(() => {
     const { 'vet.token': token } = parseCookies()
@@ -77,20 +76,35 @@ export function UserContextProvider({ children }: UserContextProps) {
         email: data.email,
         password: data.password,
         rememberMe: false,
+      }).then(() => {
+        return axios
+          .request<StaffReduced>({
+            url: '/api/staff/v1/me',
+            method: 'get',
+          })
+          .then((response) => {
+            console.log('USER', response)
+            return {
+              statusCode: response.statusCode,
+              body: response.body,
+            }
+          })
+          .catch((error) => {
+            console.log('GET /ME ERROR')
+
+            throw error
+          })
       })
       return response
     },
     {
       onSuccess: (data) => {
-        setUser({
-          ...data.body,
-        })
-
+        console.log('LOGOU', data)
         setLoginError(undefined)
-
         Router.push('/dashboard')
       },
       onError: (error: AxiosError<{ message: string }>) => {
+        console.log('USER SIGNIN MUTATION ERROR', error)
         setLoginError({
           statusCode: error.response.status,
           body: { message: error.response.data.message },

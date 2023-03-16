@@ -1,10 +1,10 @@
-import axios, { AxiosError, AxiosHeaders } from 'axios'
 import { HttpRequest } from 'data/protocols/http'
 import {
   HttpClient,
   HttpResponse,
 } from './../../../data/protocols/http/http-client'
 import { parseCookies, setCookie } from 'nookies'
+import axios, { AxiosError, AxiosHeaders } from 'axios'
 import { SignOut } from 'presentation/context/UserContext'
 
 let isRefreshing = false
@@ -97,7 +97,6 @@ api.interceptors.response.use(
               })
 
               api.defaults.headers.Authorization = `Bearer ${accessToken}`
-
               failedRequestsQueue.forEach((request) =>
                 request.onSuccess(accessToken),
               )
