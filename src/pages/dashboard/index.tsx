@@ -3,7 +3,7 @@ import {
   Flex,
   Grid,
   GridItem,
-  Heading,
+  HStack,
   Text,
   VStack,
 } from '@chakra-ui/react'
@@ -17,6 +17,7 @@ import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
 import { GetServerSideProps } from 'next'
 import { parseCookies } from 'nookies'
 import { NewPatientModal } from 'presentation/components/Modals/NewPatientModal'
+import { NewServiceModal } from 'presentation/components/Modals/NewServiceModal'
 
 export default function Dashboard({ lastServices }) {
   console.log(lastServices)
@@ -45,7 +46,10 @@ export default function Dashboard({ lastServices }) {
           </Text>
         </VStack>
 
-        <NewPatientModal />
+        <HStack>
+          <NewServiceModal />
+          <NewPatientModal />
+        </HStack>
       </Flex>
 
       <DataCards />
