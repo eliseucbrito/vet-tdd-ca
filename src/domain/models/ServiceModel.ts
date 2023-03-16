@@ -31,7 +31,7 @@ export enum City {
 
 export type ServiceModel = {
   id: number
-  title: string
+  reason: string
   description: string
   createdAt: Date
   serviceDate: Date
