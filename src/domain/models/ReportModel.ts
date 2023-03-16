@@ -12,7 +12,7 @@ export type ReportModel = {
   description: string
   paymentValue: number
   type: ReportTypes
-  createdAt: Date
+  createdAt: string
   approved: boolean
   staff: StaffReduced
   approvedBy: StaffReduced
