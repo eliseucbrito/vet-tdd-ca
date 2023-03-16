@@ -19,10 +19,9 @@ import { parseCookies } from 'nookies'
 import { NewPatientModal } from 'presentation/components/Modals/NewPatientModal'
 import { NewServiceModal } from 'presentation/components/Modals/NewServiceModal'
 
-export default function Dashboard({ lastServices }) {
-  console.log(lastServices)
+export default function Dashboard({ lastServices, reports }) {
+  console.log(reports)
 
-  console.log()
   return (
     <Box p="1rem 1rem 1rem 1.5rem" w="100%" h="100%">
       <Flex mb={5} w="100%" justify="space-between" align="center">
@@ -64,7 +63,7 @@ export default function Dashboard({ lastServices }) {
         <GridItem>
           <VStack>
             <FinanceCard />
-            <Reports />
+            <Reports reports={reports} />
           </VStack>
         </GridItem>
       </Grid>
@@ -83,7 +82,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     },
   })
 
+  const { body: reports } = await axios.request({
+    method: 'get',
+    url: 'api/reports/v1',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
   return {
-    props: { lastServices },
+    props: { lastServices, reports },
   }
 }

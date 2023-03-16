@@ -12,6 +12,7 @@ import {
 import { ApexOptions } from 'apexcharts'
 import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
+import { StatsIndicator } from 'presentation/components/Stats/StatsIndicator'
 require('dayjs/locale/pt-br')
 
 const Chart = dynamic(() => import('react-apexcharts'), {
@@ -119,7 +120,7 @@ export function FinanceCard() {
         series={seriesIncomes}
       />
       <VStack align="start" px={2}>
-        <StatGroup>
+        {/* <StatGroup>
           <Stat>
             <StatLabel color="gray.200">Receita Semanal</StatLabel>
             <StatNumber fontSize="1.2 5rem">R$ 1.297,53</StatNumber>
@@ -128,7 +129,13 @@ export function FinanceCard() {
               23.36%
             </StatHelpText>
           </Stat>
-        </StatGroup>
+        </StatGroup> */}
+        <StatsIndicator
+          label="teste"
+          stat={1200}
+          newValue={[250, 250, 252]}
+          oldValue={[250, 250]}
+        />
       </VStack>
     </Flex>
   )
