@@ -54,7 +54,6 @@ export function NewPatientModal() {
     register,
     handleSubmit,
     reset,
-    watch,
     formState: { errors, isSubmitting },
   } = useForm<newPatientModalData>({
     resolver: zodResolver(newPatientModalSchema),
@@ -69,6 +68,7 @@ export function NewPatientModal() {
         method: 'post',
         body: {
           ...patient,
+          avatarUrl: '',
         },
       })
     },
