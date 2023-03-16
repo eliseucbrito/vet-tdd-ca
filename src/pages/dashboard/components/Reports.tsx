@@ -5,9 +5,11 @@ import { ReportModel, ReportTypes } from 'domain/models/ReportModel'
 import Link from 'next/link'
 import { NewReportModal } from 'presentation/components/Modals/NewReportModal'
 
-export function Reports() {
-  const reports: Array<ReportModel> = []
+interface ReportsProps {
+  reports: ReportModel[]
+}
 
+export function Reports({ reports }: ReportsProps) {
   return (
     <VStack w="100%">
       <Flex
@@ -36,7 +38,7 @@ export function Reports() {
           <VStack align="start">
             <Text>{report.title}</Text>
             <Text variant="subtitle" fontSize="0.625rem">
-              {report.createdAt.toLocaleDateString()}
+              {report.createdAt}
             </Text>
           </VStack>
 
