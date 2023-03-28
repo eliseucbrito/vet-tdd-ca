@@ -6,6 +6,7 @@ import { queryClient } from 'infra/cache/react-query'
 import { useRouter } from 'next/router'
 import { Sidebar } from 'presentation/components/Sidebar/Sidebar'
 import { UserContextProvider } from 'presentation/context/UserContext'
+import IntlProvider from 'react-intl/src/components/provider'
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
@@ -17,12 +18,14 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <UserContextProvider>
         <ChakraProvider theme={defaultTheme}>
-          <Flex w="100vw" h="100vh" overflow="auto">
-            {!isLoginPage && <Sidebar />}
-            <Flex w="100%" h="100%" overflow="auto">
-              <Component {...pageProps} />
+          <IntlProvider locale="br">
+            <Flex w="100vw" h="100vh" overflow="auto">
+              {!isLoginPage && <Sidebar />}
+              <Flex w="100%" h="100%" overflow="auto">
+                <Component {...pageProps} />
+              </Flex>
             </Flex>
-          </Flex>
+          </IntlProvider>
         </ChakraProvider>
       </UserContextProvider>
     </QueryClientProvider>
