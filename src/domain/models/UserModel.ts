@@ -8,5 +8,9 @@ export type UserModel = {
   role: {
     id: number
     description: Roles
+    privileges: {
+      id: number
+      description: string
+    }
   }
 }

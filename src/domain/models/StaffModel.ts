@@ -5,13 +5,16 @@ export type StaffModel = {
   role: {
     id: number
     description: Roles
-    authority: Roles
+    privileges: {
+      id: number
+      description: string
+    }
   }
   fullName: string
   email: string
   avatarUrl: string
   createdAt: string
-  cpf: number
+  cpf: string
   baseSalary: number
   onDuty: boolean
   weeklyWorkLoad: number
