@@ -1,12 +1,22 @@
 import { Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react'
 import Link from 'next/link'
 import { ServiceModel } from 'domain/models/ServiceModel'
+import {
+  serviceStatusColor,
+  serviceStatusFormatter,
+} from 'presentation/utils/serviceStatusFormatter'
+import {
+  paymentStatusColor,
+  paymentStatusFormatter,
+} from './../../../presentation/utils/paymentStatusFormatter'
 
 interface LastPatientsProps {
   services: ServiceModel[]
 }
 
 export function LastPatients({ services }: LastPatientsProps) {
+  console.log(typeof services[0].paymentStatus)
+
   return (
     <Table
       sx={{
@@ -56,11 +66,11 @@ export function LastPatients({ services }: LastPatientsProps) {
                 content: '""',
                 width: '0.5rem',
                 height: '0.5rem',
-                backgroundColor: 'red',
+                backgroundColor: serviceStatusColor(service.status),
                 borderRadius: '100%',
               }}
             >
-              {service.status}
+              {serviceStatusFormatter(service.status)}
             </Td>
             <Td>
               <Text
@@ -71,11 +81,11 @@ export function LastPatients({ services }: LastPatientsProps) {
                   content: '""',
                   width: '0.5rem',
                   height: '0.5rem',
-                  backgroundColor: 'red',
+                  backgroundColor: paymentStatusColor(service.paymentStatus),
                   borderRadius: '100%',
                 }}
               >
-                {service.paymentStatus}
+                {paymentStatusFormatter(service.paymentStatus)}
               </Text>
             </Td>
           </Tr>
