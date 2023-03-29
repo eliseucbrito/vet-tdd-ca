@@ -107,7 +107,7 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
 }
 
 export function useWeeklyEarnings() {
-  return useQuery(['clinicData'], GetWeeklyEarnings, {
+  return useQuery(['weeklyEarnings'], GetWeeklyEarnings, {
     staleTime: 1000 * 60 * 60,
   })
 }
