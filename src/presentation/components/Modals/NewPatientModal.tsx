@@ -64,7 +64,7 @@ export function NewPatientModal() {
   const createNewPatient = useMutation(
     async (patient: newPatientModalData) => {
       return axios.request<PatientModel>({
-        url: '/api/patients/v1/create',
+        url: '/api/patients/v2/create',
         method: 'post',
         body: {
           ...patient,
@@ -175,6 +175,10 @@ export function NewPatientModal() {
                     type="date"
                     {...register('birthDate')}
                   />
+                  <Select {...register('sex')}>
+                    <option value="MALE">MACHO</option>
+                    <option value="FEMALE">FÊMEA</option>
+                  </Select>
                 </HStack>
               </VStack>
             </ModalBody>

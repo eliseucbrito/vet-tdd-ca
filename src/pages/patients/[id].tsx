@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { 'vet.token': token } = parseCookies(ctx)
   const { body: patient } = await axios.request({
     method: 'get',
-    url: `/api/patients/v1/${id}`,
+    url: `/api/patients/v2/${id}`,
     headers: {
       Authorization: `Bearer ${token}`,
     },

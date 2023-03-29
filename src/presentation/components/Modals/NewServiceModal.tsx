@@ -80,7 +80,7 @@ export function NewServiceModal() {
   const createNewService = useMutation(
     async (service: newServiceModalData) => {
       return axios.request<ServiceModel>({
-        url: '/api/services/v1/create',
+        url: '/api/services/v2/create',
         method: 'post',
         body: {
           ...service,

@@ -64,7 +64,7 @@ export function NewReportModal() {
   const createNewReport = useMutation(
     async (report: newReportModalData) => {
       const response = axios.request({
-        url: '/api/reports/v1/create',
+        url: '/api/reports/v2/create',
         method: 'post',
         body: {
           ...report,
