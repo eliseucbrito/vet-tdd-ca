@@ -2,25 +2,25 @@ import { PatientModel } from './PatientModel'
 import { StaffModel } from './StaffModel'
 
 export enum ServiceType {
-  EXAM,
-  MEDICAL_CARE,
-  HOME_CARE,
-  SURGERY,
-  EMERGENCY,
+  EXAM = 'EXAM',
+  MEDICAL_CARE = 'MEDICAL_CARE',
+  HOME_CARE = 'HOME_CARE',
+  SURGERY = 'SURGERY',
+  EMERGENCY = 'EMERGENCY',
 }
 
 export enum ServiceStatus {
-  SCHEDULED,
-  NOT_INITIALIZED,
-  IN_PROGRESS,
-  COMPLETED,
-  CANCELED,
+  SCHEDULED = 'SCHEDULED',
+  NOT_INITIALIZED = 'NOT_INITIALIZED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  CANCELED = 'CANCELED',
 }
 
 export enum PaymentStatus {
-  WAITING_PAYMENT,
-  PAID,
-  CANCELED,
+  WAITING_PAYMENT = 'WAITING_PAYMENT',
+  PAID = 'PAID',
+  CANCELED = 'CANCELED',
 }
 
 export type ServiceModel = {
