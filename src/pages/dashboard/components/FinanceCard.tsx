@@ -13,6 +13,7 @@ import { ApexOptions } from 'apexcharts'
 import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
 import { StatsIndicator } from 'presentation/components/Stats/StatsIndicator'
+import { useWeeklyEarnings } from 'presentation/hooks/weeklyEarnings'
 require('dayjs/locale/pt-br')
 
 const Chart = dynamic(() => import('react-apexcharts'), {
@@ -92,18 +93,27 @@ export const lineAreaChartOptionsTotalSpent: ApexOptions = {
   },
 }
 
-const seriesIncomes = [
-  {
-    name: 'Faturamento',
-    data: [1, 2, 3, 4, 5, 6, 7],
-  },
-  {
-    name: 'Despesas',
-    data: [9, 8, 7, 6, 5, 4, 3],
-  },
-]
-
 export function FinanceCard() {
+  const { data: weeklyEarnings } = useWeeklyEarnings()
+  console.log('EARNINGS SEMANANIS', weeklyEarnings?.incomes)
+
+  const seriesIncomes = [
+    {
+      name: 'Faturamento',
+      data:
+        weeklyEarnings !== undefined
+          ? weeklyEarnings.incomes
+          : [0, 0, 0, 0, 0, 0, 0, 0],
+    },
+    {
+      name: 'Despesas',
+      data:
+        weeklyEarnings !== undefined
+          ? weeklyEarnings.outcomes
+          : [0, 0, 0, 0, 0, 0, 0, 0],
+    },
+  ]
+
   return (
     <Flex
       bg="white"
@@ -113,28 +123,18 @@ export function FinanceCard() {
       borderRadius={12}
     >
       <Chart
-        height="80%"
-        w="100%"
+        height="100%"
+        w="120%"
         type="area"
         options={lineAreaChartOptionsTotalSpent}
         series={seriesIncomes}
       />
       <VStack align="start" px={2}>
-        {/* <StatGroup>
-          <Stat>
-            <StatLabel color="gray.200">Receita Semanal</StatLabel>
-            <StatNumber fontSize="1.2 5rem">R$ 1.297,53</StatNumber>
-            <StatHelpText>
-              <StatArrow type="increase" />
-              23.36%
-            </StatHelpText>
-          </Stat>
-        </StatGroup> */}
         <StatsIndicator
-          label="teste"
+          label="Faturamento semanal"
           stat={1200}
-          newValue={[250, 250, 252]}
-          oldValue={[250, 250]}
+          newValue={[weeklyEarnings?.incomes[6]]}
+          oldValue={[weeklyEarnings?.incomes[5]]}
         />
       </VStack>
     </Flex>
