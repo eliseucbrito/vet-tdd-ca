@@ -23,12 +23,6 @@ export enum PaymentStatus {
   CANCELED,
 }
 
-export enum City {
-  TRINDADE_PE,
-  ARARIPINA_PE,
-  OURICURI_PE,
-}
-
 export type ServiceModel = {
   id: number
   reason: string
@@ -38,7 +32,10 @@ export type ServiceModel = {
   type: ServiceType
   status: ServiceStatus
   paymentStatus: PaymentStatus
-  city: City
+  city: {
+    id: number
+    name: string
+  }
   price: number
   staff: StaffModel
   patient: PatientModel
