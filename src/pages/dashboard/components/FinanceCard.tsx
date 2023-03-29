@@ -13,7 +13,7 @@ import { ApexOptions } from 'apexcharts'
 import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
 import { StatsIndicator } from 'presentation/components/Stats/StatsIndicator'
-import { useWeeklyEarnings } from 'presentation/hooks/weeklyEarnings'
+import { useWeeklyEarnings } from 'presentation/hooks/useWeeklyEarnings'
 require('dayjs/locale/pt-br')
 
 const Chart = dynamic(() => import('react-apexcharts'), {
