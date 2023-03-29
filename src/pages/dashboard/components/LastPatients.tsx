@@ -47,7 +47,7 @@ export function LastPatients({ services }: LastPatientsProps) {
             </Td>
             <Td>{service.patient.name}</Td>
             <Td>{service.patient.owner}</Td>
-            <Td>{service.city}</Td>
+            <Td>{service.city.name}</Td>
             <Td
               display="flex"
               alignItems="center"
