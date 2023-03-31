@@ -30,26 +30,34 @@ import { AxiosHttpClient } from './../../../infra/http/axios-http-client/axios-h
 import Link from 'next/link'
 import { ServiceModel } from 'domain/models/ServiceModel'
 import dayjs from 'dayjs'
+import { useCities } from 'presentation/hooks/useCities'
+import { cityFormatter } from './../../utils/cityFormatter'
 
 const newServiceModalSchema = z.object({
   patientId: z
     .string()
     .min(1, { message: 'O ID do paciente é obrigatório' })
     .transform((patientId) => Number(patientId)),
-  staffId: z
+  medicId: z
     .string()
     .min(1, { message: 'O ID do médico é obrigatório' })
     .transform((staffId) => Number(staffId)),
-  type: z.string().min(2),
-  status: z.string().min(2),
+  type: z.enum(['EXAM', 'MEDICAL_CARE', 'SURGERY', 'EMERGENCY']),
+  status: z.enum([
+    'SCHEDULED',
+    'NOT_INITIALIZED',
+    'IN_PROGRESS',
+    'COMPLETED',
+    'CANCELED',
+  ]),
+  paymentStatus: z.enum(['WAITING_PAYMENT', 'PAID', 'CANCELED']),
   serviceDate: z
     .string()
     .optional()
     .transform((date) => dayjs(date).format('YYYY/MM/DD HH:mm:ss')),
   reason: z
     .string()
-    .min(5, { message: 'O Motivo deve conter no mínimo 5 caracteres' })
-    .max(30, { message: 'O Motivo deve conter no máximo 30 caracteres' }),
+    .min(5, { message: 'O Motivo deve conter no mínimo 5 caracteres' }),
   description: z
     .string()
     .min(20, { message: 'A descrição deve conter no mínimo 20 caracteres' }),
@@ -57,7 +65,9 @@ const newServiceModalSchema = z.object({
     .string()
     .min(1, { message: 'O valor do atendimento é obrigatório' })
     .transform((price) => Number(price) * 1000),
-  city: z.string().min(2, { message: 'A cidade de atendimento é obrigatória' }),
+  cityNameAndUF: z
+    .string()
+    .min(2, { message: 'A cidade de atendimento é obrigatória' }),
 })
 
 type newServiceModalData = z.infer<typeof newServiceModalSchema>
@@ -74,6 +84,10 @@ export function NewServiceModal() {
   } = useForm<newServiceModalData>({
     resolver: zodResolver(newServiceModalSchema),
   })
+
+  const { data: cities } = useCities()
+
+  console.log(cities)
 
   const axios = new AxiosHttpClient()
 
@@ -162,9 +176,9 @@ export function NewServiceModal() {
                     <Input
                       w="100%"
                       placeholder="ID do veterinário"
-                      isInvalid={!!errors.staffId}
+                      isInvalid={!!errors.medicId}
                       marginBottom={2}
-                      {...register('staffId')}
+                      {...register('medicId')}
                     />
                     <InputGroup>
                       <InputLeftElement
@@ -190,7 +204,6 @@ export function NewServiceModal() {
                     >
                       <option value="EXAM">Exame</option>
                       <option value="MEDICAL_CARE">Atendimento médico</option>
-                      <option value="HOME_CARE">Atendimento domiciliar</option>
                       <option value="SURGERY">Cirurgia</option>
                       <option value="EMERGENCY">Emergência</option>
                     </Select>
@@ -228,12 +241,17 @@ export function NewServiceModal() {
                   />
                   <Select
                     placeholder="Cidade de atendimento"
-                    isInvalid={!!errors.city}
-                    {...register('city')}
+                    isInvalid={!!errors.cityNameAndUF}
+                    {...register('cityNameAndUF')}
                   >
-                    <option value="TRINDADE_PE">Trindade-PE</option>
-                    <option value="ARARIPINA_PE">Araripina-PE</option>
-                    <option value="OURICURI_PE">Ouricuri-PE</option>
+                    {cities !== undefined &&
+                      cities.map((city) => {
+                        return (
+                          <option key={city.id} value={city.name}>
+                            {cityFormatter(city.name)}
+                          </option>
+                        )
+                      })}
                   </Select>
                 </HStack>
                 <Textarea
