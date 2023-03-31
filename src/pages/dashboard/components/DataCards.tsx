@@ -14,35 +14,34 @@ import rooms from '../../../presentation/Assets/rooms.svg'
 import staff from '../../../presentation/Assets/staff.svg'
 import dna from '../../../presentation/Assets/dna.svg'
 import { DataCard } from './DataCard'
+import { useVetData } from 'presentation/hooks/useVetData'
 
 export function DataCards() {
+  const { data: VetData } = useVetData()
+
   return (
     <Flex w="100%" justify="space-between">
       <DataCard
         label={'Clientes'}
-        total={100}
+        total={VetData?.clients.total}
         sublabel={'Hoje'}
-        subtotal={32}
+        subtotal={VetData?.clients.today}
         image={<ChakraImage as={Image} src={dog} />}
       />
 
-      {/* <ChakraImage w="12.5%" as={Image} src={dna} /> */}
-
       <DataCard
         label={'Equipe'}
-        total={100}
+        total={VetData?.staff.total}
         sublabel={'De plantão'}
-        subtotal={3}
+        subtotal={VetData?.staff.onDuty}
         image={<ChakraImage as={Image} src={staff} />}
       />
 
-      {/* <ChakraImage w="12.5%" as={Image} src={dna} /> */}
-
       <DataCard
-        label={'Quartos'}
-        total={100}
-        sublabel={'Em uso'}
-        subtotal={32}
+        label={'Pacientes'}
+        total={VetData?.patients.total}
+        sublabel={'Novos'}
+        subtotal={VetData?.patients.today}
         image={<ChakraImage as={Image} src={rooms} />}
       />
     </Flex>
