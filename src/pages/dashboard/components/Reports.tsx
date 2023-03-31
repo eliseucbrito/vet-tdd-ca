@@ -4,6 +4,7 @@ import { FcSalesPerformance, FcDocument } from 'react-icons/fc'
 import { ReportModel, ReportTypes } from 'domain/models/ReportModel'
 import Link from 'next/link'
 import { NewReportModal } from 'presentation/components/Modals/NewReportModal'
+import dayjs from 'dayjs'
 
 interface ReportsProps {
   reports: ReportModel[]
@@ -38,14 +39,16 @@ export function Reports({ reports }: ReportsProps) {
           <VStack align="start">
             <Text>{report.title}</Text>
             <Text variant="subtitle" fontSize="0.625rem">
-              {report.createdAt}
+              {dayjs(report.createdAt).format(
+                'DD [de] MMMM [de] YYYY [ás] HH:mm',
+              )}
             </Text>
           </VStack>
 
           <VStack align="end">
             <Icon
               as={
-                report.type === ReportTypes.PAYMENT
+                report.type.toString() === 'PAYMENT'
                   ? FcSalesPerformance
                   : FcDocument
               }
