@@ -85,6 +85,8 @@ export function NewServiceModal() {
     resolver: zodResolver(newServiceModalSchema),
   })
 
+  console.log('NEW SERVICE ERRORS ', errors)
+
   const { data: cities } = useCities()
 
   console.log(cities)
@@ -213,22 +215,31 @@ export function NewServiceModal() {
                       marginBottom={2}
                       {...register('status')}
                     >
+                      <option value="SCHEDULED">Agendado</option>
                       <option value="NOT_INITIALIZED">Não iniciado</option>
                       <option value="IN_PROGRESS">Em progresso</option>
                       <option value="COMPLETED">Concluído</option>
-                      <option value="SCHEDULED">Agendado</option>
+                      <option value="CANCELED">Cancelado</option>
+                    </Select>
+                    <Select
+                      placeholder="Status"
+                      isInvalid={!!errors.status}
+                      marginBottom={2}
+                      {...register('paymentStatus')}
+                    >
                       <option value="WAITING_PAYMENT">
                         Aguardando pagamento
                       </option>
                       <option value="PAID">Pago</option>
                       <option value="CANCELED">Cancelado</option>
                     </Select>
-                    <Input
-                      type="datetime-local"
-                      required={statusIsScheduled}
-                      {...register('serviceDate')}
-                      disabled={!statusIsScheduled}
-                    />
+                    {statusIsScheduled && (
+                      <Input
+                        type="datetime-local"
+                        required={statusIsScheduled}
+                        {...register('serviceDate')}
+                      />
+                    )}
                   </GridItem>
                 </Grid>
 
