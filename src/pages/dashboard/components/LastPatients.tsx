@@ -5,6 +5,7 @@ import {
   serviceStatusColor,
   serviceStatusFormatter,
 } from 'presentation/utils/serviceStatusFormatter'
+import { cityFormatter } from 'presentation/utils/cityFormatter'
 import {
   paymentStatusColor,
   paymentStatusFormatter,
@@ -57,7 +58,7 @@ export function LastPatients({ services }: LastPatientsProps) {
             </Td>
             <Td>{service.patient.name}</Td>
             <Td>{service.patient.owner}</Td>
-            <Td>{service.city.name}</Td>
+            <Td>{cityFormatter(service.city.name)}</Td>
             <Td
               display="flex"
               alignItems="center"
