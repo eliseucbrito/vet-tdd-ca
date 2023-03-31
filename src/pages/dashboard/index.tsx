@@ -18,9 +18,23 @@ import { GetServerSideProps } from 'next'
 import { parseCookies } from 'nookies'
 import { NewPatientModal } from 'presentation/components/Modals/NewPatientModal'
 import { NewServiceModal } from 'presentation/components/Modals/NewServiceModal'
+import { useEffect } from 'react'
+
+const axios = new AxiosHttpClient()
 
 export default function Dashboard({ lastServices, reports }) {
   console.log(reports)
+
+  // async function getData() {
+  //   const { body: lastServices } = await axios.request({
+  //     method: 'get',
+  //     url: 'api/services/v2',
+  //   })
+  // }
+
+  // useEffect(() => {
+  //   getData()
+  // }, [])
 
   return (
     <Box p="1rem 1rem 1rem 1.5rem" w="100%" h="100%">
@@ -76,7 +90,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { 'vet.token': token } = parseCookies(ctx)
   const { body: lastServices } = await axios.request({
     method: 'get',
-    url: 'api/services/v1',
+    url: 'api/services/v2',
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -84,7 +98,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const { body: reports } = await axios.request({
     method: 'get',
-    url: 'api/reports/v1',
+    url: 'api/reports/v2',
     headers: {
       Authorization: `Bearer ${token}`,
     },
