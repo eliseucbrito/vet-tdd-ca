@@ -12,7 +12,7 @@ export type PatientModel = {
   owner: string
   createdAt: string
   name: string
-  ownerContact: number
+  ownerContact: string
   breed: string
   birthDate: string
   avatarUrl: string
