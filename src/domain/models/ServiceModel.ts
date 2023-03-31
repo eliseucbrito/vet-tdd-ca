@@ -4,7 +4,6 @@ import { StaffModel } from './StaffModel'
 export enum ServiceType {
   EXAM = 'EXAM',
   MEDICAL_CARE = 'MEDICAL_CARE',
-  HOME_CARE = 'HOME_CARE',
   SURGERY = 'SURGERY',
   EMERGENCY = 'EMERGENCY',
 }
