@@ -105,7 +105,9 @@ export function NewServiceModal() {
     },
     {
       onSuccess: (data) => {
-        queryClient.invalidateQueries({ queryKey: ['patients'] })
+        queryClient.invalidateQueries({ queryKey: ['services'] })
+        queryClient.invalidateQueries({ queryKey: ['VetData'] })
+        queryClient.invalidateQueries({ queryKey: ['weeklyEarnings'] })
         reset()
         toast({
           title: 'Serviço criado',
@@ -222,7 +224,7 @@ export function NewServiceModal() {
                       <option value="CANCELED">Cancelado</option>
                     </Select>
                     <Select
-                      placeholder="Status"
+                      placeholder="Status do Pagamento"
                       isInvalid={!!errors.status}
                       marginBottom={2}
                       {...register('paymentStatus')}
