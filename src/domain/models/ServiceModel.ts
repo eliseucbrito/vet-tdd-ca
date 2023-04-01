@@ -36,6 +36,6 @@ export type ServiceModel = {
     name: string
   }
   price: number
-  staff: StaffModel
+  medic: StaffModel
   patient: PatientModel
 }
