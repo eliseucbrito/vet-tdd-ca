@@ -74,7 +74,7 @@ export function NewPatientModal() {
     },
     {
       onSuccess: (data) => {
-        queryClient.invalidateQueries({ queryKey: ['patients'] })
+        queryClient.invalidateQueries({ queryKey: ['VetData'] })
         reset()
         toast({
           title: 'Paciente criado',
