@@ -25,7 +25,7 @@ export function Reports({ reports }: ReportsProps) {
         <NewReportModal />
       </Flex>
 
-      {reports.map((report) => (
+      {reports?.map((report) => (
         <Flex
           key={report.id}
           w="100%"
