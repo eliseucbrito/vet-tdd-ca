@@ -47,9 +47,9 @@ export function ServicesDetailsCard({ services }: ServicesDetailsCardProps) {
     >
       <Tbody>
         {services === undefined ? (
-          <Text>Ainda sem serviços registrados</Text>
+          <Text>Ainda sem atendimentos registrados</Text>
         ) : (
-          services.map((service) => {
+          services?.map((service) => {
             return (
               <Tr
                 key={service.id}

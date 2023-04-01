@@ -23,7 +23,7 @@ export function ServicesCard({ services }: ServicesCardProps) {
       <VStack bg="gray.300" p={2} w="100%" spacing={0} borderRadius={12}>
         <HStack w="100%" gap={10} justify="space-between">
           <Box display="flex" flexDir="column" h="100%" m={0}>
-            {services.map((service) => {
+            {services?.map((service) => {
               return (
                 <CheckBar
                   key={service.id}
