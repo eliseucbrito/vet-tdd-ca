@@ -17,7 +17,7 @@ export function StaffCard({ rounded, staff }: StaffCardProps) {
       borderLeftRadius="2xl"
       borderRightRadius={rounded ? '2xl' : 0}
     >
-      <Avatar size="lg" />
+      <Avatar src={staff.avatarUrl} size="lg" />
       <Text lineHeight={1} whiteSpace="nowrap">
         {staff.fullName}
       </Text>
@@ -36,8 +36,10 @@ export function StaffCard({ rounded, staff }: StaffCardProps) {
         <Divider />
 
         <VStack>
-          <Text fontWeight={600}>Plantão</Text>
-          <Text fontWeight={600}>{staff.onDuty}</Text>
+          <Text fontWeight={600} whiteSpace="nowrap">
+            Em Plantão
+          </Text>
+          <Text fontWeight={600}>{staff.onDuty ? 'Sim' : 'Não'}</Text>
         </VStack>
       </HStack>
     </VStack>
