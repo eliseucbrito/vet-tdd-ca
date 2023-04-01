@@ -8,6 +8,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { PatientModel } from 'domain/models/PatientModel'
+import { nameFormatter } from 'presentation/utils/nameFormatter'
 
 interface PatientCardProps {
   rounded?: boolean
@@ -33,7 +34,7 @@ export function PatientCard({ rounded, patient }: PatientCardProps) {
             {patient.name}
           </Text>
           <Text variant="subtitle" whiteSpace="nowrap" lineHeight={1}>
-            {patient.owner}
+            {nameFormatter(patient.owner)}
           </Text>
           <Tag
             bg="green.600"
