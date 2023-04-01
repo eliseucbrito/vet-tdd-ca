@@ -7,6 +7,7 @@ import {
   Box,
   Avatar,
   Text,
+  Spinner,
 } from '@chakra-ui/react'
 import { SidebarButton } from './SidebarButton'
 import {
@@ -20,9 +21,10 @@ import {
 import { TbPaw } from 'react-icons/tb'
 import Image from 'next/image'
 import Logo from '../../Assets/logo-dark.svg'
-import { createContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { CgLogOut } from 'react-icons/cg'
 import { SignOut } from 'presentation/context/UserContext'
+import { UserContext } from './../../context/UserContext'
 
 type SidebarContextData = {
   sidebarOpen: boolean
@@ -31,16 +33,16 @@ type SidebarContextData = {
 export const SidebarContext = createContext({} as SidebarContextData)
 
 export function Sidebar() {
+  const { user } = useContext(UserContext)
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   function handleSidebarState() {
     setSidebarOpen(!sidebarOpen)
-    console.log('SIDEBAR OPEN ', !sidebarOpen)
   }
 
   return (
     <VStack
-      w={sidebarOpen ? '12rem' : '4rem'}
+      w={sidebarOpen ? '16rem' : '4rem'}
       h="100%"
       justify="space-between"
       transition="all 0.25s ease-in-out"
@@ -85,22 +87,31 @@ export function Sidebar() {
           px={2}
           py={3}
         >
-          <Avatar
-            size="md"
-            borderRadius={8}
-            display={sidebarOpen ? 'block' : 'none'}
-            mr={1}
-          />
-          <VStack
-            align="flex-start"
-            justify="center"
-            display={sidebarOpen ? 'block' : 'none'}
-          >
-            <Text lineHeight={1}>Nome Func</Text>
-            <Text lineHeight={0.5} fontWeight={300} fontSize="xs">
-              Cargo
-            </Text>
-          </VStack>
+          {user === undefined ? (
+            <Spinner />
+          ) : (
+            <>
+              <Avatar
+                size="md"
+                src={user.avatarUrl}
+                borderRadius={8}
+                display={sidebarOpen ? 'block' : 'none'}
+                mr={1}
+              />
+              <VStack
+                align="flex-start"
+                justify="center"
+                display={sidebarOpen ? 'block' : 'none'}
+              >
+                <Text lineHeight={1} whiteSpace="nowrap">
+                  {user.fullName}
+                </Text>
+                <Text lineHeight={0.5} fontWeight={300} fontSize="xs">
+                  {user.role.description}
+                </Text>
+              </VStack>
+            </>
+          )}
 
           <Button variant="unstyled" onClick={SignOut}>
             <Icon margin="0 auto" as={CgLogOut} boxSize={6} />
