@@ -18,12 +18,15 @@ import { GetServerSideProps } from 'next'
 import { parseCookies } from 'nookies'
 import { NewPatientModal } from 'presentation/components/Modals/NewPatientModal'
 import { NewServiceModal } from 'presentation/components/Modals/NewServiceModal'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
+import { UserContext } from 'presentation/context/UserContext'
+import { OnDutyButton } from 'presentation/components/Modals/OnDutyButton'
 
 const axios = new AxiosHttpClient()
 
 export default function Dashboard({ lastServices, reports }) {
   console.log(reports)
+  const { user } = useContext(UserContext)
 
   // async function getData() {
   //   const { body: lastServices } = await axios.request({
@@ -46,7 +49,7 @@ export default function Dashboard({ lastServices, reports }) {
             fontWeight={600}
             fontSize="2xl"
           >
-            Bem vindo(a) novamente, Eliseu
+            Bem vindo(a) novamente, {user?.fullName.split(' ')[0]}
           </Text>
           <Text
             lineHeight={1}
@@ -60,6 +63,7 @@ export default function Dashboard({ lastServices, reports }) {
         </VStack>
 
         <HStack>
+          <OnDutyButton />
           <NewServiceModal />
           <NewPatientModal />
         </HStack>
