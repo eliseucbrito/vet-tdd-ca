@@ -5,8 +5,11 @@ import { GetServerSideProps } from 'next/types'
 import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
 import { PatientDetailsCard } from 'presentation/components/Cards/PatientDetailsCard'
 import { parseCookies } from 'nookies'
+import { useServices } from 'presentation/hooks/useServices'
 
 export default function StaffDetails({ patient }) {
+  const { data: services } = useServices()
+
   return (
     <VStack p="1rem 1rem 1rem 1.5rem" gap={4} w="100%">
       <HStack w="100%">
@@ -14,7 +17,7 @@ export default function StaffDetails({ patient }) {
         <PatientDetailsCard patient={patient} />
       </HStack>
 
-      <ServicesCard />
+      <ServicesCard services={services} />
     </VStack>
   )
 }
