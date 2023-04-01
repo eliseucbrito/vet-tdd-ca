@@ -8,7 +8,8 @@ import { HttpResponse } from 'data/protocols/http'
 import { AxiosError } from 'axios'
 import { destroyCookie, parseCookies } from 'nookies'
 import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
-import { StaffReduced } from 'domain/models/StaffModel'
+import { StaffModel, StaffReduced } from 'domain/models/StaffModel'
+import { api } from './../../infra/http/axios-http-client/axios-http-client'
 
 export const validationSchema = z.object({
   email: z.string().email({ message: 'Email invalido!' }),
@@ -23,6 +24,7 @@ export type validationData = z.infer<typeof validationSchema>
 type UserContextData = {
   user: UserModel | undefined
   loginError: HttpResponse<{ message: string }> | undefined
+  handleSetUser: (newUser: UserModel) => void
   handleSignIn: (data: validationData) => void
 }
 
@@ -50,18 +52,26 @@ export function UserContextProvider({ children }: UserContextProps) {
 
   const axios = new AxiosHttpClient()
 
+  function handleSetUser(newUser: UserModel) {
+    setUser(newUser)
+  }
+
   useEffect(() => {
     const { 'vet.token': token } = parseCookies()
 
     if (token) {
-      axios
-        .request<StaffReduced>({
-          url: '/api/staff/v1/me',
+      api
+        .request<StaffModel>({
+          url: '/api/staff/v2/me',
           method: 'get',
         })
         .then((response) => {
           setUser({
-            ...response.body,
+            avatarUrl: response.data.avatarUrl,
+            fullName: response.data.fullName,
+            id: response.data.id,
+            onDuty: response.data.onDuty,
+            role: response.data.role,
           })
         })
         .catch((error) => {
@@ -81,30 +91,18 @@ export function UserContextProvider({ children }: UserContextProps) {
         email: data.email,
         password: data.password,
         rememberMe: false,
-      }).then(() => {
-        return axios
-          .request<StaffReduced>({
-            url: '/api/staff/v1/me',
-            method: 'get',
-          })
-          .then((response) => {
-            console.log('USER', response)
-            return {
-              statusCode: response.statusCode,
-              body: response.body,
-            }
-          })
-          .catch((error) => {
-            console.log('GET /ME ERROR')
-
-            throw error
-          })
       })
-      return response
+
+      setUser({
+        avatarUrl: response.data.avatarUrl,
+        fullName: response.data.fullName,
+        id: response.data.id,
+        onDuty: response.data.onDuty,
+        role: response.data.role,
+      })
     },
     {
       onSuccess: (data) => {
-        console.log('LOGOU', data)
         setLoginError(undefined)
         Router.push('/dashboard')
       },
@@ -123,7 +121,9 @@ export function UserContextProvider({ children }: UserContextProps) {
   }
 
   return (
-    <UserContext.Provider value={{ user, handleSignIn, loginError }}>
+    <UserContext.Provider
+      value={{ user, handleSignIn, loginError, handleSetUser }}
+    >
       {children}
     </UserContext.Provider>
   )
