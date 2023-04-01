@@ -17,7 +17,7 @@ interface LastPatientsProps {
 }
 
 export function LastPatients({ services }: LastPatientsProps) {
-  const lastTenPatients = services.slice(-10).reverse()
+  const lastTenPatients = services?.slice(-10).reverse()
 
   return (
     <Table

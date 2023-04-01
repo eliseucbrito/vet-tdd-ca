@@ -11,7 +11,7 @@ interface ReportsProps {
 }
 
 export function Reports({ reports }: ReportsProps) {
-  const lastTenReports = reports.slice(-10).reverse()
+  const lastTenReports = reports?.slice(-10).reverse()
 
   return (
     <VStack w="100%">
