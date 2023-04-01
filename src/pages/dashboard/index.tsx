@@ -21,23 +21,14 @@ import { NewServiceModal } from 'presentation/components/Modals/NewServiceModal'
 import { useContext, useEffect } from 'react'
 import { UserContext } from 'presentation/context/UserContext'
 import { OnDutyButton } from 'presentation/components/Modals/OnDutyButton'
+import { useReports } from 'presentation/hooks/useReports'
+import { useServices } from 'presentation/hooks/useServices'
 
-const axios = new AxiosHttpClient()
-
-export default function Dashboard({ lastServices, reports }) {
-  console.log(reports)
+export default function Dashboard() {
+  const axios = new AxiosHttpClient()
   const { user } = useContext(UserContext)
-
-  // async function getData() {
-  //   const { body: lastServices } = await axios.request({
-  //     method: 'get',
-  //     url: 'api/services/v2',
-  //   })
-  // }
-
-  // useEffect(() => {
-  //   getData()
-  // }, [])
+  const { data: reports } = useReports()
+  const { data: lastServices } = useServices()
 
   return (
     <Box p="1rem 1rem 1rem 1.5rem" w="100%" h="100%">
@@ -89,26 +80,26 @@ export default function Dashboard({ lastServices, reports }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const axios = new AxiosHttpClient()
-  const { 'vet.token': token } = parseCookies(ctx)
-  const { body: lastServices } = await axios.request({
-    method: 'get',
-    url: 'api/services/v2',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//   const axios = new AxiosHttpClient()
+//   const { 'vet.token': token } = parseCookies(ctx)
+//   const { body: lastServices } = await axios.request({
+//     method: 'get',
+//     url: 'api/services/v2',
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   })
 
-  const { body: reports } = await axios.request({
-    method: 'get',
-    url: 'api/reports/v2',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+//   const { body: reports } = await axios.request({
+//     method: 'get',
+//     url: 'api/reports/v2',
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   })
 
-  return {
-    props: { lastServices, reports },
-  }
-}
+//   return {
+//     props: { lastServices, reports },
+//   }
+// }
