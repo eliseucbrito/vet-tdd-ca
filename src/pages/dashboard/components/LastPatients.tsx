@@ -17,6 +17,8 @@ interface LastPatientsProps {
 }
 
 export function LastPatients({ services }: LastPatientsProps) {
+  const lastTenPatients = services.slice(-10).reverse()
+
   return (
     <Table
       sx={{
@@ -39,7 +41,7 @@ export function LastPatients({ services }: LastPatientsProps) {
         {services === undefined ? (
           <Text>Ainda não existem atendimentos</Text>
         ) : (
-          services.slice(0, 10).map((service) => (
+          lastTenPatients.map((service) => (
             <Tr
               key={service.id}
               sx={{
