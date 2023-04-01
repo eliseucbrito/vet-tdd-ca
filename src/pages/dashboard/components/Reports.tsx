@@ -11,6 +11,8 @@ interface ReportsProps {
 }
 
 export function Reports({ reports }: ReportsProps) {
+  const lastTenReports = reports.slice(-10).reverse()
+
   return (
     <VStack w="100%">
       <Flex
@@ -25,7 +27,7 @@ export function Reports({ reports }: ReportsProps) {
         <NewReportModal />
       </Flex>
 
-      {reports?.map((report) => (
+      {lastTenReports?.map((report) => (
         <Flex
           key={report.id}
           w="100%"
