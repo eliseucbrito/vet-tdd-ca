@@ -1,15 +1,16 @@
 import {
-  StatGroup,
   Stat,
+  StatArrow,
+  StatGroup,
+  StatHelpText,
   StatLabel,
   StatNumber,
-  StatHelpText,
-  StatArrow,
 } from '@chakra-ui/react'
+import { FormattedNumber } from 'react-intl'
 
 interface StatsIndicatorProps {
   label: string
-  stat: string | number
+  stat: number
   oldValue: object[] | number[]
   newValue: object[] | number[]
 }
@@ -35,16 +36,31 @@ export function StatsIndicator({
 
   const finalBalanceIsPositive = finalBalance >= 0
 
-  const percentage = (finalBalance / totalOldValue) * 100
+  const anyValueIsZero = totalNewValue === 0 || totalOldValue === 0
+  const percentage = anyValueIsZero
+    ? finalBalance / 1
+    : (finalBalance / totalOldValue) * 100
 
   return (
     <StatGroup>
       <Stat>
         <StatLabel color="gray.200">{label}</StatLabel>
-        <StatNumber fontSize="1.2 5rem">{stat}</StatNumber>
+        <StatNumber fontSize="1.2 5rem">
+          <FormattedNumber
+            value={stat}
+            currency="BRL"
+            maximumFractionDigits={2}
+            minimumFractionDigits={2}
+            style={'currency'}
+          />
+        </StatNumber>
         <StatHelpText>
           <StatArrow type={finalBalanceIsPositive ? 'increase' : 'decrease'} />
-          {percentage}%
+          <FormattedNumber
+            value={percentage / 100}
+            maximumFractionDigits={2}
+            style={'percent'}
+          />
         </StatHelpText>
       </Stat>
     </StatGroup>
