@@ -42,6 +42,7 @@ export function PatientCard({ rounded, patient }: PatientCardProps) {
             fontWeight={600}
             px={4}
             aria-label="Raça do animal"
+            textAlign="center"
           >
             {patient.breed}
           </Tag>
