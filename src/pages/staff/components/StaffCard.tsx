@@ -1,5 +1,6 @@
 import { Avatar, Divider, HStack, Tag, Text, VStack } from '@chakra-ui/react'
 import { StaffModel } from 'domain/models/StaffModel'
+import { roleFormatter } from 'presentation/utils/roleFormatter'
 
 interface StaffCardProps {
   rounded?: boolean
@@ -25,7 +26,7 @@ export function StaffCard({ rounded, staff }: StaffCardProps) {
         {staff.email}
       </Text>
       <Tag bg="green.600" color="white" fontWeight={600} px={4}>
-        {staff.role.description}
+        {roleFormatter(staff.role.description.toString())}
       </Tag>
       <HStack>
         <VStack>
