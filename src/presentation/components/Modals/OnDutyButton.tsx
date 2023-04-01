@@ -12,8 +12,8 @@ import {
 import { queryClient } from 'infra/cache/react-query'
 import { api } from 'infra/http/axios-http-client/axios-http-client'
 import { UserContext } from 'presentation/context/UserContext'
-import { useContext, useRef, useState } from 'react'
-import { useMutation, useQuery } from 'react-query'
+import { useContext, useRef } from 'react'
+import { useMutation } from 'react-query'
 
 export function OnDutyButton() {
   const { isOpen, onOpen, onClose } = useDisclosure()
