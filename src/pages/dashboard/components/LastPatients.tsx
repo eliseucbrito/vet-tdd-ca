@@ -17,8 +17,6 @@ interface LastPatientsProps {
 }
 
 export function LastPatients({ services }: LastPatientsProps) {
-  console.log(typeof services[0].paymentStatus)
-
   return (
     <Table
       sx={{
