@@ -29,8 +29,10 @@ import { queryClient } from 'infra/cache/react-query'
 import { AxiosHttpClient } from './../../../infra/http/axios-http-client/axios-http-client'
 
 const newReportModalSchema = z.object({
-  type: z.string({ required_error: 'Tipo é obrigatório' }),
-  price: z
+  type: z.enum(['REPORT', 'REQUEST', 'PAYMENT'], {
+    required_error: 'Tipo é obrigatório',
+  }),
+  paymentValue: z
     .string()
     .optional()
     .transform((price) => Number(price) * 1000),
@@ -73,8 +75,11 @@ export function NewReportModal() {
       return response
     },
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries()
+      onSuccess: (data, { type }) => {
+        if (type === 'PAYMENT') {
+          queryClient.invalidateQueries({ queryKey: ['weeklyEarnings'] })
+        }
+        queryClient.invalidateQueries({ queryKey: ['reports'] })
         reset()
         toast({
           title: 'Relatório criado',
@@ -155,7 +160,7 @@ export function NewReportModal() {
                       />
                       <Input
                         placeholder="1200"
-                        {...register('price')}
+                        {...register('paymentValue')}
                         required={reportTypeIsPayment}
                         disabled={!reportTypeIsPayment}
                         title={
