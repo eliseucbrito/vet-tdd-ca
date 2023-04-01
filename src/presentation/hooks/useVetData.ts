@@ -1,6 +1,6 @@
-import { api } from 'infra/http/axios-http-client/axios-http-client'
 import { useQuery } from 'react-query'
 import { ServiceModel } from 'domain/models/ServiceModel'
+import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
 
 type VetData = {
   clients: {
@@ -20,17 +20,19 @@ type VetData = {
 }
 
 export async function GetVetData(): Promise<VetData> {
-  const { data: clients } = await api.request({
+  const axios = new AxiosHttpClient(undefined)
+
+  const { body: clients } = await axios.request({
     method: 'get',
     url: 'api/services/v2/length',
   })
 
-  const { data: staff } = await api.request({
+  const { body: staff } = await axios.request({
     method: 'get',
     url: 'api/staff/v2/length',
   })
 
-  const { data: patients } = await api.request({
+  const { body: patients } = await axios.request({
     method: 'get',
     url: 'api/patients/v2/length',
   })

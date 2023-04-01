@@ -1,9 +1,11 @@
-import { api } from 'infra/http/axios-http-client/axios-http-client'
 import { useQuery } from 'react-query'
 import { ReportModel } from 'domain/models/ReportModel'
+import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
 
 export async function GetReports(): Promise<ReportModel[]> {
-  const { data: reports } = await api.request<ReportModel[]>({
+  const axios = new AxiosHttpClient(undefined)
+
+  const { body: reports } = await axios.request<ReportModel[]>({
     method: 'get',
     url: 'api/reports/v2',
   })

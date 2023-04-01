@@ -1,9 +1,11 @@
-import { api } from 'infra/http/axios-http-client/axios-http-client'
+import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
 import { useQuery } from 'react-query'
 import { ServiceModel } from 'domain/models/ServiceModel'
 
 export async function GetServices(): Promise<ServiceModel[]> {
-  const { data: services } = await api.request<ServiceModel[]>({
+  const axios = new AxiosHttpClient(undefined)
+
+  const { body: services } = await axios.request<ServiceModel[]>({
     method: 'get',
     url: 'api/services/v2',
   })

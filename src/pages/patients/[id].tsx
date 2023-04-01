@@ -4,7 +4,6 @@ import { ServicesCard } from './components/ServicesCard'
 import { GetServerSideProps } from 'next/types'
 import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
 import { PatientDetailsCard } from 'presentation/components/Cards/PatientDetailsCard'
-import { parseCookies } from 'nookies'
 import { useServices } from 'presentation/hooks/useServices'
 
 export default function StaffDetails({ patient }) {
@@ -24,14 +23,10 @@ export default function StaffDetails({ patient }) {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { id } = ctx.params
-  const axios = new AxiosHttpClient()
-  const { 'vet.token': token } = parseCookies(ctx)
+  const axios = new AxiosHttpClient(ctx)
   const { body: patient } = await axios.request({
     method: 'get',
     url: `/api/patients/v2/${id}`,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
   })
 
   return {

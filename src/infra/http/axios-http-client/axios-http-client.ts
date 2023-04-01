@@ -4,8 +4,9 @@ import {
   HttpResponse,
 } from './../../../data/protocols/http/http-client'
 import { parseCookies, setCookie } from 'nookies'
-import axios, { AxiosError, AxiosHeaders } from 'axios'
+import axios, { AxiosError, AxiosHeaders, AxiosInstance } from 'axios'
 import { SignOut } from 'presentation/context/UserContext'
+import { GetServerSidePropsContext } from 'next'
 
 let isRefreshing = false
 let failedRequestsQueue: {
@@ -13,17 +14,109 @@ let failedRequestsQueue: {
   onFailure: (err: AxiosError<unknown, any>) => void
 }[] = []
 
-const cookies = parseCookies()
-export const api = axios.create({
-  baseURL: 'http://localhost:80',
-  headers: {
-    Authorization: `Bearer ${cookies['vet.token']}`,
-  },
-})
-
 export class AxiosHttpClient implements HttpClient {
+  private cookies: {
+    [key: string]: string
+  }
+
+  private api: AxiosInstance
+
+  constructor(ctx: GetServerSidePropsContext | undefined) {
+    this.cookies = parseCookies(ctx)
+    this.api = axios.create({
+      baseURL: 'http://localhost:80',
+      headers: {
+        Authorization: `Bearer ${this.cookies['vet.token']}`,
+      },
+    })
+
+    this.api.interceptors.response.use(
+      (response) => {
+        const cookies = parseCookies()
+        console.log('COOKIES IN RESPONSE', cookies)
+        return response
+      },
+      (error: AxiosError<{ message: string }>) => {
+        if (error.response.status === 401) {
+          if (error.response.data.message === 'token.expired') {
+            const originalConfig = error.config!
+
+            console.log(
+              'ERRO DE TOKEN EXPIRED ',
+              this.cookies['vet.refreshToken'],
+            )
+
+            if (!isRefreshing) {
+              isRefreshing = true
+
+              this.refresh(`Bearer ${this.cookies['vet.refreshToken']}`)
+                .then((response) => {
+                  const { accessToken, refreshToken } = response.body
+
+                  setCookie(undefined, 'vet.token', accessToken, {
+                    maxAge: 60 * 60 * 24, // 24h
+                    path: '/',
+                  })
+
+                  setCookie(undefined, 'vet.refreshToken', refreshToken, {
+                    maxAge: 60 * 60 * 24, // 24h
+                    path: '/',
+                  })
+
+                  console.log('NEW ACCESS TOKEN ', accessToken)
+
+                  this.api.defaults.headers.Authorization = `Bearer ${accessToken}`
+                  console.log(
+                    'ACCESS TOKEN SETTED ',
+                    this.api.defaults.headers.Authorization,
+                  )
+                  failedRequestsQueue.forEach((request) =>
+                    request.onSuccess(accessToken),
+                  )
+                  failedRequestsQueue = []
+                })
+                .catch((err) => {
+                  failedRequestsQueue.forEach((request) =>
+                    request.onFailure(err),
+                  )
+                  failedRequestsQueue = []
+
+                  if (typeof window !== 'undefined') {
+                    SignOut()
+                  }
+                })
+                .finally(() => {
+                  isRefreshing = false
+                })
+            }
+
+            return new Promise((resolve, reject) => {
+              failedRequestsQueue.push({
+                onSuccess: (token: string) => {
+                  ;(originalConfig.headers as AxiosHeaders).set(
+                    'Authorization',
+                    `Bearer ${token}`,
+                  )
+
+                  resolve(this.api(originalConfig!))
+                },
+                onFailure: (err: AxiosError) => {
+                  reject(err)
+                },
+              })
+            })
+          }
+
+          return Promise.reject(error)
+        } else {
+          throw error
+        }
+      },
+    )
+  }
+
   async request<T = any>(data: HttpRequest): Promise<HttpResponse<T>> {
-    const axiosResponse = await api.request({
+    const axiosResponse = await this.api.request({
       url: data.url,
       method: data.method,
       data: data.body,
@@ -37,7 +130,7 @@ export class AxiosHttpClient implements HttpClient {
   }
 
   async authentication(data: HttpRequest): Promise<HttpResponse> {
-    const axiosResponse = await api.request({
+    const axiosResponse = await this.api.request({
       url: data.url,
       method: data.method,
       data: data.body,
@@ -45,6 +138,15 @@ export class AxiosHttpClient implements HttpClient {
         Authorization: '',
       },
     })
+    console.log('NOVO TOKEN NO AUTHENTICATION ', axiosResponse.data.accessToken)
+
+    this.api.defaults.headers.common.Authorization = `Bearer ${axiosResponse.data.accessToken}`
+
+    console.log(
+      'TOKEN SETADO NO AUTHENTICATION ',
+      this.api.defaults.headers.common.Authorization,
+    )
+
     return {
       statusCode: axiosResponse.status,
       body: axiosResponse.data,
@@ -54,7 +156,7 @@ export class AxiosHttpClient implements HttpClient {
   async refresh(
     Authorization: string,
   ): Promise<HttpResponse<{ accessToken: string; refreshToken: string }>> {
-    const axiosResponse = await api.request({
+    const axiosResponse = await this.api.request({
       url: '/auth/refresh',
       method: 'put',
       headers: {
@@ -66,75 +168,84 @@ export class AxiosHttpClient implements HttpClient {
       body: axiosResponse.data,
     }
   }
+
+  getAccessToken() {
+    return this.cookies['vet.token']
+  }
 }
 
-api.interceptors.response.use(
-  (response) => {
-    return response
-  },
-  (error: AxiosError<{ message: string }>) => {
-    if (error.response.status === 401) {
-      if (error.response.data.message === 'token.expired') {
-        const axiosApi = new AxiosHttpClient()
-        const originalConfig = error.config!
+// api.interceptors.response.use(
+//   (response) => {
+//     const cookies = parseCookies()
+//     console.log('COOKIES IN RESPONSE', cookies)
+//     return response
+//   },
+//   (error: AxiosError<{ message: string }>) => {
+//     if (error.response.status === 401) {
+//       if (error.response.data.message === 'token.expired') {
+//         cookies = parseCookies()
+//         const axiosApi = new AxiosHttpClient(undefined)
+//         const originalConfig = error.config!
 
-        if (!isRefreshing) {
-          isRefreshing = true
+//         console.log('ERRO DE TOKEN EXPIRED ')
 
-          axiosApi
-            .refresh(`Bearer ${cookies['vet.refreshToken']}`)
-            .then((response) => {
-              const { accessToken, refreshToken } = response.body
+//         if (!isRefreshing) {
+//           isRefreshing = true
 
-              setCookie(undefined, 'vet.token', accessToken, {
-                maxAge: 60 * 60 * 24, // 24h
-                path: '/',
-              })
+//           axiosApi
+//             .refresh(`Bearer ${cookies['vet.refreshToken']}`)
+//             .then((response) => {
+//               const { accessToken, refreshToken } = response.body
 
-              setCookie(undefined, 'vet.refreshToken', refreshToken, {
-                maxAge: 60 * 60 * 24, // 24h
-                path: '/',
-              })
+//               setCookie(undefined, 'vet.token', accessToken, {
+//                 maxAge: 60 * 60 * 24, // 24h
+//                 path: '/',
+//               })
 
-              api.defaults.headers.Authorization = `Bearer ${accessToken}`
-              failedRequestsQueue.forEach((request) =>
-                request.onSuccess(accessToken),
-              )
-              failedRequestsQueue = []
-            })
-            .catch((err) => {
-              failedRequestsQueue.forEach((request) => request.onFailure(err))
-              failedRequestsQueue = []
+//               setCookie(undefined, 'vet.refreshToken', refreshToken, {
+//                 maxAge: 60 * 60 * 24, // 24h
+//                 path: '/',
+//               })
 
-              if (typeof window !== 'undefined') {
-                SignOut()
-              }
-            })
-            .finally(() => {
-              isRefreshing = false
-            })
-        }
+//               api.defaults.headers.Authorization = `Bearer ${accessToken}`
+//               failedRequestsQueue.forEach((request) =>
+//                 request.onSuccess(accessToken),
+//               )
+//               failedRequestsQueue = []
+//             })
+//             .catch((err) => {
+//               failedRequestsQueue.forEach((request) => request.onFailure(err))
+//               failedRequestsQueue = []
 
-        return new Promise((resolve, reject) => {
-          failedRequestsQueue.push({
-            onSuccess: (token: string) => {
-              ;(originalConfig.headers as AxiosHeaders).set(
-                'Authorization',
-                `Bearer ${token}`,
-              )
+//               if (typeof window !== 'undefined') {
+//                 SignOut()
+//               }
+//             })
+//             .finally(() => {
+//               isRefreshing = false
+//             })
+//         }
 
-              resolve(api(originalConfig!))
-            },
-            onFailure: (err: AxiosError) => {
-              reject(err)
-            },
-          })
-        })
-      }
+//         return new Promise((resolve, reject) => {
+//           failedRequestsQueue.push({
+//             onSuccess: (token: string) => {
+//               ;(originalConfig.headers as AxiosHeaders).set(
+//                 'Authorization',
+//                 `Bearer ${token}`,
+//               )
 
-      return Promise.reject(error)
-    } else {
-      throw error
-    }
-  },
-)
+//               resolve(api(originalConfig!))
+//             },
+//             onFailure: (err: AxiosError) => {
+//               reject(err)
+//             },
+//           })
+//         })
+//       }
+
+//       return Promise.reject(error)
+//     } else {
+//       throw error
+//     }
+//   },
+// )

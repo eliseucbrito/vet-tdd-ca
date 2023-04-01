@@ -1,7 +1,4 @@
-import {
-  api,
-  AxiosHttpClient,
-} from './../../infra/http/axios-http-client/axios-http-client'
+import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
 import { setCookie } from 'nookies'
 import { StaffModel, StaffReduced } from 'domain/models/StaffModel'
 import { HttpResponse } from 'data/protocols/http'
@@ -15,14 +12,16 @@ type credentialsProps = {
 
 export async function SignIn(
   credentials: credentialsProps,
-): Promise<AxiosResponse> {
-  const axios = new AxiosHttpClient()
+): Promise<HttpResponse> {
+  const axios = new AxiosHttpClient(undefined)
   const url = '/auth/signin'
   const method = 'post'
   const body = {
     email: credentials.email,
     password: credentials.password,
   }
+
+  let token
 
   const maxAgeValue = credentials.rememberMe ? 60 * 60 * 24 * 30 : 60 * 60 * 24
 
@@ -36,9 +35,7 @@ export async function SignIn(
       },
     })
     .then((response) => {
-      api.defaults.headers.common.Authorization = `Bearer ${response.body.accessToken}`
-
-      console.log('ACCESSS TOKEN ', response.body.accessToken)
+      token = response.body.accessToken
 
       setCookie(undefined, 'vet.token', response.body.accessToken, {
         maxAge: maxAgeValue,
@@ -52,13 +49,12 @@ export async function SignIn(
         httpOnly: false,
       })
     })
-    .catch((error) => {
-      throw error
-    })
 
-  const user = await api.get<StaffModel>('/api/staff/v2/me', {
+  const user = await axios.request<StaffModel>({
+    method: 'get',
+    url: '/api/staff/v2/me',
     headers: {
-      Authorization: api.defaults.headers.common.Authorization,
+      Authorization: `Bearer ${token}`,
     },
   })
 

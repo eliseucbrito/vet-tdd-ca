@@ -36,14 +36,10 @@ export default function Patients({ patients }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const axios = new AxiosHttpClient()
-  const { 'vet.token': token } = parseCookies(ctx)
+  const axios = new AxiosHttpClient(ctx)
   const { body: patients } = await axios.request({
     method: 'get',
     url: 'api/patients/v2',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
   })
 
   return {

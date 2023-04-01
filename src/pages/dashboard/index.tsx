@@ -25,7 +25,7 @@ import { useReports } from 'presentation/hooks/useReports'
 import { useServices } from 'presentation/hooks/useServices'
 
 export default function Dashboard() {
-  const axios = new AxiosHttpClient()
+  const axios = new AxiosHttpClient(undefined)
   const { user } = useContext(UserContext)
   const { data: reports } = useReports()
   const { data: lastServices } = useServices()

@@ -1,9 +1,6 @@
 import { useQuery } from 'react-query'
 import { PaymentStatus, ServiceModel } from 'domain/models/ServiceModel'
-import {
-  api,
-  AxiosHttpClient,
-} from 'infra/http/axios-http-client/axios-http-client'
+import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
 import dayjs from 'dayjs'
 import { ReportModel } from 'domain/models/ReportModel'
 
@@ -14,13 +11,13 @@ type DayEarnings = {
 }
 
 export async function GetWeeklyEarnings(): Promise<DayEarnings> {
-  // const axios = new AxiosHttpClient()
-  const { data: servicesData } = await api.request<ServiceModel[]>({
+  const axios = new AxiosHttpClient(undefined)
+  const { body: servicesData } = await axios.request<ServiceModel[]>({
     method: 'get',
     url: 'api/services/v2',
   })
 
-  const { data: reportsData } = await api.request<ReportModel[]>({
+  const { body: reportsData } = await axios.request<ReportModel[]>({
     method: 'get',
     url: 'api/reports/v2',
   })

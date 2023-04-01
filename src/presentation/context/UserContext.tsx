@@ -9,7 +9,6 @@ import { AxiosError } from 'axios'
 import { destroyCookie, parseCookies } from 'nookies'
 import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
 import { StaffModel, StaffReduced } from 'domain/models/StaffModel'
-import { api } from './../../infra/http/axios-http-client/axios-http-client'
 
 export const validationSchema = z.object({
   email: z.string().email({ message: 'Email invalido!' }),
@@ -50,7 +49,7 @@ export function UserContextProvider({ children }: UserContextProps) {
   >()
   console.log(user, loginError)
 
-  const axios = new AxiosHttpClient()
+  const axios = new AxiosHttpClient(undefined)
 
   function handleSetUser(newUser: UserModel) {
     setUser(newUser)
@@ -60,18 +59,18 @@ export function UserContextProvider({ children }: UserContextProps) {
     const { 'vet.token': token } = parseCookies()
 
     if (token) {
-      api
+      axios
         .request<StaffModel>({
           url: '/api/staff/v2/me',
           method: 'get',
         })
         .then((response) => {
           setUser({
-            avatarUrl: response.data.avatarUrl,
-            fullName: response.data.fullName,
-            id: response.data.id,
-            onDuty: response.data.onDuty,
-            role: response.data.role,
+            avatarUrl: response.body.avatarUrl,
+            fullName: response.body.fullName,
+            id: response.body.id,
+            onDuty: response.body.onDuty,
+            role: response.body.role,
           })
         })
         .catch((error) => {
@@ -94,11 +93,11 @@ export function UserContextProvider({ children }: UserContextProps) {
       })
 
       setUser({
-        avatarUrl: response.data.avatarUrl,
-        fullName: response.data.fullName,
-        id: response.data.id,
-        onDuty: response.data.onDuty,
-        role: response.data.role,
+        avatarUrl: response.body.avatarUrl,
+        fullName: response.body.fullName,
+        id: response.body.id,
+        onDuty: response.body.onDuty,
+        role: response.body.role,
       })
     },
     {

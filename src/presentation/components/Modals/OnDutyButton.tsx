@@ -10,13 +10,14 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { queryClient } from 'infra/cache/react-query'
-import { api } from 'infra/http/axios-http-client/axios-http-client'
+import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
 import { UserContext } from 'presentation/context/UserContext'
 import { useContext, useRef } from 'react'
 import { useMutation } from 'react-query'
 
 export function OnDutyButton() {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const axios = new AxiosHttpClient(undefined)
   const toast = useToast()
   const cancelRef = useRef()
   const { user, handleSetUser } = useContext(UserContext)
@@ -38,10 +39,12 @@ export function OnDutyButton() {
 
   const submitOnDutyState = useMutation(
     async (onDuty: boolean) => {
-      const { data } = await api.patch(`/api/staff/v2`, null, {
+      const { body } = await axios.request({
+        method: 'patch',
+        url: '/api/staff/v2',
         params: { 'on-duty': onDuty },
       })
-      return data
+      return body
     },
     {
       onSuccess: (data) => {

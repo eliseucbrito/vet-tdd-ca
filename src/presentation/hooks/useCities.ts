@@ -1,9 +1,11 @@
-import { api } from 'infra/http/axios-http-client/axios-http-client'
+import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
 import { useQuery } from 'react-query'
 import { CityModel } from 'domain/models/CityModel'
 
 export async function GetCities(): Promise<CityModel[]> {
-  const { data: cities } = await api.request<CityModel[]>({
+  const axios = new AxiosHttpClient(undefined)
+
+  const { body: cities } = await axios.request<CityModel[]>({
     method: 'get',
     url: 'api/cities/v2',
   })
