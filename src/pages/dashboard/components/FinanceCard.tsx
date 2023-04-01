@@ -27,7 +27,11 @@ dayjs.locale('pt-br')
 for (let index = 6; index > -1; index--) {
   const dayName = dayjs().subtract(index, 'days').locale('pt').format('dddd')
 
-  lastSevenDaysName.push(dayName)
+  if (index === 0) {
+    lastSevenDaysName.push(dayName + ' (hoje)')
+  } else {
+    lastSevenDaysName.push(dayName)
+  }
 }
 
 export const lineAreaChartOptionsTotalSpent: ApexOptions = {
@@ -131,8 +135,8 @@ export function FinanceCard() {
       />
       <VStack align="start" px={2}>
         <StatsIndicator
-          label="Faturamento semanal"
-          stat={1200}
+          label="Faturamento diario"
+          stat={weeklyEarnings?.incomes[6]}
           newValue={[weeklyEarnings?.incomes[6]]}
           oldValue={[weeklyEarnings?.incomes[5]]}
         />
