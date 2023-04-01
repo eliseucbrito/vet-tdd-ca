@@ -1,6 +1,10 @@
 import { Box, Divider, Flex, Text, TextProps, VStack } from '@chakra-ui/react'
 import { ReactElement, ReactNode } from 'react'
 import { PatientModel } from 'domain/models/PatientModel'
+import { phoneFormatter } from 'presentation/utils/phoneFormatter'
+import { ageFormatter } from 'presentation/utils/ageFormatter'
+import { sexFormatter } from 'presentation/utils/sexFormatter'
+import { kindFormatter } from 'presentation/utils/kindFormatter'
 
 interface CardDetailProps {
   label: string
@@ -34,21 +38,33 @@ export function PatientDetailsCard({ patient }: DetailsCardProps) {
       borderRightRadius={12}
     >
       <VStack w="30%" justify="space-between">
-        <CardDetail label="Entrou em" data={patient.createdAt} />
+        <CardDetail
+          label="Entrou em"
+          data={new Date(patient.createdAt).toLocaleDateString()}
+        />
         <CardDetail label="Dono" data={patient.owner} />
-        <CardDetail label="Contato" data={patient.ownerContact} />
+        <CardDetail
+          label="Contato"
+          data={phoneFormatter(patient.ownerContact)}
+        />
       </VStack>
 
       <VStack w="30%" justify="space-between">
         <CardDetail label="ID" data={patient.id} />
-        <CardDetail label="Tipo" data={patient.kind} />
-        <CardDetail label="Nascimento" data={patient.birthDate} />
+        <CardDetail
+          label="Tipo"
+          data={kindFormatter(patient.kind.toString())}
+        />
+        <CardDetail
+          label="Nascimento"
+          data={new Date(patient.birthDate).toLocaleDateString()}
+        />
       </VStack>
 
       <VStack w="30%" justify="space-between">
-        <CardDetail label="Sexo" data={patient.sex} />
+        <CardDetail label="Sexo" data={sexFormatter(patient.sex)} />
         <CardDetail label="Raça" data={patient.breed} />
-        <CardDetail label="Idade" data="19 anos" />
+        <CardDetail label="Idade" data={ageFormatter(patient.birthDate)} />
       </VStack>
     </Flex>
   )
