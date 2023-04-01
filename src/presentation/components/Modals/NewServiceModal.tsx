@@ -32,6 +32,7 @@ import { ServiceModel } from 'domain/models/ServiceModel'
 import dayjs from 'dayjs'
 import { useCities } from 'presentation/hooks/useCities'
 import { cityFormatter } from './../../utils/cityFormatter'
+import { AxiosError } from 'axios'
 
 const newServiceModalSchema = z.object({
   patientId: z
@@ -80,16 +81,12 @@ export function NewServiceModal() {
     handleSubmit,
     reset,
     watch,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<newServiceModalData>({
     resolver: zodResolver(newServiceModalSchema),
   })
 
-  console.log('NEW SERVICE ERRORS ', errors)
-
   const { data: cities } = useCities()
-
-  console.log(cities)
 
   const axios = new AxiosHttpClient()
 
@@ -121,11 +118,11 @@ export function NewServiceModal() {
           isClosable: true,
         })
       },
-      onError: () => {
+      onError: (error: AxiosError<{ message: string }>) => {
         toast({
           title: 'Serviço não criado',
           description: `Ocorreu um erro no envio do serviço!
-                        Verifique os campos e tente novamente.`,
+                        ${error.response.data.message}.`,
           status: 'error',
           duration: 1500,
           isClosable: true,
@@ -291,7 +288,7 @@ export function NewServiceModal() {
                 _hover={{ background: 'green.800' }}
                 color="white"
                 type="submit"
-                isLoading={isSubmitting}
+                isLoading={createNewService.isLoading}
               >
                 Concluir
               </ChakraButton>
