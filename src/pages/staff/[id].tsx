@@ -5,7 +5,6 @@ import { StaffDetailsCard } from 'presentation/components/Cards/StaffDetailsCard
 import { RolesAndServicesCard } from './components/RolesAndServicesCard'
 import { StaffCard } from './components/StaffCard'
 import { StaffModel } from 'domain/models/StaffModel'
-import { parseCookies } from 'nookies'
 
 interface StaffDetailsProps {
   staff: StaffModel
@@ -26,14 +25,10 @@ export default function StaffDetails({ staff }: StaffDetailsProps) {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { id } = ctx.params
-  const axios = new AxiosHttpClient()
-  const { 'vet.token': token } = parseCookies(ctx)
+  const axios = new AxiosHttpClient(ctx)
   const { body: staff } = await axios.request({
     method: 'get',
-    url: `/api/staff/v2/${id}`,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    url: `/api/staff/v2/${id}/details`,
   })
 
   return {
