@@ -19,16 +19,7 @@ export function OnDutyButton() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = useToast()
   const cancelRef = useRef()
-
   const { user, handleSetUser } = useContext(UserContext)
-
-  // const { data: userDetails } = useQuery<User>(['me'], async () => {
-  //   const { data } = await api.get<User>('/api/staff/v1/me')
-  //   setDutyState(data.onDuty)
-  //   return {
-  //     ...data,
-  //   }
-  // })
 
   const buttonText =
     user?.onDuty === true ? 'Sair do plantão' : 'Entrar no plantão'
