@@ -6,5 +6,7 @@ export function slugToServiceType(slug: string) {
       return 'SURGERY'
     case 'emergencys':
       return 'EMERGENCY'
+    case 'medical-cares':
+      return 'MEDICAL_CARE'
   }
 }

@@ -6,7 +6,7 @@ export function serviceTypeFormatter(type: string) {
       return 'Cirurgia'
     case 'EXAM':
       return 'Exame'
-    case 'MEDICAL_CARE':
-      return 'Atendimento Médico'
+    case 'MEDICAL-CARE':
+      return 'Atendimento'
   }
 }
