@@ -11,6 +11,6 @@ export type UserModel = {
     privileges: {
       id: number
       description: string
-    }
+    }[]
   }
 }

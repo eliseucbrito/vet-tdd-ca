@@ -1,10 +1,12 @@
+import { ServiceModel } from './ServiceModel'
+
 export enum Kinds {
-  DOG,
-  CAT,
-  REPTILE,
-  BIRD,
-  FISH,
-  CATTLE,
+  DOG = 'DOG',
+  CAT = 'CAT',
+  REPTILE = 'REPTILE',
+  BIRD = 'BIRD',
+  FISH = 'FISH',
+  CATTLE = 'CATTLE',
 }
 
 export type PatientModel = {
@@ -18,4 +20,12 @@ export type PatientModel = {
   avatarUrl: string
   kind: Kinds
   sex: 'MALE' | 'FEMALE'
+  services: ServiceModel[]
+}
+
+export type PatientReducedModel = {
+  id: number
+  owner: string
+  name: string
+  kind: Kinds
 }

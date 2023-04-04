@@ -1,4 +1,4 @@
-import { StaffModel, StaffReduced } from './StaffModel'
+import { StaffModel, StaffReducedModel } from './StaffModel'
 
 export enum Roles {
   CEO = 'CEO',
@@ -18,5 +18,5 @@ export type RoleModel = {
   }
   baseSalary: number
   weeklyWorkLoad: number
-  promoter: StaffReduced
+  promoter: StaffReducedModel
 }

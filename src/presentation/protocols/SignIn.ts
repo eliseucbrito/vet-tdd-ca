@@ -1,6 +1,6 @@
 import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
 import { setCookie } from 'nookies'
-import { StaffModel, StaffReduced } from 'domain/models/StaffModel'
+import { StaffModel } from 'domain/models/StaffModel'
 import { HttpResponse } from 'data/protocols/http'
 import { AxiosResponse } from 'axios'
 

@@ -24,7 +24,7 @@ export type StaffModel = {
   servicesList: Array<ServiceModel>
 }
 
-export type StaffReduced = {
+export type StaffReducedModel = {
   id: number
   fullName: string
   role: {

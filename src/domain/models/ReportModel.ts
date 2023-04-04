@@ -1,4 +1,4 @@
-import { StaffReduced } from './StaffModel'
+import { StaffReducedModel } from './StaffModel'
 import { StaffModel } from 'domain/models/StaffModel'
 
 export enum ReportTypes {
@@ -15,6 +15,6 @@ export type ReportModel = {
   type: ReportTypes
   createdAt: string
   approved: boolean
-  staff: StaffModel
+  createdBy: StaffReducedModel
   approver: StaffModel
 }
