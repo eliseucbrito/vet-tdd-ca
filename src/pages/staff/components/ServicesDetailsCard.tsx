@@ -11,6 +11,7 @@ import {
 import dayjs from 'dayjs'
 import { ServiceModel } from 'domain/models/ServiceModel'
 import Link from 'next/link'
+import { CheckBar } from 'presentation/components/Cards/CheckBar'
 import { cityFormatter } from 'presentation/utils/cityFormatter'
 import { nameFormatter } from 'presentation/utils/nameFormatter'
 import { serviceStatusFormatter } from 'presentation/utils/serviceStatusFormatter'
@@ -20,16 +21,21 @@ import { ReactNode } from 'react'
 interface ServiceDetailsBlockProps {
   children: ReactNode
   last?: boolean
+  align?: 'center' | 'end' | 'start'
 }
 
 interface ServicesDetailsCardProps {
   services: ServiceModel[]
 }
 
-function ServiceDetailsBlock({ children, last }: ServiceDetailsBlockProps) {
+function ServiceDetailsBlock({
+  children,
+  last,
+  align = 'start',
+}: ServiceDetailsBlockProps) {
   return (
-    <HStack align="start" justify="space-between" w="max-content">
-      <VStack align="start">{children}</VStack>
+    <HStack align={align} justify="space-between">
+      <VStack m="0 auto">{children}</VStack>
 
       {!last && <Divider orientation="vertical" py={7} />}
     </HStack>
@@ -66,8 +72,8 @@ export function ServicesDetailsCard({ services }: ServicesDetailsCardProps) {
                   },
                 }}
               >
-                <Td px={2} textAlign="center">
-                  <ServiceDetailsBlock>
+                <Td px={2} display="flex" alignItems="center" h="100%">
+                  <ServiceDetailsBlock align="center">
                     <Text>
                       {dayjs(service.serviceDate).format("DD MMMM[']YY")}
                     </Text>
@@ -104,10 +110,8 @@ export function ServicesDetailsCard({ services }: ServicesDetailsCardProps) {
 
                 <Td px={2} textAlign="center">
                   <ServiceDetailsBlock last>
-                    <Text>Médico</Text>
-                    <Text fontWeight={600}>
-                      {nameFormatter(service.medic.fullName)}
-                    </Text>
+                    <Text>Paciente</Text>
+                    <Text fontWeight={600}>{service.patient.name}</Text>
                   </ServiceDetailsBlock>
                 </Td>
               </Tr>
