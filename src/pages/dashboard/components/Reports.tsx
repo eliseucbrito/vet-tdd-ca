@@ -5,12 +5,14 @@ import { ReportModel, ReportTypes } from 'domain/models/ReportModel'
 import Link from 'next/link'
 import { NewReportModal } from 'presentation/components/Modals/NewReportModal'
 import dayjs from 'dayjs'
+import { useReports } from 'presentation/hooks/useReports'
 
 interface ReportsProps {
   reports: ReportModel[]
 }
 
-export function Reports({ reports }: ReportsProps) {
+export function Reports() {
+  const { data: reports } = useReports()
   const lastTenReports = reports?.slice(-10).reverse()
 
   return (
