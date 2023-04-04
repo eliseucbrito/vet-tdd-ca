@@ -72,7 +72,7 @@ export default function Dashboard() {
         <GridItem>
           <VStack>
             <FinanceCard />
-            <Reports reports={reports} />
+            <Reports />
           </VStack>
         </GridItem>
       </Grid>
