@@ -1,13 +1,23 @@
 import { Flex, HStack, Text, VStack } from '@chakra-ui/react'
+import { RoleModel } from 'domain/models/RoleHistoricModel'
+import { ServiceModel } from 'domain/models/ServiceModel'
 import { CheckBar } from 'presentation/components/Cards/CheckBar'
+import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 import { useServices } from 'presentation/hooks/useServices'
 import { useState } from 'react'
 import { RoleHistoricCard } from './RoleHistoricCard'
 import { ServicesDetailsCard } from './ServicesDetailsCard'
 
-export function RolesAndServicesCard() {
+interface RoleAndServicesProps {
+  roleHistoric: RoleModel[]
+  servicesHistoric: ServiceModel[]
+}
+
+export function RolesAndServicesCard({
+  roleHistoric,
+  servicesHistoric,
+}: RoleAndServicesProps) {
   const [displayedData, setDisplayedData] = useState(1)
-  const { data: services } = useServices()
 
   return (
     <VStack align="start" minW="100%" bg="white" p={4} borderRadius={12}>
@@ -35,15 +45,9 @@ export function RolesAndServicesCard() {
       </HStack>
       <VStack bg="gray.300" p={2} w="100%" spacing={0} borderRadius={12}>
         {displayedData === 1 ? (
-          <HStack w="100%" gap={10} justify="space-between">
-            <CheckBar completed />
-            <RoleHistoricCard />
-          </HStack>
+          <RoleHistoricCard roleHistoric={roleHistoric} />
         ) : (
-          <HStack w="100%" gap={10} justify="space-between">
-            <CheckBar completed />
-            <ServicesDetailsCard services={services} />
-          </HStack>
+          <ServicesDetailsCard services={servicesHistoric} />
         )}
       </VStack>
     </VStack>
