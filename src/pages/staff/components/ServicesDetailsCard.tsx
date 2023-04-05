@@ -20,6 +20,7 @@ import { nameFormatter } from 'presentation/utils/nameFormatter'
 import { serviceStatusFormatter } from 'presentation/utils/serviceStatusFormatter'
 import { serviceTypeFormatter } from 'presentation/utils/serviceTypeFormatter'
 import { ReactNode } from 'react'
+require('dayjs/locale/pt-br')
 
 interface ServiceDetailsBlockProps {
   children: ReactNode
@@ -94,7 +95,9 @@ export function ServicesDetailsCard({
                   <Td px={2}>
                     <ServiceDetailsBlock>
                       <Text>
-                        {dayjs(service.serviceDate).format("DD MMMM[']YY")}
+                        {dayjs(service.serviceDate)
+                          .locale('pt-br')
+                          .format("DD MMMM[']YY")}
                       </Text>
                       <Text variant="subtitle-12" lineHeight={0.5}>
                         {serviceStatusFormatter(service.status)}

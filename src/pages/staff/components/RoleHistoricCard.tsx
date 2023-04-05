@@ -23,6 +23,7 @@ import { roleFormatter } from 'presentation/utils/roleFormatter'
 import { ReactNode } from 'react'
 import { FiTrash } from 'react-icons/fi'
 import { FormattedNumber, FormattedTime } from 'react-intl'
+require('dayjs/locale/pt-br')
 
 interface RoleDetailBlockProps {
   children: ReactNode
@@ -94,7 +95,9 @@ export function RoleHistoricCard({ roleHistoric }: RoleHistoricProps) {
                   <Td px={2}>
                     <RoleDetailBlock>
                       <Text fontSize="1.25rem">
-                        {dayjs(role.startedIn).format("DD MMMM[']YY")}{' '}
+                        {dayjs(role.startedIn)
+                          .locale('pt-br')
+                          .format("DD MMMM[']YY")}{' '}
                       </Text>
                     </RoleDetailBlock>
                   </Td>
