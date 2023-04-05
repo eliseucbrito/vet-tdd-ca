@@ -9,10 +9,12 @@ import {
   Text,
   Thead,
   Th,
+  Box,
 } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import { ServiceModel } from 'domain/models/ServiceModel'
 import Link from 'next/link'
+import { CardDetailBlock } from 'presentation/components/Cards/CardDetailBlock'
 import { CheckBar } from 'presentation/components/Cards/CheckBar'
 import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 import { cityFormatter } from 'presentation/utils/cityFormatter'
@@ -22,26 +24,9 @@ import { serviceTypeFormatter } from 'presentation/utils/serviceTypeFormatter'
 import { ReactNode } from 'react'
 require('dayjs/locale/pt-br')
 
-interface ServiceDetailsBlockProps {
-  children: ReactNode
-  last?: boolean
-}
-
 interface ServicesDetailsCardProps {
   services: ServiceModel[]
   patientVersion?: boolean
-}
-
-function ServiceDetailsBlock({ children, last }: ServiceDetailsBlockProps) {
-  return (
-    <VStack
-      align="center"
-      h="100%"
-      borderRight={last ? 'none' : '1px solid #A0A1A3'}
-    >
-      {children}
-    </VStack>
-  )
 }
 
 export function ServicesDetailsCard({
@@ -49,7 +34,7 @@ export function ServicesDetailsCard({
   patientVersion,
 }: ServicesDetailsCardProps) {
   return (
-    <HStack w="100%" gap={10}>
+    <HStack w="100%" h="100%" gap={10}>
       {services?.length >= 1 ? (
         <>
           <VStack h="100%" spacing={0}>
@@ -61,89 +46,92 @@ export function ServicesDetailsCard({
             ))}
           </VStack>
 
-          <Table
-            sx={{
-              borderCollapse: 'separate',
-              borderSpacing: '0 0.5rem',
-            }}
-            scrollBehavior={'auto'}
-          >
-            <Thead display="none" sx={{ th: { textAlign: 'center' } }}>
-              <Th>Data</Th>
-              <Th>ID</Th>
-              <Th>Cidade</Th>
-              <Th>Tipo</Th>
-              {patientVersion ? <Th>Médico</Th> : <Th>Paciente</Th>}
-            </Thead>
-            <Tbody>
-              {services.map((service) => (
-                <Tr
-                  key={service.id}
-                  sx={{
-                    td: {
-                      background: 'white',
-                      whiteSpace: 'nowrap',
-                      '&:first-of-type': {
-                        borderLeftRadius: '12px',
+          <Box w="100%" overflowX="auto">
+            <Table
+              sx={{
+                borderCollapse: 'separate',
+                borderSpacing: '0 0.5rem',
+              }}
+              scrollBehavior={'auto'}
+            >
+              <Thead display="none" sx={{ th: { textAlign: 'center' } }}>
+                <Th>Data</Th>
+                <Th>ID</Th>
+                <Th>Cidade</Th>
+                <Th>Tipo</Th>
+                {patientVersion ? <Th>Médico</Th> : <Th>Paciente</Th>}
+              </Thead>
+              <Tbody>
+                {services.map((service) => (
+                  <Tr
+                    key={service.id}
+                    sx={{
+                      td: {
+                        paddingInline: 0,
+                        background: 'white',
+                        whiteSpace: 'nowrap',
+                        '&:first-of-type': {
+                          borderLeftRadius: '12px',
+                        },
+                        '&:last-of-type': {
+                          borderRightRadius: '12px',
+                        },
                       },
-                      '&:last-of-type': {
-                        borderRightRadius: '12px',
-                      },
-                    },
-                  }}
-                >
-                  <Td px={2}>
-                    <ServiceDetailsBlock>
-                      <Text>
-                        {dayjs(service.serviceDate)
-                          .locale('pt-br')
-                          .format("DD MMMM[']YY")}
-                      </Text>
-                      <Text variant="subtitle-12" lineHeight={0.5}>
-                        {serviceStatusFormatter(service.status)}
-                      </Text>
-                    </ServiceDetailsBlock>
-                  </Td>
+                    }}
+                  >
+                    <Td>
+                      <CardDetailBlock>
+                        <Text>
+                          {dayjs(service.serviceDate)
+                            .locale('pt-br')
+                            .format("DD MMMM[']YY")}
+                        </Text>
+                        <Text variant="subtitle-12" lineHeight={0.5}>
+                          {serviceStatusFormatter(service.status)}
+                        </Text>
+                      </CardDetailBlock>
+                    </Td>
 
-                  <Td px={2}>
-                    <ServiceDetailsBlock>
-                      <Text>ID</Text>
-                      <Text fontWeight={600}>{service.id}</Text>
-                    </ServiceDetailsBlock>
-                  </Td>
+                    <Td>
+                      <CardDetailBlock>
+                        <Text>ID</Text>
+                        <Text fontWeight={600}>{service.id}</Text>
+                      </CardDetailBlock>
+                    </Td>
 
-                  <Td px={2}>
-                    <ServiceDetailsBlock>
-                      <Text>Cidade</Text>
-                      <Text fontWeight={600}>
-                        {cityFormatter(service.city.name)}
-                      </Text>
-                    </ServiceDetailsBlock>
-                  </Td>
+                    <Td>
+                      <CardDetailBlock>
+                        <Text>Cidade</Text>
+                        <Text fontWeight={600}>
+                          {cityFormatter(service.city.name)}
+                        </Text>
+                      </CardDetailBlock>
+                    </Td>
 
-                  <Td px={2}>
-                    <ServiceDetailsBlock>
-                      <Text>Serviço</Text>
-                      <Text fontWeight={600}>
-                        {serviceTypeFormatter(service.type)}
-                      </Text>
-                    </ServiceDetailsBlock>
-                  </Td>
+                    <Td>
+                      <CardDetailBlock>
+                        <Text>Serviço</Text>
+                        <Text fontWeight={600}>
+                          {serviceTypeFormatter(service.type)}
+                        </Text>
+                      </CardDetailBlock>
+                    </Td>
 
-                  <Td px={2}>
-                    <ServiceDetailsBlock last>
-                      <Text>{patientVersion ? 'Médico' : 'Paciente'}</Text>
-                      <Text fontWeight={600}>
-                        {patientVersion
-                          ? nameFormatter(service.medic.fullName)
-                          : service.patient.name}
-                      </Text>
-                    </ServiceDetailsBlock>
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
+                    <Td>
+                      <CardDetailBlock last>
+                        <Text>{patientVersion ? 'Médico' : 'Paciente'}</Text>
+                        <Text fontWeight={600}>
+                          {patientVersion
+                            ? nameFormatter(service.medic.fullName)
+                            : service.patient.name}
+                        </Text>
+                      </CardDetailBlock>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </Box>
         </>
       ) : (
         <ErrorOrEmptyMessage
