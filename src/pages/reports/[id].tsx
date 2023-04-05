@@ -43,7 +43,7 @@ export default function ReportDetails({ id }: ReportDetailsProps) {
     await axios
       .request({
         method: 'patch',
-        url: `/api/reports/v1/${id}`,
+        url: `/api/reports/v2/${id}`,
         params: {
           approved,
         },
