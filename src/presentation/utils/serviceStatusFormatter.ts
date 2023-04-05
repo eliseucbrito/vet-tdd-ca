@@ -22,13 +22,13 @@ export function serviceStatusColor(status: ServiceStatus) {
     case ServiceStatus.CANCELED:
       return 'gray.400'
     case ServiceStatus.COMPLETED:
-      return 'green.600'
+      return 'green.400'
     case ServiceStatus.IN_PROGRESS:
-      return 'yellow.base'
+      return 'yellow.400'
     case ServiceStatus.NOT_INITIALIZED:
-      return 'red'
+      return 'red.400'
     case ServiceStatus.SCHEDULED:
-      return 'blue'
+      return 'blue.400'
     default:
       return 'purple'
   }

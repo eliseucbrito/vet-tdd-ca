@@ -18,9 +18,9 @@ export function paymentStatusColor(status: PaymentStatus) {
     case PaymentStatus.CANCELED:
       return 'gray.400'
     case PaymentStatus.PAID:
-      return 'green.600'
+      return 'green.400'
     case PaymentStatus.WAITING_PAYMENT:
-      return 'yellow.base'
+      return 'yellow.400'
     default:
       return 'purple'
   }
