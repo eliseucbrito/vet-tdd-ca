@@ -2,18 +2,18 @@ import { Flex, Spinner, Text } from '@chakra-ui/react'
 
 interface ErrorOrEmptyMessageProps {
   isError?: boolean
-  IsLoading?: boolean
+  isLoading?: boolean
   isEmpty?: boolean
 }
 
 export function ErrorOrEmptyMessage({
-  IsLoading,
+  isLoading,
   isEmpty,
   isError,
 }: ErrorOrEmptyMessageProps) {
   return (
     <Flex w="100%" justify="center">
-      {IsLoading ? (
+      {isLoading ? (
         <Spinner />
       ) : isError ? (
         <Text>Ocorreu um erro, tente novamente.</Text>
