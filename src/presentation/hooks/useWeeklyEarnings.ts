@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery, UseQueryOptions } from 'react-query'
 import { PaymentStatus, ServiceModel } from 'domain/models/ServiceModel'
 import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
 import dayjs from 'dayjs'
@@ -103,8 +103,9 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
   }
 }
 
-export function useWeeklyEarnings() {
+export function useWeeklyEarnings(options?: UseQueryOptions) {
   return useQuery(['weeklyEarnings'], GetWeeklyEarnings, {
     staleTime: 1000 * 60 * 60,
+    ...options,
   })
 }

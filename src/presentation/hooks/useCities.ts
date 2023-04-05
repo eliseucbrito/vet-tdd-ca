@@ -1,5 +1,5 @@
 import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
-import { useQuery } from 'react-query'
+import { useQuery, UseQueryOptions } from 'react-query'
 import { CityModel } from 'domain/models/CityModel'
 
 export async function GetCities(): Promise<CityModel[]> {
@@ -13,8 +13,9 @@ export async function GetCities(): Promise<CityModel[]> {
   return cities
 }
 
-export function useCities() {
+export function useCities(options?: UseQueryOptions) {
   return useQuery(['cities'], GetCities, {
     staleTime: 1000 * 60 * 60,
+    ...options,
   })
 }

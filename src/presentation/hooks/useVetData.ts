@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery, UseQueryOptions } from 'react-query'
 import { ServiceModel } from 'domain/models/ServiceModel'
 import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
 
@@ -44,8 +44,9 @@ export async function GetVetData(): Promise<VetData> {
   }
 }
 
-export function useVetData() {
+export function useVetData(options?: UseQueryOptions) {
   return useQuery(['VetData'], GetVetData, {
     staleTime: 1000 * 60 * 60,
+    ...options,
   })
 }
