@@ -7,12 +7,13 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import { PatientModel } from 'domain/models/PatientModel'
+import { PatientReducedModel } from 'domain/models/PatientModel'
+import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 import { nameFormatter } from 'presentation/utils/nameFormatter'
 
 interface PatientCardProps {
   rounded?: boolean
-  patient: PatientModel
+  patient: PatientReducedModel
 }
 
 export function PatientCard({ rounded, patient }: PatientCardProps) {
@@ -26,10 +27,10 @@ export function PatientCard({ rounded, patient }: PatientCardProps) {
       borderRightRadius={rounded ? '2xl' : 0}
     >
       {patient === undefined ? (
-        <Spinner />
+        <ErrorOrEmptyMessage isError={true} />
       ) : (
         <>
-          <Avatar size="lg" src={patient.avatarUrl} />
+          <Avatar size="lg" src={'https://github.com/eliseubrito7z.png'} />
           <Text lineHeight={1} whiteSpace="nowrap">
             {patient.name}
           </Text>
@@ -44,7 +45,8 @@ export function PatientCard({ rounded, patient }: PatientCardProps) {
             aria-label="Raça do animal"
             textAlign="center"
           >
-            {patient.breed}
+            {/* {patient.breed} */}
+            ATUALIZAA
           </Tag>
           <HStack>
             <Text fontWeight={600}>ID</Text>
