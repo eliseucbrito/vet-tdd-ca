@@ -2,6 +2,7 @@
 import { VStack, Heading, Divider, Text, Spinner, Flex } from '@chakra-ui/react'
 import { ServiceModel } from 'domain/models/ServiceModel'
 import { GetServerSideProps } from 'next'
+import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 import { useServices } from 'presentation/hooks/useServices'
 import { serviceTypeFormatter } from 'presentation/utils/serviceTypeFormatter'
 import { slugToServiceType } from 'presentation/utils/slugToServiceType'
@@ -22,9 +23,9 @@ export default function ServicePerType({
   console.log(slugFormatted)
   const folderName = serviceTypeFormatter(slugFormatted) + 's'
 
-  const servicesSeparated = services?.filter(
-    (service) => service.type.toString() === slugToServiceType(slug),
-  )
+  const servicesSeparated = services
+    ?.filter((service) => service.type.toString() === slugToServiceType(slug))
+    .reverse()
 
   const IsEmpty = services !== undefined && !(services.length > 0)
 
@@ -51,13 +52,11 @@ export default function ServicePerType({
         {folderName}
       </Heading>
       {!isSuccess || IsEmpty ? (
-        // <ErrorOrLoadingMessage
-        //   isError={isError}
-        //   isEmpty={IsEmpty}
-        //   isLoading={isFetching}
-        //   emptyMessage={`Ainda não existem ${folderName}`}
-        // />
-        <Spinner />
+        <ErrorOrEmptyMessage
+          isError={isError}
+          isEmpty={IsEmpty}
+          isLoading={isFetching}
+        />
       ) : (
         <ServicesList services={servicesSeparated} />
       )}
