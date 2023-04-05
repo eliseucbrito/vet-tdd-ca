@@ -1,6 +1,6 @@
 import { ChakraProvider, Flex } from '@chakra-ui/react'
 import type { AppProps } from 'next/app'
-import { QueryClientProvider } from 'react-query'
+import { Hydrate, QueryClientProvider } from 'react-query'
 import { defaultTheme } from 'presentation/styles/theme/defaultTheme'
 import { queryClient } from 'infra/cache/react-query'
 import { useRouter } from 'next/router'
@@ -19,12 +19,14 @@ export default function App({ Component, pageProps }: AppProps) {
       <UserContextProvider>
         <ChakraProvider theme={defaultTheme}>
           <IntlProvider locale="br">
-            <Flex w="100vw" h="100vh" overflow="auto">
-              {!isLoginPage && <Sidebar />}
-              <Flex w="100%" h="100%" overflow="auto">
-                <Component {...pageProps} />
+            <Hydrate state={pageProps.dehydratedState}>
+              <Flex w="100vw" h="100vh" overflow="auto">
+                {!isLoginPage && <Sidebar />}
+                <Flex w="100%" h="100%" overflow="auto">
+                  <Component {...pageProps} />
+                </Flex>
               </Flex>
-            </Flex>
+            </Hydrate>
           </IntlProvider>
         </ChakraProvider>
       </UserContextProvider>
