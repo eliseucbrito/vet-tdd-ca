@@ -47,6 +47,6 @@ export async function GetVetData(): Promise<VetData> {
 export function useVetData(options?: UseQueryOptions) {
   return useQuery(['VetData'], GetVetData, {
     staleTime: 1000 * 60 * 60,
-    ...options,
+
   })
 }

@@ -18,7 +18,7 @@ export async function GetReportDetails(id: string): Promise<ReportModel> {
 
   const { body: report } = await axios.request<ReportModel>({
     method: 'get',
-    url: `api/reports/v2/${id}}`,
+    url: `api/reports/v2/${id}`,
   })
 
   return report
@@ -27,13 +27,11 @@ export async function GetReportDetails(id: string): Promise<ReportModel> {
 export function useReports(options?: UseQueryOptions) {
   return useQuery(['reports'], GetReports, {
     staleTime: 1000 * 60 * 60,
-    ...options,
   })
 }
 
 export function useReportDetails(id: string, options?: UseQueryOptions) {
   return useQuery(['report', id], () => GetReportDetails(id), {
     staleTime: 1000 * 60 * 60,
-    ...options,
   })
 }

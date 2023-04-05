@@ -106,6 +106,6 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
 export function useWeeklyEarnings(options?: UseQueryOptions) {
   return useQuery(['weeklyEarnings'], GetWeeklyEarnings, {
     staleTime: 1000 * 60 * 60,
-    ...options,
+
   })
 }

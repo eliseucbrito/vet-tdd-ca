@@ -27,13 +27,11 @@ export async function GetServiceDetails(id: string): Promise<ServiceModel> {
 export function useServices(options?: UseQueryOptions) {
   return useQuery(['services'], GetServices, {
     staleTime: 1000 * 60 * 60,
-    ...options,
   })
 }
 
 export function useServiceDetails(id: string, options?: UseQueryOptions) {
   return useQuery(['service', id], () => GetServiceDetails(id), {
     staleTime: 1000 * 60 * 60,
-    ...options,
   })
 }
