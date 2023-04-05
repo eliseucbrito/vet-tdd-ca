@@ -62,7 +62,7 @@ export default function Dashboard() {
       <DataCards />
 
       <Grid templateColumns="65% 30%" mt={4} columnGap="5%">
-        <GridItem w="100%">
+        <GridItem>
           <VStack w="100%" overflow="auto">
             <SearchBar />
             <LastPatients services={lastServices} />
