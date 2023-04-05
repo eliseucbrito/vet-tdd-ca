@@ -1,12 +1,16 @@
 /* eslint-disable no-extra-boolean-cast */
 import { Spinner, Wrap, WrapItem } from '@chakra-ui/react'
-import { PatientModel } from 'domain/models/PatientModel'
+import { PatientModel, PatientReducedModel } from 'domain/models/PatientModel'
 import { PatientCard } from './components/PatientCard'
 import Link from 'next/link'
 import { useQuery } from 'react-query'
 import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
 import { GetServerSideProps } from 'next/types'
 import { parseCookies } from 'nookies'
+
+interface PatientsProps {
+  patients: PatientReducedModel[]
+}
 
 export default function Patients({ patients }) {
   console.log('patients', patients)
