@@ -28,6 +28,7 @@ interface ServiceDetailsBlockProps {
 
 interface ServicesDetailsCardProps {
   services: ServiceModel[]
+  patientVersion?: boolean
 }
 
 function ServiceDetailsBlock({ children, last }: ServiceDetailsBlockProps) {
@@ -42,7 +43,10 @@ function ServiceDetailsBlock({ children, last }: ServiceDetailsBlockProps) {
   )
 }
 
-export function ServicesDetailsCard({ services }: ServicesDetailsCardProps) {
+export function ServicesDetailsCard({
+  services,
+  patientVersion,
+}: ServicesDetailsCardProps) {
   return (
     <HStack w="100%" gap={10}>
       {services?.length >= 1 ? (
@@ -68,7 +72,7 @@ export function ServicesDetailsCard({ services }: ServicesDetailsCardProps) {
               <Th>ID</Th>
               <Th>Cidade</Th>
               <Th>Tipo</Th>
-              <Th>Paciente</Th>
+              {patientVersion ? <Th>Médico</Th> : <Th>Paciente</Th>}
             </Thead>
             <Tbody>
               {services.map((service) => (
@@ -125,8 +129,12 @@ export function ServicesDetailsCard({ services }: ServicesDetailsCardProps) {
 
                   <Td px={2}>
                     <ServiceDetailsBlock last>
-                      <Text>Paciente</Text>
-                      <Text fontWeight={600}>{service.patient.name}</Text>
+                      <Text>{patientVersion ? 'Médico' : 'Paciente'}</Text>
+                      <Text fontWeight={600}>
+                        {patientVersion
+                          ? nameFormatter(service.medic.fullName)
+                          : service.patient.name}
+                      </Text>
                     </ServiceDetailsBlock>
                   </Td>
                 </Tr>

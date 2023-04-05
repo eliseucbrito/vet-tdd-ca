@@ -21,7 +21,7 @@ export function ServicesCard({ services }: ServicesCardProps) {
         </Text>
       </HStack>
       <VStack bg="gray.300" p={2} w="100%" spacing={0} borderRadius={12}>
-        <ServicesDetailsCard services={services} />
+        <ServicesDetailsCard patientVersion services={services} />
       </VStack>
     </VStack>
   )
