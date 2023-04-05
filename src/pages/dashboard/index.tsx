@@ -27,7 +27,6 @@ import { useServices } from 'presentation/hooks/useServices'
 export default function Dashboard() {
   const axios = new AxiosHttpClient(undefined)
   const { user } = useContext(UserContext)
-  const { data: reports } = useReports()
   const { data: lastServices } = useServices()
 
   return (
@@ -62,9 +61,9 @@ export default function Dashboard() {
 
       <DataCards />
 
-      <Grid templateColumns="1fr 30%" mt={4} columnGap="5%">
+      <Grid templateColumns="65% 30%" mt={4} columnGap="5%">
         <GridItem w="100%">
-          <VStack w="100%">
+          <VStack w="100%" overflow="auto">
             <SearchBar />
             <LastPatients services={lastServices} />
           </VStack>
