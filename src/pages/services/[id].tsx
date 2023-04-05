@@ -1,58 +1,31 @@
-import {
-  Flex,
-  Heading,
-  HStack,
-  Text,
-  VStack,
-  Image,
-  Avatar,
-  Divider,
-  Spinner,
-  Editable,
-  EditablePreview,
-  EditableTextarea,
-  Textarea,
-  Icon,
-  Box,
-} from '@chakra-ui/react'
+import { Heading, HStack, Text, VStack, Box } from '@chakra-ui/react'
+import { ServiceModel } from 'domain/models/ServiceModel'
 import { GetServerSideProps } from 'next'
-import {
-  getServices,
-  useServiceDetails,
-  useServices,
-} from '../../hooks/useServices'
-import { EditableCard } from '../../components/ServiceDetails/EditableCard'
-import * as img from '../../assets/assets'
-import { ServiceInformations } from '../../components/ServiceDetails/ServiceInformations'
-import { setupAPIClient } from '../../services/api'
-import { Service } from '../../utils/@types/service'
-import { ErrorOrLoadingMessage } from '../../components/ErrorOrLoadingMessage'
-import { UpdateServiceStatusModal } from '../../components/Modals/UpdateServiceStatusModal'
+import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
+import { UserContext } from 'presentation/context/UserContext'
+import { useServiceDetails } from 'presentation/hooks/useServices'
 import { useContext } from 'react'
-import { VetContext } from '../../context/VetContext'
 
 interface ServiceDetailsProps {
   id: string
-  initialData: Service
+  initialData: ServiceModel
 }
 
 export default function ServiceDetails({
   id,
   initialData,
 }: ServiceDetailsProps) {
-  const { user } = useContext(VetContext)
-  const title = initialData.type.toString() === 'EXAM' ? 'Exame de' : 'Razão'
+  const { user } = useContext(UserContext)
 
   const {
     data: service,
     isError,
     isFetching,
     isSuccess,
-  } = useServiceDetails(id, {
-    initialData,
-  })
+  } = useServiceDetails(id)
 
-  const userCanEdit = user?.id === service?.staff.id
+  const title = service?.type.toString() === 'EXAM' ? 'Exame de' : 'Razão'
+  const userCanEdit = user?.id === service?.medic.id
 
   return (
     <VStack
@@ -68,21 +41,17 @@ export default function ServiceDetails({
       }}
     >
       {!isSuccess ? (
-        <ErrorOrLoadingMessage
-          isError={isError}
-          isLoading={isFetching}
-          errorMessage="Serviço não encontrado"
-        />
+        <ErrorOrEmptyMessage isError={isError} isLoading={isFetching} />
       ) : (
         <>
           <HStack w="100%" align="center" justify="space-between" pb={4}>
             <Heading fontWeight={600} fontSize="1.5rem" color="green.900">
               Atendimento N° {id}
             </Heading>
-            {userCanEdit && <UpdateServiceStatusModal service={service} />}
+            {/* {userCanEdit && <UpdateServiceStatusModal service={service} />} */}
           </HStack>
 
-          <ServiceInformations service={service} />
+          {/* <ServiceInformations service={service} /> */}
 
           <VStack w="100%">
             <Text
@@ -98,7 +67,7 @@ export default function ServiceDetails({
               <Text fontSize="1.125rem" fontWeight={600}>
                 {title}
               </Text>
-              <Text>{service.title}</Text>
+              <Text>{service.reason}</Text>
             </VStack>
 
             <VStack w="100%" align="start" borderBottom="1px">
@@ -116,12 +85,12 @@ export default function ServiceDetails({
               h="100%"
               minH="20rem"
             >
-              <EditableCard
-                staffId={service.staff.id}
+              {/* <EditableCard
+                staffId={service.medic.id}
                 id={service.id}
                 title="Resultado do Exame"
                 value={service.description}
-              />
+              /> */}
             </Box>
           </VStack>
         </>
@@ -132,17 +101,17 @@ export default function ServiceDetails({
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const id = String(ctx.params!.id)
-  const api = setupAPIClient(ctx)
-  const response = await api.get(`/api/services/v1/${id}`)
+  // const api = setupAPIClient(ctx)
+  // const response = await api.get(`/api/services/v1/${id}`)
 
-  const initialData: Service = {
-    ...response.data,
-  }
+  // const initialData: Service = {
+  //   ...response.data,
+  // }
 
   return {
     props: {
       id,
-      initialData,
+      // initialData,
     },
   }
 }
