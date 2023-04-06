@@ -33,7 +33,7 @@ export default function ServiceDetails({
 
   return (
     <Container
-      flexDir='column'
+      flexDir="column"
       overflow="auto"
       sx={{
         '&::-webkit-scrollbar': {

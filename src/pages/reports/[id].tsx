@@ -77,9 +77,7 @@ export default function ReportDetails({ id }: ReportDetailsProps) {
   }
 
   return (
-    <Container
-      flexDir='column'
-    >
+    <Container flexDir="column">
       <Heading
         fontWeight={600}
         fontSize="1.5rem"

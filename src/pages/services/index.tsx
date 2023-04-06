@@ -24,7 +24,7 @@ export default function Services() {
   ]
 
   return (
-    <Container flexDir='column'>
+    <Container flexDir="column">
       <Heading
         fontWeight={600}
         fontSize="1.5rem"

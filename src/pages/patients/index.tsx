@@ -30,7 +30,10 @@ export default function Patients({ patients }: PatientsProps) {
           </WrapItem>
         ))
       ) : (
-        <ErrorOrEmptyMessage isError={patients === undefined} isEmpty={patients?.length === 0} />
+        <ErrorOrEmptyMessage
+          isError={patients === undefined}
+          isEmpty={patients?.length === 0}
+        />
       )}
     </Wrap>
   )

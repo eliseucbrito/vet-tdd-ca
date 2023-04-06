@@ -23,10 +23,8 @@ export default function Reports() {
   const isEmpty = data !== undefined && !(data.length > 0)
 
   return (
-    <Container
-      flexDir='column'
-    >
-     <Heading
+    <Container flexDir="column">
+      <Heading
         fontWeight={600}
         fontSize="1.5rem"
         color="green.900"

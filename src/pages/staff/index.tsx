@@ -13,8 +13,6 @@ interface StaffProps {
 }
 
 export default function Staff({ staffs }: StaffProps) {
-
-
   return (
     <Wrap
       flexWrap="wrap"
@@ -33,7 +31,10 @@ export default function Staff({ staffs }: StaffProps) {
           </WrapItem>
         ))
       ) : (
-        <ErrorOrEmptyMessage isEmpty={staffs?.length === 0} isError={staffs === undefined} />
+        <ErrorOrEmptyMessage
+          isEmpty={staffs?.length === 0}
+          isError={staffs === undefined}
+        />
       )}
     </Wrap>
   )
