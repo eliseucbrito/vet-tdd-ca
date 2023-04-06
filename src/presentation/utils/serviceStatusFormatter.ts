@@ -1,6 +1,6 @@
 import { ServiceStatus } from 'domain/models/ServiceModel'
 
-export function serviceStatusFormatter(status: ServiceStatus) {
+export function serviceStatusFormatter(status: ServiceStatus | string) {
   switch (status) {
     case ServiceStatus.CANCELED:
       return 'Cancelado'
