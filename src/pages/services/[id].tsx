@@ -5,6 +5,7 @@ import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage
 import { UserContext } from 'presentation/context/UserContext'
 import { useServiceDetails } from 'presentation/hooks/useServices'
 import { useContext } from 'react'
+import { UpdatePaymentStatusModal } from './components/UpdatePaymentStatusModal'
 import { UpdateServiceStatusModal } from './components/UpdateServiceStatusModal'
 
 interface ServiceDetailsProps {
@@ -49,7 +50,10 @@ export default function ServiceDetails({
             <Heading fontWeight={600} fontSize="1.5rem" color="green.900">
               Atendimento N° {id}
             </Heading>
-            {userCanEdit && <UpdateServiceStatusModal service={service} />}
+            <HStack>
+              {userCanEdit && <UpdateServiceStatusModal service={service} />}
+              <UpdatePaymentStatusModal service={service} />
+            </HStack>
           </HStack>
 
           {/* <ServiceInformations service={service} /> */}

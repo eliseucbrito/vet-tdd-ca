@@ -28,7 +28,9 @@ function CardDetail({ label, data }: CardDetailProps) {
       <Text fontWeight={600} color="gray.500" whiteSpace="nowrap">
         {label}
       </Text>
-      <Text fontSize="sm">{data}</Text>
+      <Text fontSize="sm" whiteSpace="nowrap">
+        {data}
+      </Text>
       <Divider />
     </Box>
   )
@@ -70,8 +72,9 @@ export function StaffDetailsCard({ staff }: DetailsCardProps) {
     <Flex
       bg="white"
       h="100%"
-      w="100%"
+      minW="max-content"
       justify="space-between"
+      gap={8}
       p={4}
       borderRightRadius={12}
     >
@@ -79,7 +82,7 @@ export function StaffDetailsCard({ staff }: DetailsCardProps) {
         <Spinner />
       ) : (
         <>
-          <VStack w="30%" justify="space-between">
+          <VStack justify="space-between">
             <CardDetail
               label="Entrou em"
               data={new Date(staff.createdAt).toLocaleDateString()}
@@ -88,7 +91,7 @@ export function StaffDetailsCard({ staff }: DetailsCardProps) {
             <CardDetail label="ID" data={staff.id} />
           </VStack>
 
-          <VStack w="30%" justify="space-between">
+          <VStack justify="space-between">
             <CardDetail label="Horas Faltantes" data="(87) 9.9999-9999" />
             <CardDetail
               label="Carga Horária"
@@ -102,7 +105,7 @@ export function StaffDetailsCard({ staff }: DetailsCardProps) {
             />
           </VStack>
 
-          <VStack w="30%" justify="space-between">
+          <VStack justify="space-between">
             <CardDetail label="Salário Base" data={salaryIntl} />
             <CardDetail label="Bônus Anual" data={bonusIntl} />
             <CardDetail
