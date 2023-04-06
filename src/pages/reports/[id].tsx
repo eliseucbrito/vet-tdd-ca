@@ -50,7 +50,7 @@ export default function ReportDetails({ id }: ReportDetailsProps) {
       })
       .then((response) => {
         const approvedState = approved ? 'Aprovado' : 'Negado'
-        queryClient.invalidateQueries({ queryKey: ['report', id] })
+        queryClient.invalidateQueries(['report', { id }])
         queryClient.invalidateQueries({ queryKey: ['reports'] })
         toast({
           title: 'Relatório atualizado',

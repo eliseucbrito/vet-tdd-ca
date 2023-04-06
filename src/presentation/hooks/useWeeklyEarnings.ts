@@ -22,8 +22,6 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
     url: 'api/reports/v2',
   })
 
-
-
   const weeklyEarnings = [
     { weekDay: 0, incomes: 0, outcomes: 0, earnings: 0 },
     { weekDay: 1, incomes: 0, outcomes: 0, earnings: 0 },
@@ -36,7 +34,6 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
 
   servicesData.forEach((service) => {
     if (service.paymentStatus.toString() !== 'PAID') {
-
       return
     }
 
@@ -52,7 +49,6 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
     if (serviceDate >= oneWeekAgo && serviceDate <= today) {
       const daysAgo = serviceDate.diff(oneWeekAgo, 'days')
 
-
       weeklyEarnings[daysAgo].incomes += service.price / 1000
       weeklyEarnings[daysAgo].earnings += service.price / 1000
     }
@@ -60,7 +56,6 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
 
   reportsData.forEach((report) => {
     if (!report.approved) {
-
       return
     }
 
@@ -76,13 +71,10 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
     if (reportDate >= oneWeekAgo && reportDate <= today) {
       const daysAgo = reportDate.diff(oneWeekAgo, 'days')
 
-
       weeklyEarnings[daysAgo].outcomes += report.paymentValue / 1000
       weeklyEarnings[daysAgo].earnings -= report.paymentValue / 1000
     }
   })
-
-
 
   const DaysIncomes = [0, 0, 0, 0, 0, 0, 0]
   const DaysOutcomes = [0, 0, 0, 0, 0, 0, 0]
@@ -94,8 +86,6 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
     DaysEarnings[index] = day.earnings
   })
 
-
-
   return {
     earnings: DaysEarnings,
     incomes: DaysIncomes,
@@ -106,6 +96,5 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
 export function useWeeklyEarnings(options?: UseQueryOptions) {
   return useQuery(['weeklyEarnings'], GetWeeklyEarnings, {
     staleTime: 1000 * 60 * 60,
-
   })
 }

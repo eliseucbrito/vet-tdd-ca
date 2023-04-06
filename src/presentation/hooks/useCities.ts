@@ -16,6 +16,5 @@ export async function GetCities(): Promise<CityModel[]> {
 export function useCities(options?: UseQueryOptions) {
   return useQuery(['cities'], GetCities, {
     staleTime: 1000 * 60 * 60,
-
   })
 }

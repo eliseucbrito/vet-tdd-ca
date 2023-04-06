@@ -25,15 +25,13 @@ export async function GetStaff(): Promise<StaffModel[]> {
 }
 
 export function useStaffDetails(id?: string, options?: UseQueryOptions) {
-  return useQuery(['staff', id], () => GetStaffDetails(id), {
+  return useQuery(['staff', { id }], () => GetStaffDetails(id), {
     staleTime: 1000 * 60 * 60,
-
   })
 }
 
 export function useStaff(options?: UseQueryOptions) {
   return useQuery(['staff'], GetStaff, {
     staleTime: 1000 * 60 * 60,
-
   })
 }

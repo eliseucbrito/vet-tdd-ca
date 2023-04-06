@@ -53,7 +53,7 @@ export function UpdatePaymentStatusModal({
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['service', service.id] })
+        queryClient.invalidateQueries(['service', { id: service.id }])
         queryClient.invalidateQueries({ queryKey: ['services'] })
         reset()
         toast({

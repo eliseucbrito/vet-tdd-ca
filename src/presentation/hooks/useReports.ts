@@ -31,7 +31,7 @@ export function useReports(options?: UseQueryOptions) {
 }
 
 export function useReportDetails(id: string, options?: UseQueryOptions) {
-  return useQuery(['report', id], () => GetReportDetails(id), {
+  return useQuery(['report', { id }], () => GetReportDetails(id), {
     staleTime: 1000 * 60 * 60,
   })
 }

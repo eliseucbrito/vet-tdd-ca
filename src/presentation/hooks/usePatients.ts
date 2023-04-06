@@ -28,13 +28,11 @@ export async function GetPatientDetails(id: string): Promise<PatientModel[]> {
 export function usePatients(options?: UseQueryOptions) {
   return useQuery(['patients'], GetPatients, {
     staleTime: 1000 * 60 * 60,
-
   })
 }
 
 export function usePatientDetails(id: string, options?: UseQueryOptions) {
-  return useQuery(['patient', id], () => GetPatientDetails(id), {
+  return useQuery(['patient', { id }], () => GetPatientDetails(id), {
     staleTime: 1000 * 60 * 60,
-
   })
 }
