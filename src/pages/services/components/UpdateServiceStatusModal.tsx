@@ -82,7 +82,7 @@ export function UpdateServiceStatusModal({
     },
   )
 
-  async function handleUpdateStaffRole({ status }: { status: string }) {
+  async function handleUpdateServiceStatus({ status }: { status: string }) {
     await updateServiceStatus.mutateAsync(status)
   }
 
@@ -112,7 +112,7 @@ export function UpdateServiceStatusModal({
         <ModalContent>
           <ModalHeader>Atualizar status do atendimento</ModalHeader>
           <ModalCloseButton />
-          <form onSubmit={handleSubmit(handleUpdateStaffRole)}>
+          <form onSubmit={handleSubmit(handleUpdateServiceStatus)}>
             <ModalBody>
               <Select
                 placeholder="Status"
