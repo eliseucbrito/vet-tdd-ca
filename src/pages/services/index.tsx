@@ -1,5 +1,6 @@
 import { Heading, HStack, Icon, Text, VStack } from '@chakra-ui/react'
 import Link from 'next/link'
+import { Container } from 'presentation/components/Defaults/Container'
 import { FiFolder } from 'react-icons/fi'
 
 export default function Services() {
@@ -23,12 +24,7 @@ export default function Services() {
   ]
 
   return (
-    <VStack
-      align="start"
-      w="100%"
-      h="100vh"
-      p={['0 1rem', '1rem 1.5rem 1rem 3rem']}
-    >
+    <Container flexDir='column'>
       <Heading
         fontWeight={600}
         fontSize="1.5rem"
@@ -55,6 +51,6 @@ export default function Services() {
           </VStack>
         ))}
       </HStack>
-    </VStack>
+    </Container>
   )
 }

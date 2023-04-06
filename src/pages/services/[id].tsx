@@ -9,6 +9,7 @@ import { ServiceInformations } from './components/ServiceInformations'
 import { UpdatePaymentStatusModal } from './components/UpdatePaymentStatusModal'
 import { UpdateServiceStatusModal } from './components/UpdateServiceStatusModal'
 import { EditableCard } from './components/EditableCard'
+import { Container } from 'presentation/components/Defaults/Container'
 
 interface ServiceDetailsProps {
   id: string
@@ -31,11 +32,8 @@ export default function ServiceDetails({
   const userCanEdit = user?.id === service?.medic.id
 
   return (
-    <VStack
-      align="start"
-      w="100%"
-      h="100vh"
-      p={['0 1rem', '1rem 1.5rem 1rem 3rem']}
+    <Container
+      flexDir='column'
       overflow="auto"
       sx={{
         '&::-webkit-scrollbar': {
@@ -94,7 +92,7 @@ export default function ServiceDetails({
           </VStack>
         </>
       )}
-    </VStack>
+    </Container>
   )
 }
 

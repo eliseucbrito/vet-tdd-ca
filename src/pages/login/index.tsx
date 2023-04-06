@@ -29,6 +29,7 @@ import {
   validationData,
   validationSchema,
 } from 'presentation/context/UserContext'
+import { Container } from 'presentation/components/Defaults/Container'
 
 export default function Login() {
   const [show, setShow] = useState<boolean>(false)
@@ -49,7 +50,7 @@ export default function Login() {
   }
 
   return (
-    <Flex w="100%">
+    <Container>
       <VStack w="100%" h="100%" align="center" justify="center" p="1rem">
         <Heading w="100%" justifyContent="flex-start">
           <ChakraImage alt="" src={Logo} />
@@ -150,6 +151,7 @@ export default function Login() {
           </Box>
         </Flex>
       </VStack>
+
       <Show above="md">
         <VStack w="100%" bg="green.600" justify="center">
           <VStack>
@@ -177,6 +179,6 @@ export default function Login() {
           />
         </VStack>
       </Show>
-    </Flex>
+    </Container>
   )
 }

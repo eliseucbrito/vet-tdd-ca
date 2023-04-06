@@ -2,6 +2,7 @@
 import { VStack, Heading, Divider, Text, Spinner, Flex } from '@chakra-ui/react'
 import { ServiceModel } from 'domain/models/ServiceModel'
 import { GetServerSideProps } from 'next'
+import { Container } from 'presentation/components/Defaults/Container'
 import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 import { useServices } from 'presentation/hooks/useServices'
 import { serviceTypeFormatter } from 'presentation/utils/serviceTypeFormatter'
@@ -30,11 +31,8 @@ export default function ServicePerType({
   const IsEmpty = services !== undefined && !(services.length > 0)
 
   return (
-    <VStack
-      h="100vh"
-      w="100%"
-      align="start"
-      p={['0 1rem', '1rem 1.5rem 1rem 3rem']}
+    <Container
+      flexDir='column'
       overflow="auto"
       sx={{
         '&::-webkit-scrollbar': {
@@ -60,7 +58,7 @@ export default function ServicePerType({
       ) : (
         <ServicesList services={servicesSeparated} />
       )}
-    </VStack>
+    </Container>
   )
 }
 

@@ -6,6 +6,7 @@ import { GetServerSideProps } from 'next/types'
 import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
 import { StaffModel } from 'domain/models/StaffModel'
 import { parseCookies } from 'nookies'
+import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 
 interface StaffProps {
   staffs: StaffModel[]
@@ -23,9 +24,7 @@ export default function Staff({ staffs }: StaffProps) {
       h="100%"
       spacing={8}
     >
-      {staffs === undefined ? (
-        <Spinner />
-      ) : (
+      {staffs.length >= 1 ? (
         staffs.map((staff) => (
           <WrapItem key={staff.id}>
             <Link href={`/staff/${staff.id}`}>
@@ -33,20 +32,18 @@ export default function Staff({ staffs }: StaffProps) {
             </Link>
           </WrapItem>
         ))
+      ) : (
+        <ErrorOrEmptyMessage isEmpty={staffs?.length === 0} isError={staffs === undefined} />
       )}
     </Wrap>
   )
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const axios = new AxiosHttpClient()
-  const { 'vet.token': token } = parseCookies(ctx)
+  const axios = new AxiosHttpClient(ctx)
   const { body: staffs } = await axios.request({
     method: 'get',
     url: 'api/staff/v2',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
   })
 
   return {

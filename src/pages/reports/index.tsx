@@ -11,6 +11,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import dayjs from 'dayjs'
+import { Container } from 'presentation/components/Defaults/Container'
 import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 import { useReports } from 'presentation/hooks/useReports'
 import { nameFormatter } from 'presentation/utils/nameFormatter'
@@ -22,17 +23,15 @@ export default function Reports() {
   const isEmpty = data !== undefined && !(data.length > 0)
 
   return (
-    <VStack
-      align="start"
-      w="100%"
-      h="100vh"
-      p={['0 1rem', '1rem 1.5rem 1rem 3rem']}
+    <Container
+      flexDir='column'
     >
-      <Heading
+     <Heading
         fontWeight={600}
         fontSize="1.5rem"
         color="green.900"
         lineHeight={1}
+        pb={4}
       >
         Relatórios
       </Heading>
@@ -82,6 +81,6 @@ export default function Reports() {
           </Tbody>
         </Table>
       )}
-    </VStack>
+    </Container>
   )
 }

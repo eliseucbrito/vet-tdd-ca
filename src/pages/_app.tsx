@@ -13,7 +13,6 @@ export default function App({ Component, pageProps }: AppProps) {
   const isLoginPage = router.asPath === '/login'
   const isValidPage = router.asPath === ('/dashboard' || '/staff')
 
-
   return (
     <QueryClientProvider client={queryClient}>
       <UserContextProvider>

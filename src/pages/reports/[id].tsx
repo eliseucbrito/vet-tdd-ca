@@ -13,6 +13,7 @@ import { queryClient } from 'infra/cache/react-query'
 import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
 import { GetServerSideProps } from 'next'
 import Link from 'next/link'
+import { Container } from 'presentation/components/Defaults/Container'
 import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 import { UserContext } from 'presentation/context/UserContext'
 import { useReportDetails } from 'presentation/hooks/useReports'
@@ -76,11 +77,8 @@ export default function ReportDetails({ id }: ReportDetailsProps) {
   }
 
   return (
-    <VStack
-      align="start"
-      w="100%"
-      h="100vh"
-      p={['0 1rem', '1rem 1.5rem 1rem 3rem']}
+    <Container
+      flexDir='column'
     >
       <Heading
         fontWeight={600}
@@ -270,7 +268,7 @@ export default function ReportDetails({ id }: ReportDetailsProps) {
           </VStack>
         </HStack>
       )}
-    </VStack>
+    </Container>
   )
 }
 

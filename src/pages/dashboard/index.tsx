@@ -7,30 +7,25 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import { Sidebar } from 'presentation/components/Sidebar/Sidebar'
 import { DataCards } from './components/DataCards'
 import { FinanceCard } from './components/FinanceCard'
 import { LastPatients } from './components/LastPatients'
 import { SearchBar } from './components/SearchBar'
 import { Reports } from './components/Reports'
-import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
-import { GetServerSideProps } from 'next'
-import { parseCookies } from 'nookies'
 import { NewPatientModal } from 'presentation/components/Modals/NewPatientModal'
 import { NewServiceModal } from 'presentation/components/Modals/NewServiceModal'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { UserContext } from 'presentation/context/UserContext'
 import { OnDutyButton } from 'presentation/components/Modals/OnDutyButton'
-import { useReports } from 'presentation/hooks/useReports'
 import { useServices } from 'presentation/hooks/useServices'
+import { Container } from 'presentation/components/Defaults/Container'
 
 export default function Dashboard() {
-  const axios = new AxiosHttpClient(undefined)
   const { user } = useContext(UserContext)
   const { data: lastServices } = useServices()
 
   return (
-    <Box p="1rem 1rem 1rem 1.5rem" w="100%" h="100%">
+    <Container flexDir='column'>
       <Flex mb={5} w="100%" justify="space-between" align="center">
         <VStack align="start">
           <Text
@@ -75,7 +70,7 @@ export default function Dashboard() {
           </VStack>
         </GridItem>
       </Grid>
-    </Box>
+    </Container>
   )
 }
 

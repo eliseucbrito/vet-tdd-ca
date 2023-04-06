@@ -1,20 +1,17 @@
 /* eslint-disable no-extra-boolean-cast */
-import { Spinner, Wrap, WrapItem } from '@chakra-ui/react'
-import { PatientModel, PatientReducedModel } from 'domain/models/PatientModel'
+import { Wrap, WrapItem } from '@chakra-ui/react'
+import { PatientReducedModel } from 'domain/models/PatientModel'
 import { PatientCard } from './components/PatientCard'
 import Link from 'next/link'
-import { useQuery } from 'react-query'
 import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
 import { GetServerSideProps } from 'next/types'
-import { parseCookies } from 'nookies'
+import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 
 interface PatientsProps {
   patients: PatientReducedModel[]
 }
 
-export default function Patients({ patients }) {
-
-
+export default function Patients({ patients }: PatientsProps) {
   return (
     <Wrap
       flexWrap="wrap"
@@ -24,9 +21,7 @@ export default function Patients({ patients }) {
       h="100%"
       spacing={6}
     >
-      {patients === undefined ? (
-        <Spinner />
-      ) : (
+      {patients.length >= 1 ? (
         patients.map((patient) => (
           <WrapItem key={patient.id}>
             <Link href={`/patients/${patient.id}`}>
@@ -34,6 +29,8 @@ export default function Patients({ patients }) {
             </Link>
           </WrapItem>
         ))
+      ) : (
+        <ErrorOrEmptyMessage isError={patients === undefined} isEmpty={patients?.length === 0} />
       )}
     </Wrap>
   )
