@@ -5,8 +5,10 @@ import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage
 import { UserContext } from 'presentation/context/UserContext'
 import { useServiceDetails } from 'presentation/hooks/useServices'
 import { useContext } from 'react'
+import { ServiceInformations } from './components/ServiceInformations'
 import { UpdatePaymentStatusModal } from './components/UpdatePaymentStatusModal'
 import { UpdateServiceStatusModal } from './components/UpdateServiceStatusModal'
+import { EditableCard } from './components/EditableCard'
 
 interface ServiceDetailsProps {
   id: string
@@ -26,7 +28,6 @@ export default function ServiceDetails({
     isSuccess,
   } = useServiceDetails(id)
 
-  const title = service?.type.toString() === 'EXAM' ? 'Exame de' : 'Razão'
   const userCanEdit = user?.id === service?.medic.id
 
   return (
@@ -56,7 +57,7 @@ export default function ServiceDetails({
             </HStack>
           </HStack>
 
-          {/* <ServiceInformations service={service} /> */}
+          <ServiceInformations service={service} />
 
           <VStack w="100%">
             <Text
@@ -70,16 +71,9 @@ export default function ServiceDetails({
             </Text>
             <VStack w="100%" align="start" borderBottom="1px">
               <Text fontSize="1.125rem" fontWeight={600}>
-                {title}
+                Razão
               </Text>
               <Text>{service.reason}</Text>
-            </VStack>
-
-            <VStack w="100%" align="start" borderBottom="1px">
-              <Text fontSize="1.125rem" fontWeight={600}>
-                Descrição
-              </Text>
-              <Text>{service.description}</Text>
             </VStack>
 
             <Box
@@ -90,12 +84,12 @@ export default function ServiceDetails({
               h="100%"
               minH="20rem"
             >
-              {/* <EditableCard
-                staffId={service.medic.id}
-                id={service.id}
+              <EditableCard
+                whoCanEdit={service.medic.id}
+                id={id}
                 title="Resultado do Exame"
                 value={service.description}
-              /> */}
+              />
             </Box>
           </VStack>
         </>
