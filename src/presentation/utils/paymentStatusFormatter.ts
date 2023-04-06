@@ -1,6 +1,6 @@
 import { PaymentStatus } from 'domain/models/ServiceModel'
 
-export function paymentStatusFormatter(status: PaymentStatus) {
+export function paymentStatusFormatter(status: PaymentStatus | string) {
   switch (status) {
     case PaymentStatus.CANCELED:
       return 'Cancelado'
