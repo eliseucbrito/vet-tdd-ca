@@ -33,7 +33,7 @@ export class AxiosHttpClient implements HttpClient {
     this.api.interceptors.response.use(
       (response) => {
         const cookies = parseCookies()
-        console.log('COOKIES IN RESPONSE', cookies)
+
         return response
       },
       (error: AxiosError<{ message: string }>) => {
@@ -63,7 +63,7 @@ export class AxiosHttpClient implements HttpClient {
                     path: '/',
                   })
 
-                  console.log('NEW ACCESS TOKEN ', accessToken)
+
 
                   this.api.defaults.headers.Authorization = `Bearer ${accessToken}`
                   console.log(
@@ -138,7 +138,7 @@ export class AxiosHttpClient implements HttpClient {
         Authorization: '',
       },
     })
-    console.log('NOVO TOKEN NO AUTHENTICATION ', axiosResponse.data.accessToken)
+
 
     this.api.defaults.headers.common.Authorization = `Bearer ${axiosResponse.data.accessToken}`
 
@@ -177,7 +177,7 @@ export class AxiosHttpClient implements HttpClient {
 // api.interceptors.response.use(
 //   (response) => {
 //     const cookies = parseCookies()
-//     console.log('COOKIES IN RESPONSE', cookies)
+//
 //     return response
 //   },
 //   (error: AxiosError<{ message: string }>) => {
@@ -187,7 +187,7 @@ export class AxiosHttpClient implements HttpClient {
 //         const axiosApi = new AxiosHttpClient(undefined)
 //         const originalConfig = error.config!
 
-//         console.log('ERRO DE TOKEN EXPIRED ')
+//
 
 //         if (!isRefreshing) {
 //           isRefreshing = true

@@ -20,7 +20,7 @@ export default function ServicePerType({
   const { data: services, isFetching, isError, isSuccess } = useServices()
 
   const slugFormatted = slug.substring(0, slug.length - 1).toUpperCase()
-  console.log(slugFormatted)
+
   const folderName = serviceTypeFormatter(slugFormatted) + 's'
 
   const servicesSeparated = services

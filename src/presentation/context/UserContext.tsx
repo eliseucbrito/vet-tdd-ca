@@ -47,7 +47,7 @@ export function UserContextProvider({ children }: UserContextProps) {
       }>
     | undefined
   >()
-  console.log(user, loginError)
+
 
   const axios = new AxiosHttpClient(undefined)
 
@@ -74,7 +74,7 @@ export function UserContextProvider({ children }: UserContextProps) {
           })
         })
         .catch((error) => {
-          console.log('GET /ME ERROR')
+
 
           return {
             statusCode: error.statusCode,
@@ -106,7 +106,7 @@ export function UserContextProvider({ children }: UserContextProps) {
         Router.push('/dashboard')
       },
       onError: (error: AxiosError<{ message: string }>) => {
-        console.log('USER SIGNIN MUTATION ERROR', error)
+
         setLoginError({
           statusCode: error.response.status,
           body: { message: error.response.data.message },

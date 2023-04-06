@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const isLoginPage = router.asPath === '/login'
   const isValidPage = router.asPath === ('/dashboard' || '/staff')
-  console.log(isLoginPage, router.asPath, isValidPage)
+
 
   return (
     <QueryClientProvider client={queryClient}>

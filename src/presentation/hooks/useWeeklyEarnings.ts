@@ -22,7 +22,7 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
     url: 'api/reports/v2',
   })
 
-  console.log('SERVICES DATA', servicesData)
+
 
   const weeklyEarnings = [
     { weekDay: 0, incomes: 0, outcomes: 0, earnings: 0 },
@@ -36,7 +36,7 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
 
   servicesData.forEach((service) => {
     if (service.paymentStatus.toString() !== 'PAID') {
-      console.log('RETURNING ' + service.id, service.paymentStatus)
+
       return
     }
 
@@ -51,7 +51,7 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
 
     if (serviceDate >= oneWeekAgo && serviceDate <= today) {
       const daysAgo = serviceDate.diff(oneWeekAgo, 'days')
-      console.log('ADDING ', service.id, daysAgo)
+
 
       weeklyEarnings[daysAgo].incomes += service.price / 1000
       weeklyEarnings[daysAgo].earnings += service.price / 1000
@@ -60,7 +60,7 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
 
   reportsData.forEach((report) => {
     if (!report.approved) {
-      console.log('RETURNING ' + report.id)
+
       return
     }
 
@@ -75,14 +75,14 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
 
     if (reportDate >= oneWeekAgo && reportDate <= today) {
       const daysAgo = reportDate.diff(oneWeekAgo, 'days')
-      console.log('ADDING ', report.id, daysAgo)
+
 
       weeklyEarnings[daysAgo].outcomes += report.paymentValue / 1000
       weeklyEarnings[daysAgo].earnings -= report.paymentValue / 1000
     }
   })
 
-  console.log('WEEKLY EARNINGS ', weeklyEarnings)
+
 
   const DaysIncomes = [0, 0, 0, 0, 0, 0, 0]
   const DaysOutcomes = [0, 0, 0, 0, 0, 0, 0]
@@ -94,7 +94,7 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
     DaysEarnings[index] = day.earnings
   })
 
-  console.log('RETORNANDO ', DaysEarnings, DaysIncomes, DaysOutcomes)
+
 
   return {
     earnings: DaysEarnings,

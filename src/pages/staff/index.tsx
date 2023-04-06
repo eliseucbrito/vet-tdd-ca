@@ -12,7 +12,7 @@ interface StaffProps {
 }
 
 export default function Staff({ staffs }: StaffProps) {
-  console.log(staffs)
+
 
   return (
     <Wrap

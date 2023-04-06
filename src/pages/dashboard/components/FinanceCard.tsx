@@ -99,7 +99,7 @@ export const lineAreaChartOptionsTotalSpent: ApexOptions = {
 
 export function FinanceCard() {
   const { data: weeklyEarnings } = useWeeklyEarnings()
-  console.log('EARNINGS SEMANANIS', weeklyEarnings?.incomes)
+
 
   const seriesIncomes = [
     {

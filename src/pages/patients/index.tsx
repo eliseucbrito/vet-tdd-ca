@@ -13,7 +13,7 @@ interface PatientsProps {
 }
 
 export default function Patients({ patients }) {
-  console.log('patients', patients)
+
 
   return (
     <Wrap
