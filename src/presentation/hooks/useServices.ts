@@ -31,7 +31,7 @@ export function useServices(options?: UseQueryOptions) {
 }
 
 export function useServiceDetails(id: string, options?: UseQueryOptions) {
-  return useQuery(['service', id], () => GetServiceDetails(id), {
+  return useQuery(['service', { id }], () => GetServiceDetails(id), {
     staleTime: 1000 * 60 * 60,
   })
 }
