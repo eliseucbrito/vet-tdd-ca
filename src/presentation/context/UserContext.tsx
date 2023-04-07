@@ -48,7 +48,6 @@ export function UserContextProvider({ children }: UserContextProps) {
     | undefined
   >()
 
-
   const axios = new AxiosHttpClient(undefined)
 
   function handleSetUser(newUser: UserModel) {
@@ -74,8 +73,6 @@ export function UserContextProvider({ children }: UserContextProps) {
           })
         })
         .catch((error) => {
-
-
           return {
             statusCode: error.statusCode,
             body: error,
@@ -106,7 +103,6 @@ export function UserContextProvider({ children }: UserContextProps) {
         Router.push('/dashboard')
       },
       onError: (error: AxiosError<{ message: string }>) => {
-
         setLoginError({
           statusCode: error.response.status,
           body: { message: error.response.data.message },

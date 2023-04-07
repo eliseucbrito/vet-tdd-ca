@@ -41,11 +41,6 @@ export class AxiosHttpClient implements HttpClient {
           if (error.response.data.message === 'token.expired') {
             const originalConfig = error.config!
 
-            console.log(
-              'ERRO DE TOKEN EXPIRED ',
-              this.cookies['vet.refreshToken'],
-            )
-
             if (!isRefreshing) {
               isRefreshing = true
 
@@ -63,13 +58,7 @@ export class AxiosHttpClient implements HttpClient {
                     path: '/',
                   })
 
-
-
                   this.api.defaults.headers.Authorization = `Bearer ${accessToken}`
-                  console.log(
-                    'ACCESS TOKEN SETTED ',
-                    this.api.defaults.headers.Authorization,
-                  )
                   failedRequestsQueue.forEach((request) =>
                     request.onSuccess(accessToken),
                   )
@@ -139,13 +128,7 @@ export class AxiosHttpClient implements HttpClient {
       },
     })
 
-
     this.api.defaults.headers.common.Authorization = `Bearer ${axiosResponse.data.accessToken}`
-
-    console.log(
-      'TOKEN SETADO NO AUTHENTICATION ',
-      this.api.defaults.headers.common.Authorization,
-    )
 
     return {
       statusCode: axiosResponse.status,

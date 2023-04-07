@@ -39,8 +39,6 @@ function ServiceInformationBlock({
 }
 
 export function ServiceInformations({ service }: ServiceInformationsProps) {
-  console.log('SERVICE RECEIVED ', service)
-
   return (
     <VStack
       w="100%"
