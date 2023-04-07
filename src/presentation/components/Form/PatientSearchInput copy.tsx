@@ -22,58 +22,69 @@ interface SearchInputProps {
   clearValue?: boolean
 }
 
-export const StaffSearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
+export const PatientSearchInput = forwardRef<
+  HTMLInputElement,
+  SearchInputProps
+>(
   (
     { isError, isOpen, name, onBlur, onChange, clearValue }: SearchInputProps,
     ref,
   ) => {
-    const [staffSelected, setStaffSelected] = useState('')
-    const { searchForAStaffForService, staffsFounded } =
-      useContext(StaffContext)
-    console.log('STAFF SELECTED NAME ', staffSelected)
+    const [patientSelected, setPatientSelected] = useState('')
+    const [searchingFor, setSearchingFor] = useState('')
+    const { patientsFounded, searchForPatient } = useContext(StaffContext)
+    console.log('PATIENT SELECTED NAME ', patientSelected)
 
     function handleSearchForStaff(search: string) {
       console.log('SEARCH: ', search)
-      searchForAStaffForService(search)
+      setSearchingFor(search)
+      searchForPatient(search)
     }
 
     useEffect(() => {
-      if (clearValue) setStaffSelected('')
+      if (clearValue) setPatientSelected('')
     }, [clearValue])
 
     return (
       <Popover
         autoFocus={false}
-        isOpen={staffsFounded.length > 0 && isOpen}
+        isOpen={patientsFounded.length > 0 && isOpen}
         closeOnBlur={true}
         onClose={() => handleSearchForStaff('')}
       >
         <PopoverTrigger>
           <Input
             w="100%"
-            placeholder="Médico"
+            placeholder="Paciente"
             isInvalid={isError}
             marginBottom={2}
-            value={staffSelected}
+            value={patientSelected}
             onChange={(e) => {
               handleSearchForStaff(e.target.value)
-              setStaffSelected(e.target.value)
+              setPatientSelected(e.target.value)
             }}
           />
         </PopoverTrigger>
         <PopoverContent bg="gray.400">
           <PopoverBody>
-            {staffsFounded.map((staff) => (
+            {patientsFounded.map((patient) => (
               <Button
-                key={staff.id}
-                onClick={(e) => setStaffSelected(staff.fullName)}
-                value={staff.id}
+                key={patient.id}
+                onClick={(e) => {
+                  setPatientSelected(patient.name)
+                  if (patient.name === searchingFor) {
+                    // Se o paciente selecionado for igual ao paciente pesquisado,
+                    // feche o Popover
+                    handleSearchForStaff('')
+                  }
+                }}
+                value={patient.id}
                 name={name}
                 ref={ref}
                 onChange={onChange}
                 onBlur={onBlur}
               >
-                {staff.fullName}
+                {patient.name}
               </Button>
             ))}
           </PopoverBody>

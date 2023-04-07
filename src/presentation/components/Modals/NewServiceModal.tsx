@@ -33,6 +33,8 @@ import dayjs from 'dayjs'
 import { useCities } from 'presentation/hooks/useCities'
 import { cityFormatter } from './../../utils/cityFormatter'
 import { AxiosError } from 'axios'
+import { StaffSearchInput } from '../Form/StaffSearchInput'
+import { PatientSearchInput } from '../Form/PatientSearchInput copy'
 
 const newServiceModalSchema = z.object({
   patientId: z
@@ -75,6 +77,8 @@ type newServiceModalData = z.infer<typeof newServiceModalSchema>
 
 export function NewServiceModal() {
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const axios = new AxiosHttpClient(undefined)
   const toast = useToast()
   const {
     register,
@@ -87,8 +91,6 @@ export function NewServiceModal() {
   })
 
   const { data: cities } = useCities()
-
-  const axios = new AxiosHttpClient()
 
   const createNewService = useMutation(
     async (service: newServiceModalData) => {
@@ -130,6 +132,7 @@ export function NewServiceModal() {
       },
     },
   )
+
   async function handleCreateNewService(service: newServiceModalData) {
     await createNewService.mutateAsync(service)
   }
@@ -167,20 +170,20 @@ export function NewServiceModal() {
                 <Avatar />
                 <Grid w="100%" gridTemplateColumns={'35% 1fr'} columnGap={6}>
                   <GridItem w="100%">
-                    <Input
-                      w="100%"
-                      placeholder="ID do paciente"
-                      isInvalid={!!errors.patientId}
-                      marginBottom={2}
+                    <PatientSearchInput
+                      isOpen={isOpen}
+                      isError={!!errors.patientId}
+                      clearValue={createNewService.isSuccess}
                       {...register('patientId')}
                     />
-                    <Input
-                      w="100%"
-                      placeholder="ID do veterinário"
-                      isInvalid={!!errors.medicId}
-                      marginBottom={2}
+
+                    <StaffSearchInput
+                      isOpen={isOpen}
+                      isError={!!errors.medicId}
+                      clearValue={createNewService.isSuccess}
                       {...register('medicId')}
                     />
+
                     <InputGroup>
                       <InputLeftElement
                         pointerEvents="none"
