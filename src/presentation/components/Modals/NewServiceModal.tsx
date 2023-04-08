@@ -34,7 +34,7 @@ import { useCities } from 'presentation/hooks/useCities'
 import { cityFormatter } from './../../utils/cityFormatter'
 import { AxiosError } from 'axios'
 import { StaffSearchInput } from '../Form/StaffSearchInput'
-import { PatientSearchInput } from '../Form/PatientSearchInput copy'
+import { PatientSearchInput } from '../Form/PatientSearchInput'
 
 const newServiceModalSchema = z.object({
   patientId: z

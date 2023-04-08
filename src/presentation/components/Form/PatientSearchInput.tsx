@@ -7,10 +7,13 @@ import {
   PopoverContent,
   PopoverBody,
   Button,
+  PopoverHeader,
+  PopoverArrow,
 } from '@chakra-ui/react'
-import { StaffContext } from 'presentation/context/StaffContext'
+import { SearchContext } from 'presentation/context/SearchContext'
 import { forwardRef, useContext, useEffect, useState } from 'react'
 import { ChangeHandler } from 'react-hook-form'
+import { SearchResultButton } from './SearchResultButton'
 
 interface SearchInputProps {
   isOpen: boolean
@@ -32,23 +35,31 @@ export const PatientSearchInput = forwardRef<
   ) => {
     const [patientSelected, setPatientSelected] = useState('')
     const [searchingFor, setSearchingFor] = useState('')
-    const { patientsFounded, searchForPatient } = useContext(StaffContext)
-    console.log('PATIENT SELECTED NAME ', patientSelected)
+    const [selectOne, setSelectOne] = useState(false)
+    const { patientsFounded, searchForPatient } = useContext(SearchContext)
 
     function handleSearchForStaff(search: string) {
-      console.log('SEARCH: ', search)
       setSearchingFor(search)
       searchForPatient(search)
     }
 
     useEffect(() => {
       if (clearValue) setPatientSelected('')
+      setSelectOne(false)
+      setSearchingFor('')
     }, [clearValue])
+
+    const hasOneSelected = selectOne && patientSelected !== ''
 
     return (
       <Popover
         autoFocus={false}
-        isOpen={patientsFounded.length > 0 && isOpen}
+        isOpen={
+          patientsFounded.length > 0 &&
+          isOpen &&
+          !hasOneSelected &&
+          searchingFor !== ''
+        }
         closeOnBlur={true}
         onClose={() => handleSearchForStaff('')}
       >
@@ -62,21 +73,23 @@ export const PatientSearchInput = forwardRef<
             onChange={(e) => {
               handleSearchForStaff(e.target.value)
               setPatientSelected(e.target.value)
+
+              if (e.target.value !== patientSelected) {
+                setSelectOne(false)
+              }
             }}
           />
         </PopoverTrigger>
-        <PopoverContent bg="gray.400">
-          <PopoverBody>
+        <PopoverContent bg="white">
+          <PopoverHeader>Pacientes Encontrados</PopoverHeader>
+          <PopoverArrow bg="white" />
+          <PopoverBody display="flex" flexDir="column">
             {patientsFounded.map((patient) => (
-              <Button
+              <SearchResultButton
                 key={patient.id}
                 onClick={(e) => {
                   setPatientSelected(patient.name)
-                  if (patient.name === searchingFor) {
-                    // Se o paciente selecionado for igual ao paciente pesquisado,
-                    // feche o Popover
-                    handleSearchForStaff('')
-                  }
+                  setSelectOne(true)
                 }}
                 value={patient.id}
                 name={name}
@@ -85,7 +98,7 @@ export const PatientSearchInput = forwardRef<
                 onBlur={onBlur}
               >
                 {patient.name}
-              </Button>
+              </SearchResultButton>
             ))}
           </PopoverBody>
         </PopoverContent>

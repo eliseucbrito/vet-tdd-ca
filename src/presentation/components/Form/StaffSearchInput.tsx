@@ -7,10 +7,13 @@ import {
   PopoverContent,
   PopoverBody,
   Button,
+  PopoverArrow,
+  PopoverHeader,
 } from '@chakra-ui/react'
-import { StaffContext } from 'presentation/context/StaffContext'
+import { SearchContext } from 'presentation/context/SearchContext'
 import { forwardRef, useContext, useEffect, useState } from 'react'
 import { ChangeHandler } from 'react-hook-form'
+import { SearchResultButton } from './SearchResultButton'
 
 interface SearchInputProps {
   isOpen: boolean
@@ -28,23 +31,33 @@ export const StaffSearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     ref,
   ) => {
     const [staffSelected, setStaffSelected] = useState('')
+    const [searchingFor, setSearchingFor] = useState('')
+    const [selectOne, setSelectOne] = useState(false)
     const { searchForAStaffForService, staffsFounded } =
-      useContext(StaffContext)
-    console.log('STAFF SELECTED NAME ', staffSelected)
+      useContext(SearchContext)
 
     function handleSearchForStaff(search: string) {
-      console.log('SEARCH: ', search)
       searchForAStaffForService(search)
+      setSearchingFor(search)
     }
 
     useEffect(() => {
       if (clearValue) setStaffSelected('')
+      setSelectOne(false)
+      setSearchingFor('')
     }, [clearValue])
+
+    const hasOneSelected = selectOne && staffSelected !== ''
 
     return (
       <Popover
         autoFocus={false}
-        isOpen={staffsFounded.length > 0 && isOpen}
+        isOpen={
+          staffsFounded.length > 0 &&
+          isOpen &&
+          !hasOneSelected &&
+          searchingFor !== ''
+        }
         closeOnBlur={true}
         onClose={() => handleSearchForStaff('')}
       >
@@ -58,15 +71,25 @@ export const StaffSearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             onChange={(e) => {
               handleSearchForStaff(e.target.value)
               setStaffSelected(e.target.value)
+
+              if (e.target.value !== staffSelected) {
+                setSelectOne(false)
+              }
             }}
           />
         </PopoverTrigger>
-        <PopoverContent bg="gray.400">
-          <PopoverBody>
+
+        <PopoverContent bg="white">
+          <PopoverHeader>Médicos Disponíveis</PopoverHeader>
+          <PopoverArrow bg="white" />
+          <PopoverBody display="flex" flexDir="column" gap={1}>
             {staffsFounded.map((staff) => (
-              <Button
+              <SearchResultButton
                 key={staff.id}
-                onClick={(e) => setStaffSelected(staff.fullName)}
+                onClick={(e) => {
+                  setStaffSelected(staff.fullName)
+                  setSelectOne(true)
+                }}
                 value={staff.id}
                 name={name}
                 ref={ref}
@@ -74,7 +97,7 @@ export const StaffSearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
                 onBlur={onBlur}
               >
                 {staff.fullName}
-              </Button>
+              </SearchResultButton>
             ))}
           </PopoverBody>
         </PopoverContent>

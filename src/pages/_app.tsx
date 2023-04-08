@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import { Sidebar } from 'presentation/components/Sidebar/Sidebar'
 import { UserContextProvider } from 'presentation/context/UserContext'
 import IntlProvider from 'react-intl/src/components/provider'
-import { StaffContextProvider } from 'presentation/context/StaffContext'
+import { SearchContextProvider } from 'presentation/context/SearchContext'
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <UserContextProvider>
-        <StaffContextProvider>
+        <SearchContextProvider>
           <ChakraProvider theme={defaultTheme}>
             <IntlProvider locale="br">
               <Hydrate state={pageProps.dehydratedState}>
@@ -30,7 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
               </Hydrate>
             </IntlProvider>
           </ChakraProvider>
-        </StaffContextProvider>
+        </SearchContextProvider>
       </UserContextProvider>
     </QueryClientProvider>
   )

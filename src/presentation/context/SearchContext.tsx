@@ -4,20 +4,20 @@ import { StaffReducedModel } from 'domain/models/StaffModel'
 import { usePatients } from 'presentation/hooks/usePatients'
 import { PatientReducedModel } from 'domain/models/PatientModel'
 
-type StaffContextData = {
+type SearchContextData = {
   searchForAStaffForService(name: string): void
   staffsFounded: StaffReducedModel[]
   searchForPatient(name: string): void
   patientsFounded: PatientReducedModel[]
 }
 
-export const StaffContext = createContext({} as StaffContextData)
+export const SearchContext = createContext({} as SearchContextData)
 
-interface StaffContextProps {
+interface SearchContextProps {
   children: ReactNode
 }
 
-export function StaffContextProvider({ children }: StaffContextProps) {
+export function SearchContextProvider({ children }: SearchContextProps) {
   const [staffsFounded, setStaffsFounded] = useState<StaffReducedModel[]>([])
   const [patientsFounded, setPatientsFounded] = useState<PatientReducedModel[]>(
     [],
@@ -61,7 +61,7 @@ export function StaffContextProvider({ children }: StaffContextProps) {
   console.log('FOUNDED PATIENTS CONTEXT ', patientsFounded)
 
   return (
-    <StaffContext.Provider
+    <SearchContext.Provider
       value={{
         searchForAStaffForService,
         staffsFounded,
@@ -70,6 +70,6 @@ export function StaffContextProvider({ children }: StaffContextProps) {
       }}
     >
       {children}
-    </StaffContext.Provider>
+    </SearchContext.Provider>
   )
 }
