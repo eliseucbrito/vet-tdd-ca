@@ -28,12 +28,13 @@ export const StaffSearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     ref,
   ) => {
     const [staffSelected, setStaffSelected] = useState('')
-    const { searchForAStaff, staffsFounded } = useContext(StaffContext)
+    const { searchForAStaffForService, staffsFounded } =
+      useContext(StaffContext)
     console.log('STAFF SELECTED NAME ', staffSelected)
 
     function handleSearchForStaff(search: string) {
       console.log('SEARCH: ', search)
-      searchForAStaff(search)
+      searchForAStaffForService(search)
     }
 
     useEffect(() => {

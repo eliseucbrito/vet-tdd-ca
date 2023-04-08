@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions } from 'react-query'
 import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
-import { StaffModel } from 'domain/models/StaffModel'
+import { StaffModel, StaffReducedModel } from 'domain/models/StaffModel'
 
 export async function GetStaffDetails(id?: string): Promise<StaffModel> {
   const axios = new AxiosHttpClient(undefined)
@@ -13,10 +13,10 @@ export async function GetStaffDetails(id?: string): Promise<StaffModel> {
   return staff
 }
 
-export async function GetStaff(): Promise<StaffModel[]> {
+export async function GetStaff(): Promise<StaffReducedModel[]> {
   const axios = new AxiosHttpClient(undefined)
 
-  const { body: staff } = await axios.request<StaffModel[]>({
+  const { body: staff } = await axios.request<StaffReducedModel[]>({
     method: 'get',
     url: 'api/staff/v2',
   })
