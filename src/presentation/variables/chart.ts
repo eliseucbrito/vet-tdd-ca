@@ -10,7 +10,7 @@ export const barChartDataDailyTraffic = [
   },
 ]
 
-export const barChartOptionsDailyTraffic: ApexGeneric = {
+export const barChartOptions: ApexGeneric = {
   chart: {
     toolbar: {
       show: false,
