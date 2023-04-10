@@ -45,8 +45,7 @@ export function PatientCard({ rounded, patient }: PatientCardProps) {
             aria-label="Raça do animal"
             textAlign="center"
           >
-            {/* {patient.breed} */}
-            ATUALIZAA
+            {patient.breed}
           </Tag>
           <HStack>
             <Text fontWeight={600}>ID</Text>
