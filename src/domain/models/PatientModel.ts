@@ -28,4 +28,8 @@ export type PatientReducedModel = {
   owner: string
   name: string
   kind: Kinds
+  ownerContact: string
+  breed: string
+  birthDate: string
+  sex: 'MALE' | 'FEMALE'
 }
