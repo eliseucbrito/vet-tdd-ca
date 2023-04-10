@@ -128,8 +128,6 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
     DaysEarnings[index] = day.earnings
   })
 
-  console.log('DAILY INCOMES ', dailyIncomes)
-
   return {
     earnings: DaysEarnings,
     incomes: DaysIncomes,
