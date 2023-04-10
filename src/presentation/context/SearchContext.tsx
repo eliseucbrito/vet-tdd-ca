@@ -9,6 +9,8 @@ type SearchContextData = {
   staffsFounded: StaffReducedModel[]
   searchForPatient(name: string): void
   patientsFounded: PatientReducedModel[]
+  searchForBreed(name: string): void
+  breedsFounded: string[]
 }
 
 export const SearchContext = createContext({} as SearchContextData)
@@ -19,9 +21,11 @@ interface SearchContextProps {
 
 export function SearchContextProvider({ children }: SearchContextProps) {
   const [staffsFounded, setStaffsFounded] = useState<StaffReducedModel[]>([])
+  const [breedsFounded, setBreedsFounded] = useState<string[]>([])
   const [patientsFounded, setPatientsFounded] = useState<PatientReducedModel[]>(
     [],
   )
+
   const { data: allStaff } = useStaff()
   const { data: allPatients } = usePatients()
 
@@ -32,7 +36,6 @@ export function SearchContextProvider({ children }: SearchContextProps) {
   )
 
   function searchForAStaffForService(name: string) {
-    console.log('SEARCH: ', name.toLowerCase())
     const founded = staffWhoCanDoServices.filter((staff) =>
       staff.fullName.toLowerCase().includes(name.toLowerCase()),
     )
@@ -45,7 +48,6 @@ export function SearchContextProvider({ children }: SearchContextProps) {
   }
 
   function searchForPatient(name: string) {
-    console.log('SEARCH: ', name.toLowerCase())
     const founded = allPatients?.filter((patient) =>
       patient.name.toLowerCase().includes(name.toLowerCase()),
     )
@@ -57,8 +59,25 @@ export function SearchContextProvider({ children }: SearchContextProps) {
     }
   }
 
-  console.log('FOUNDED STAFF CONTEXT ', staffsFounded)
-  console.log('FOUNDED PATIENTS CONTEXT ', patientsFounded)
+  const breeds = []
+
+  allPatients?.forEach((patient) => {
+    if (!breeds.includes(patient.breed.toUpperCase())) {
+      breeds.push(patient.breed.toUpperCase())
+    }
+  })
+
+  function searchForBreed(name: string) {
+    const founded = breeds?.filter((breed) =>
+      breed.includes(name.toUpperCase()),
+    )
+
+    if (name === '' || name === undefined) {
+      setBreedsFounded([])
+    } else {
+      setBreedsFounded(founded)
+    }
+  }
 
   return (
     <SearchContext.Provider
@@ -67,6 +86,8 @@ export function SearchContextProvider({ children }: SearchContextProps) {
         staffsFounded,
         patientsFounded,
         searchForPatient,
+        breedsFounded,
+        searchForBreed,
       }}
     >
       {children}

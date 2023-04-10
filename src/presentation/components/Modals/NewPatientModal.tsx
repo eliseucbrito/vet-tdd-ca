@@ -25,6 +25,7 @@ import { queryClient } from 'infra/cache/react-query'
 import { AxiosHttpClient } from './../../../infra/http/axios-http-client/axios-http-client'
 import Link from 'next/link'
 import { PatientModel } from 'domain/models/PatientModel'
+import { BreedSearchInput } from '../Form/BreedSearchInput'
 
 const newPatientModalSchema = z.object({
   name: z
@@ -150,10 +151,11 @@ export function NewPatientModal() {
                     <option value="DOG">Cachorro</option>
                     <option value="PARROT">Papagaio</option>
                   </Select>
-                  <Input
-                    isInvalid={!!errors.breed}
-                    placeholder="Raça"
-                    type="text"
+
+                  <BreedSearchInput
+                    isError={!!errors.breed}
+                    isOpen={isOpen}
+                    clearValue={createNewPatient.isSuccess}
                     {...register('breed')}
                   />
                 </HStack>
