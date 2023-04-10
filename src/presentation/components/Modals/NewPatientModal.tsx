@@ -59,7 +59,7 @@ export function NewPatientModal() {
     resolver: zodResolver(newPatientModalSchema),
   })
 
-  const axios = new AxiosHttpClient()
+  const axios = new AxiosHttpClient(undefined)
 
   const createNewPatient = useMutation(
     async (patient: newPatientModalData) => {
@@ -75,6 +75,7 @@ export function NewPatientModal() {
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries({ queryKey: ['VetData'] })
+        queryClient.invalidateQueries(['patients'])
         reset()
         toast({
           title: 'Paciente criado',
