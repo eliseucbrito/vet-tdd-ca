@@ -35,7 +35,7 @@ export const BreedSearchInput = forwardRef<HTMLInputElement, BreedSearchProps>(
     const [selectOne, setSelectOne] = useState(false)
     const { searchForBreed, breedsFounded } = useContext(SearchContext)
 
-    function handleSearchForStaff(search: string) {
+    function handleSearchForBreed(search: string) {
       searchForBreed(search)
       setSearchingFor(search)
     }
@@ -58,18 +58,18 @@ export const BreedSearchInput = forwardRef<HTMLInputElement, BreedSearchProps>(
           searchingFor !== ''
         }
         closeOnBlur={true}
-        onClose={() => handleSearchForStaff('')}
+        onClose={() => handleSearchForBreed('')}
       >
         <PopoverTrigger>
           <Input
             w="100%"
-            placeholder="Médico"
+            placeholder="Raça"
             isInvalid={isError}
             marginBottom={2}
             value={breedSelected}
             onChange={(e) => {
               onChange(e)
-              handleSearchForStaff(e.target.value)
+              handleSearchForBreed(e.target.value)
               setBreedSelected(e.target.value)
 
               if (e.target.value !== breedSelected) {
@@ -83,7 +83,7 @@ export const BreedSearchInput = forwardRef<HTMLInputElement, BreedSearchProps>(
         </PopoverTrigger>
 
         <PopoverContent bg="white">
-          <PopoverHeader>Médicos Disponíveis</PopoverHeader>
+          <PopoverHeader>Raças encontradas</PopoverHeader>
           <PopoverArrow bg="white" />
           <PopoverBody display="flex" flexDir="column" gap={1}>
             {breedsFounded.map((breed) => (
