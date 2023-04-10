@@ -17,10 +17,6 @@ export function BarChart() {
   const { data: cities } = useCities()
   const { data: services } = useServices()
 
-  console.log(services)
-
-  console.log('CITIES ', cities)
-
   const barChartOptions: ApexGeneric = {
     chart: {
       toolbar: {
