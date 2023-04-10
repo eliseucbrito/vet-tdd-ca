@@ -70,14 +70,7 @@ export function PieChartDailyIncomes() {
   }
 
   return (
-    <Flex
-      flexDir="row"
-      bg="white"
-      w="max-content"
-      h="max-content"
-      borderRadius={12}
-      p="1rem"
-    >
+    <Flex bg="white" w="max-content" h="max-content" borderRadius={12} p="1rem">
       {dailyIncomes !== undefined && (
         <>
           <VStack align="start">
