@@ -145,6 +145,45 @@ export const pieChartOptions: ApexGeneric = {
   },
 }
 
+export const pieChartDailyIncomesOptions: ApexGeneric = {
+  labels: ['Exames', 'Atendimentos Médico', 'Cirurgias', 'Emergências'],
+  colors: ['#4318FF', '#18C29C', '#FF7F27', '#D32F2F'],
+  chart: {
+    width: '50px',
+  },
+  states: {
+    hover: {
+      filter: {
+        type: 'none',
+      },
+    },
+  },
+  legend: {
+    show: false,
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  hover: { mode: null },
+  plotOptions: {
+    donut: {
+      expandOnClick: false,
+      donut: {
+        labels: {
+          show: false,
+        },
+      },
+    },
+  },
+  fill: {
+    colors: ['#4318FF', '#18C29C', '#FF7F27', '#D32F2F'],
+  },
+  tooltip: {
+    enabled: true,
+    theme: 'dark',
+  },
+}
+
 export const pieChartData = [63, 25, 12]
 
 // Total Spent Default

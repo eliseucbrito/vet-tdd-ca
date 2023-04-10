@@ -1,13 +1,25 @@
 import { useQuery, UseQueryOptions } from 'react-query'
-import { PaymentStatus, ServiceModel } from 'domain/models/ServiceModel'
+import {
+  PaymentStatus,
+  ServiceModel,
+  ServiceType,
+} from 'domain/models/ServiceModel'
 import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
 import dayjs from 'dayjs'
 import { ReportModel } from 'domain/models/ReportModel'
+
+type DailyIncomes = {
+  exams: number
+  medicalCare: number
+  surgerys: number
+  emergencys: number
+}
 
 type DayEarnings = {
   incomes: number[]
   outcomes: number[]
   earnings: number[]
+  dailyIncomes: DailyIncomes
 }
 
 export async function GetWeeklyEarnings(): Promise<DayEarnings> {
@@ -32,6 +44,13 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
     { weekDay: 6, incomes: 0, outcomes: 0, earnings: 0 },
   ]
 
+  const dailyIncomes: DailyIncomes = {
+    exams: 0,
+    medicalCare: 0,
+    surgerys: 0,
+    emergencys: 0,
+  }
+
   servicesData.forEach((service) => {
     if (service.paymentStatus.toString() !== 'PAID') {
       return
@@ -45,6 +64,29 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
       .set('seconds', 0)
       .set('milliseconds', 0)
     const today = dayjs(new Date())
+    const isToday =
+      serviceDate.format('DD/MM/YYYY') === today.format('DD/MM/YYYY')
+
+    if (isToday) {
+      switch (service.type) {
+        case 'EXAM': {
+          dailyIncomes.exams += service.price
+          break
+        }
+        case 'MEDICAL_CARE': {
+          dailyIncomes.medicalCare += service.price
+          break
+        }
+        case 'SURGERY': {
+          dailyIncomes.surgerys += service.price
+          break
+        }
+        case 'EMERGENCY': {
+          dailyIncomes.emergencys += service.price
+          break
+        }
+      }
+    }
 
     if (serviceDate >= oneWeekAgo && serviceDate <= today) {
       const daysAgo = serviceDate.diff(oneWeekAgo, 'days')
@@ -86,10 +128,13 @@ export async function GetWeeklyEarnings(): Promise<DayEarnings> {
     DaysEarnings[index] = day.earnings
   })
 
+  console.log('DAILY INCOMES ', dailyIncomes)
+
   return {
     earnings: DaysEarnings,
     incomes: DaysIncomes,
     outcomes: DaysOutcomes,
+    dailyIncomes,
   }
 }
 
