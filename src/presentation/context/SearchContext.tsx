@@ -3,6 +3,8 @@ import { createContext, ReactNode, useState } from 'react'
 import { StaffReducedModel } from 'domain/models/StaffModel'
 import { usePatients } from 'presentation/hooks/usePatients'
 import { PatientReducedModel } from 'domain/models/PatientModel'
+import { useServices } from 'presentation/hooks/useServices'
+import { ServiceModel } from 'domain/models/ServiceModel'
 
 type SearchContextData = {
   searchForAStaffForService(name: string): void
@@ -12,6 +14,8 @@ type SearchContextData = {
   searchForBreed(name: string): void
   breedsFounded: string[]
   searchInAllStaff(name: string): void
+  searchForServicePerPatient(name: string): void
+  servicesFounded: ServiceModel[]
 }
 
 export const SearchContext = createContext({} as SearchContextData)
@@ -23,13 +27,14 @@ interface SearchContextProps {
 export function SearchContextProvider({ children }: SearchContextProps) {
   const { data: allStaff } = useStaff()
   const { data: allPatients } = usePatients()
+  const { data: allServices } = useServices()
   const [staffsFounded, setStaffsFounded] =
     useState<StaffReducedModel[]>(allStaff)
   const [breedsFounded, setBreedsFounded] = useState<string[]>([])
+  const [servicesFounded, setServicesFounded] =
+    useState<ServiceModel[]>(allServices)
   const [patientsFounded, setPatientsFounded] =
     useState<PatientReducedModel[]>(allPatients)
-
-  console.log('INITIAL STAFFS FOUNDED ', allStaff)
 
   const notAllowedRolesToDoAService = ['ASSISTANT', 'INTERN']
 
@@ -54,7 +59,6 @@ export function SearchContextProvider({ children }: SearchContextProps) {
       staff.fullName.toLowerCase().includes(name.toLowerCase()),
     )
 
-    console.log('SEARCH EMPTY ', founded)
     setStaffsFounded(founded)
 
     if (founded === undefined) {
@@ -74,7 +78,7 @@ export function SearchContextProvider({ children }: SearchContextProps) {
     }
   }
 
-  const breeds = []
+  const breeds: Array<string> = []
 
   allPatients?.forEach((patient) => {
     if (!breeds.includes(patient.breed.toUpperCase())) {
@@ -84,13 +88,25 @@ export function SearchContextProvider({ children }: SearchContextProps) {
 
   function searchForBreed(name: string) {
     const founded = breeds?.filter((breed) =>
-      breed.includes(name.toUpperCase()),
+      breed.toLowerCase().includes(name.toLowerCase()),
     )
 
     setBreedsFounded(founded)
 
     if (founded === undefined) {
       setStaffsFounded([])
+    }
+  }
+
+  function searchForServicePerPatient(name: string) {
+    const founded = allServices?.filter((service) =>
+      service.patient.name.toLowerCase().includes(name.toLowerCase()),
+    )
+
+    setServicesFounded(founded)
+
+    if (founded === undefined) {
+      setServicesFounded([])
     }
   }
 
@@ -104,6 +120,8 @@ export function SearchContextProvider({ children }: SearchContextProps) {
         breedsFounded,
         searchForBreed,
         searchInAllStaff,
+        servicesFounded,
+        searchForServicePerPatient,
       }}
     >
       {children}

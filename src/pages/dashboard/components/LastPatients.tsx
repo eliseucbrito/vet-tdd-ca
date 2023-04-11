@@ -13,12 +13,15 @@ import {
 import { nameFormatter } from 'presentation/utils/nameFormatter'
 import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 import { StatusTag } from 'presentation/components/Stats/StatusTag'
+import { useContext } from 'react'
+import { SearchContext } from 'presentation/context/SearchContext'
 
 interface LastPatientsProps {
   services: ServiceModel[]
 }
 
 export function LastPatients({ services }: LastPatientsProps) {
+  const { servicesFounded } = useContext(SearchContext)
   const lastTenPatients = services?.slice(-10).reverse()
 
   return (
@@ -43,42 +46,84 @@ export function LastPatients({ services }: LastPatientsProps) {
             </Tr>
           </Thead>
           <Tbody>
-            {lastTenPatients.map((service) => (
-              <Tr
-                key={service.id}
-                sx={{
-                  td: {
-                    background: 'white',
-                    whiteSpace: 'nowrap',
-                    '&:first-of-type': {
-                      borderLeftRadius: '12px',
-                    },
-                    '&:last-of-type': {
-                      borderRightRadius: '12px',
-                    },
-                  },
-                }}
-              >
-                <Td>
-                  <Link href={`/services/${service.id}`}>{service.id}</Link>
-                </Td>
-                <Td>{service.patient.name}</Td>
-                <Td>{nameFormatter(service.patient.owner)}</Td>
-                <Td>{cityFormatter(service.city.name)}</Td>
-                <Td>
-                  <StatusTag
-                    color={serviceStatusColor(service.status)}
-                    label={serviceStatusFormatter(service.status)}
-                  />
-                </Td>
-                <Td>
-                  <StatusTag
-                    color={paymentStatusColor(service.paymentStatus)}
-                    label={paymentStatusFormatter(service.paymentStatus)}
-                  />
-                </Td>
-              </Tr>
-            ))}
+            {servicesFounded !== undefined
+              ? servicesFounded
+                  .slice(-10)
+                  .reverse()
+                  .map((service) => (
+                    <Tr
+                      key={service.id}
+                      sx={{
+                        td: {
+                          background: 'white',
+                          whiteSpace: 'nowrap',
+                          '&:first-of-type': {
+                            borderLeftRadius: '12px',
+                          },
+                          '&:last-of-type': {
+                            borderRightRadius: '12px',
+                          },
+                        },
+                      }}
+                    >
+                      <Td>
+                        <Link href={`/services/${service.id}`}>
+                          {service.id}
+                        </Link>
+                      </Td>
+                      <Td>{service.patient.name}</Td>
+                      <Td>{nameFormatter(service.patient.owner)}</Td>
+                      <Td>{cityFormatter(service.city.name)}</Td>
+                      <Td>
+                        <StatusTag
+                          color={serviceStatusColor(service.status)}
+                          label={serviceStatusFormatter(service.status)}
+                        />
+                      </Td>
+                      <Td>
+                        <StatusTag
+                          color={paymentStatusColor(service.paymentStatus)}
+                          label={paymentStatusFormatter(service.paymentStatus)}
+                        />
+                      </Td>
+                    </Tr>
+                  ))
+              : lastTenPatients?.map((service) => (
+                  <Tr
+                    key={service.id}
+                    sx={{
+                      td: {
+                        background: 'white',
+                        whiteSpace: 'nowrap',
+                        '&:first-of-type': {
+                          borderLeftRadius: '12px',
+                        },
+                        '&:last-of-type': {
+                          borderRightRadius: '12px',
+                        },
+                      },
+                    }}
+                  >
+                    <Td>
+                      <Link href={`/services/${service.id}`}>{service.id}</Link>
+                    </Td>
+                    <Td>{service.patient.name}</Td>
+                    <Td>{nameFormatter(service.patient.owner)}</Td>
+                    <Td>{cityFormatter(service.city.name)}</Td>
+                    <Td>
+                      <StatusTag
+                        color={serviceStatusColor(service.status)}
+                        label={serviceStatusFormatter(service.status)}
+                      />
+                    </Td>
+                    <Td>
+                      <StatusTag
+                        color={paymentStatusColor(service.paymentStatus)}
+                        label={paymentStatusFormatter(service.paymentStatus)}
+                      />
+                    </Td>
+                  </Tr>
+                ))}
           </Tbody>
         </Table>
       ) : (

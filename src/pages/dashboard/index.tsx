@@ -10,7 +10,7 @@ import {
 import { DataCards } from './components/DataCards'
 import { FinanceCard } from './components/FinanceCard'
 import { LastPatients } from './components/LastPatients'
-import { SearchBar } from './components/SearchBar'
+import { ServicesPerPatientSearchBar } from './components/ServicesPerPatientSearchBar'
 import { Reports } from './components/Reports'
 import { NewPatientModal } from 'presentation/components/Modals/NewPatientModal'
 import { NewServiceModal } from 'presentation/components/Modals/NewServiceModal'
@@ -59,7 +59,7 @@ export default function Dashboard() {
       <Grid templateColumns="65% 30%" mt={4} columnGap="5%">
         <GridItem>
           <VStack w="100%" overflow="auto">
-            <SearchBar />
+            <ServicesPerPatientSearchBar />
             <LastPatients services={lastServices} />
           </VStack>
         </GridItem>
