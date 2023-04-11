@@ -155,9 +155,7 @@ export default function ReportDetails({ id }: ReportDetailsProps) {
                 aria-label="Cargo na empresa"
               >
                 <Text fontWeight={600}>
-                  {roleFormatter(
-                    reportDetails.createdBy.role.description.toString(),
-                  )}
+                  {roleFormatter(reportDetails.createdBy.role.description)}
                 </Text>
               </Tag>
               <Text
@@ -256,9 +254,7 @@ export default function ReportDetails({ id }: ReportDetailsProps) {
                 <HStack fontSize="0.875rem" w="100%" justify="space-between">
                   <Text whiteSpace="nowrap">Cargo</Text>
                   <Text fontWeight={600}>
-                    {roleFormatter(
-                      reportDetails.approver.role.description.toString(),
-                    )}
+                    {roleFormatter(reportDetails.approver.role.description)}
                   </Text>
                 </HStack>
               </VStack>

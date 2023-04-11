@@ -26,7 +26,7 @@ export function StaffCard({ rounded, staff }: StaffCardProps) {
         {staff.email}
       </Text>
       <Tag bg="green.600" color="white" fontWeight={600} px={4}>
-        {roleFormatter(staff.role.description.toString())}
+        {roleFormatter(staff.role.description)}
       </Tag>
       <HStack>
         <VStack>

@@ -12,7 +12,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import dayjs from 'dayjs'
-import { RoleModel } from 'domain/models/RoleHistoricModel'
+import { RoleHistoricModel } from 'domain/models/RoleHistoricModel'
 import { CardDetailBlock } from 'presentation/components/Cards/CardDetailBlock'
 import { CheckBar } from 'presentation/components/Cards/CheckBar'
 import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
@@ -22,7 +22,7 @@ import { FormattedNumber } from 'react-intl'
 require('dayjs/locale/pt-br')
 
 interface RoleHistoricProps {
-  roleHistoric: RoleModel[]
+  roleHistoric: RoleHistoricModel[]
 }
 
 export function RoleHistoricCard({ roleHistoric }: RoleHistoricProps) {

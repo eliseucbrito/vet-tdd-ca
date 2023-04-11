@@ -1,20 +1,18 @@
-import { StaffModel, StaffReducedModel } from './StaffModel'
-
-export enum Roles {
-  CEO = 'CEO',
-  GENERAL_MANAGER = 'GENERAL_MANAGER',
-  MANAGER = 'MANAGER',
-  VETERINARY = 'VETERINARY',
-  ASSISTANT = 'ASSISTANT',
-  INTERN = 'INTERN',
-}
+import { PrivilegeModel } from './PrivilegeModel'
+import { StaffReducedModel } from './StaffModel'
 
 export type RoleModel = {
+  id: number
+  description: string
+  privileges: PrivilegeModel[]
+}
+
+export type RoleHistoricModel = {
   id: number
   startedIn: string
   role: {
     id: number
-    description: Roles
+    description: string
   }
   baseSalary: number
   weeklyWorkLoad: number

@@ -1,11 +1,11 @@
-import { RoleModel, Roles } from './RoleHistoricModel'
+import { RoleHistoricModel } from './RoleHistoricModel'
 import { ServiceModel } from './ServiceModel'
 
 export type StaffModel = {
   id: number
   role: {
     id: number
-    description: Roles
+    description: string
     privileges: {
       id: number
       description: string
@@ -20,7 +20,7 @@ export type StaffModel = {
   onDuty: boolean
   weeklyWorkLoad: number
   workLoadCompleted: number
-  roleHistoric: Array<RoleModel>
+  roleHistoric: Array<RoleHistoricModel>
   servicesList: Array<ServiceModel>
 }
 
@@ -29,7 +29,7 @@ export type StaffReducedModel = {
   fullName: string
   role: {
     id: number
-    description: Roles
+    description: string
     privileges: {
       id: number
       description: string

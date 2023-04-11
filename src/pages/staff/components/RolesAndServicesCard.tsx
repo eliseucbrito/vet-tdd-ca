@@ -1,15 +1,12 @@
 import { Flex, HStack, Text, VStack } from '@chakra-ui/react'
-import { RoleModel } from 'domain/models/RoleHistoricModel'
+import { RoleHistoricModel } from 'domain/models/RoleHistoricModel'
 import { ServiceModel } from 'domain/models/ServiceModel'
-import { CheckBar } from 'presentation/components/Cards/CheckBar'
-import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
-import { useServices } from 'presentation/hooks/useServices'
 import { useState } from 'react'
 import { RoleHistoricCard } from './RoleHistoricCard'
 import { ServicesDetailsCard } from './ServicesDetailsCard'
 
 interface RoleAndServicesProps {
-  roleHistoric: RoleModel[]
+  roleHistoric: RoleHistoricModel[]
   servicesHistoric: ServiceModel[]
 }
 
