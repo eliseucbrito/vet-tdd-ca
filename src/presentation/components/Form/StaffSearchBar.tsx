@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 import { Input } from '@chakra-ui/react'
 import { SearchContext } from 'presentation/context/SearchContext'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 
 export function StaffSearchBar() {
   const [searchingFor, setSearchingFor] = useState('')
