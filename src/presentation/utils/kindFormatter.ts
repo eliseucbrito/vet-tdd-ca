@@ -1,7 +1,3 @@
-import { BsFillQuestionCircleFill } from 'react-icons/bs'
-import { FaCat, FaDog, FaEarlybirds, FaOtter } from 'react-icons/fa'
-import { GiCow, GiHorseHead, GiRattlesnake, GiSeaTurtle } from 'react-icons/gi'
-
 export function kindFormatter(kind: string) {
   switch (kind) {
     case 'DOG':
@@ -16,6 +12,8 @@ export function kindFormatter(kind: string) {
       return 'Lontra'
     case 'REPTILE':
       return 'Réptil'
+    case 'FISH':
+      return 'Peixe'
     case 'CATTLE':
       return 'Gado Bovino'
     case 'HORSE':
