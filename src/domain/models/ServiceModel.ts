@@ -1,5 +1,5 @@
-import { PatientModel } from './PatientModel'
-import { StaffModel } from './StaffModel'
+import { PatientModel, PatientReducedModel } from './PatientModel'
+import { StaffModel, StaffReducedModel } from './StaffModel'
 
 export enum ServiceType {
   EXAM = 'EXAM',
@@ -36,6 +36,6 @@ export type ServiceModel = {
     name: string
   }
   price: number
-  medic: StaffModel
-  patient: PatientModel
+  medic: StaffReducedModel
+  patient: PatientReducedModel
 }
