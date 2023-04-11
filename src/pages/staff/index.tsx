@@ -4,18 +4,21 @@ import { StaffCard } from './components/StaffCard'
 import Link from 'next/link'
 import { GetServerSideProps } from 'next/types'
 import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
-import { StaffModel } from 'domain/models/StaffModel'
+import { StaffModel, StaffReducedModel } from 'domain/models/StaffModel'
 import { parseCookies } from 'nookies'
 import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 import { Container } from 'presentation/components/Defaults/Container'
 import Head from 'next/head'
 import { NewStaffModal } from 'presentation/components/Modals/NewStaffModal'
+import { useStaff } from 'presentation/hooks/useStaff'
 
 interface StaffProps {
-  staffs: StaffModel[]
+  staffsInitialData: StaffReducedModel[]
 }
 
-export default function Staff({ staffs }: StaffProps) {
+export default function Staff({ staffsInitialData }: StaffProps) {
+  const { data: staffs } = useStaff()
+
   return (
     <Container flexDir="column">
       <Heading display="flex" justifyContent="space-between">
@@ -58,6 +61,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   })
 
   return {
-    props: { staffs },
+    props: { staffsInitialData: staffs },
   }
 }

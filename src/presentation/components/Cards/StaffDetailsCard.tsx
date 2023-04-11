@@ -107,7 +107,7 @@ export function StaffDetailsCard({ staff }: DetailsCardProps) {
 
           <VStack justify="space-between">
             <CardDetail label="Salário Base" data={salaryIntl} />
-            <CardDetail label="Bônus Anual" data={bonusIntl} />
+            <CardDetail label="E-mail" data={staff.email} />
             <CardDetail
               label="Próximas Ferias"
               data={vacationFormatter(staff.createdAt)}

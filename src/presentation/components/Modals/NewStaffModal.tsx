@@ -88,7 +88,7 @@ export function NewStaffModal() {
     },
     {
       onSuccess: (data) => {
-        queryClient.invalidateQueries(['staff', { id: data.body.id }])
+        queryClient.invalidateQueries(['staff', { id: data.body }])
         queryClient.invalidateQueries(['staff'])
         reset()
         toast({
