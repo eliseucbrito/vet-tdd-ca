@@ -16,7 +16,6 @@ import {
   useToast,
   Avatar,
 } from '@chakra-ui/react'
-import { FiPlus } from 'react-icons/fi'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -24,8 +23,9 @@ import { useMutation } from 'react-query'
 import { queryClient } from 'infra/cache/react-query'
 import { AxiosHttpClient } from './../../../infra/http/axios-http-client/axios-http-client'
 import Link from 'next/link'
-import { PatientModel } from 'domain/models/PatientModel'
+import { Kinds, PatientModel } from 'domain/models/PatientModel'
 import { BreedSearchInput } from '../Form/BreedSearchInput'
+import { kindFormatter } from 'presentation/utils/kindFormatter'
 
 const newPatientModalSchema = z.object({
   name: z
@@ -143,13 +143,17 @@ export function NewPatientModal() {
                 />
                 <HStack w="100%">
                   <Select
-                    placeholder="Tipo do paciente"
-                    isInvalid={!!errors.kind}
-                    {...register('kind')}
+                    isInvalid={!!errors.breed}
+                    placeholder="Espécie"
+                    {...register('breed')}
                   >
-                    <option value="CAT">Gato</option>
-                    <option value="DOG">Cachorro</option>
-                    <option value="PARROT">Papagaio</option>
+                    {(Object.keys(Kinds) as (keyof typeof Kinds)[]).map(
+                      (kind) => (
+                        <option key={kind} value={kind}>
+                          {kindFormatter(kind)}
+                        </option>
+                      ),
+                    )}
                   </Select>
 
                   <BreedSearchInput
