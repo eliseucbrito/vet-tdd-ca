@@ -26,8 +26,8 @@ export type ServiceModel = {
   id: number
   reason: string
   description: string
-  createdAt: Date
-  serviceDate: Date
+  createdAt: string
+  serviceDate: string
   type: ServiceType
   status: ServiceStatus
   paymentStatus: PaymentStatus
