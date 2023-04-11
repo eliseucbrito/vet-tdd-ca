@@ -8,20 +8,16 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 })
 
-export function BarChartBestMedics() {
+export function BarChartMedicsWithMoreServices() {
   const { data: services } = useServices()
 
-  const staffs = []
+  const staffs: { name: string; value: number }[] = []
   const servicesPerStaff = {}
 
   services?.forEach((service) => {
     const isToday =
       new Date(service.serviceDate).toLocaleDateString() ===
       new Date().toLocaleDateString()
-
-    if (isToday && !staffs.includes(service.medic.fullName)) {
-      staffs.push(service.medic.fullName)
-    }
 
     if (isToday) {
       if (servicesPerStaff[service.medic.fullName] === undefined) {
@@ -31,6 +27,15 @@ export function BarChartBestMedics() {
       servicesPerStaff[service.medic.fullName] += 1
     }
   })
+
+  Object.keys(servicesPerStaff).forEach((key) => {
+    staffs.push({
+      name: key,
+      value: servicesPerStaff[key],
+    })
+  })
+
+  staffs.sort((a, b) => b.value - a.value)
 
   const barChartOptions: ApexGeneric = {
     chart: {
@@ -52,7 +57,9 @@ export function BarChartBestMedics() {
       theme: 'dark',
     },
     xaxis: {
-      categories: staffs,
+      categories: staffs.map((staff) => {
+        return staff.name
+      }),
       show: false,
       labels: {
         show: true,
@@ -128,8 +135,8 @@ export function BarChartBestMedics() {
     },
   }
 
-  const totalServicesPerMedic = staffs?.map((staffName) => {
-    return servicesPerStaff[staffName]
+  const totalServicesPerMedic = staffs?.map((staff) => {
+    return staff.value
   })
 
   const barChartData = [
@@ -143,7 +150,6 @@ export function BarChartBestMedics() {
     <Flex
       flexDir="column"
       bg="white"
-      w="max-content"
       h="max-content"
       borderRadius={12}
       p="1rem"
