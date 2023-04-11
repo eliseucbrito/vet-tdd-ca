@@ -8,11 +8,6 @@ export function PatientSearchBar() {
   const [searchingFor, setSearchingFor] = useState('')
   const { searchForPatient } = useContext(SearchContext)
 
-  function handleSearchForPatient(search: string) {
-    searchForPatient(search)
-    setSearchingFor(search)
-  }
-
   return (
     <Input
       w="min-content"
@@ -22,7 +17,8 @@ export function PatientSearchBar() {
       marginBottom={2}
       value={searchingFor}
       onChange={(e) => {
-        handleSearchForPatient(e.target.value)
+        searchForPatient(e.target.value)
+        setSearchingFor(e.target.value)
       }}
     />
   )

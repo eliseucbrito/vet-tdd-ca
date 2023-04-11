@@ -8,11 +8,6 @@ export function StaffSearchBar() {
   const [searchingFor, setSearchingFor] = useState('')
   const { searchInAllStaff } = useContext(SearchContext)
 
-  function handleSearchForStaff(search: string) {
-    searchInAllStaff(search)
-    setSearchingFor(search)
-  }
-
   return (
     <Input
       w="min-content"
@@ -22,7 +17,8 @@ export function StaffSearchBar() {
       marginBottom={2}
       value={searchingFor}
       onChange={(e) => {
-        handleSearchForStaff(e.target.value)
+        searchInAllStaff(e.target.value)
+        setSearchingFor(e.target.value)
       }}
     />
   )
