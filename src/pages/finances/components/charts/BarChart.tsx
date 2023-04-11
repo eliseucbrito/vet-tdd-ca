@@ -3,10 +3,6 @@ import { ApexOptions } from 'apexcharts'
 import dynamic from 'next/dynamic'
 import { useCities } from 'presentation/hooks/useCities'
 import { useServices } from 'presentation/hooks/useServices'
-import {
-  barChartDataDailyTraffic,
-  barChartOptions,
-} from './../../../../presentation/variables/chart'
 
 type ApexGeneric = ApexOptions & any
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {

@@ -25,7 +25,7 @@ export default function Dashboard() {
   const { data: lastServices } = useServices()
 
   return (
-    <Container flexDir='column'>
+    <Container flexDir="column">
       <Flex mb={5} w="100%" justify="space-between" align="center">
         <VStack align="start">
           <Text

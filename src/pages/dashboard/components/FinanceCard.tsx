@@ -1,14 +1,4 @@
-import {
-  Flex,
-  Stat,
-  StatArrow,
-  StatGroup,
-  StatHelpText,
-  StatLabel,
-  StatNumber,
-  Text,
-  VStack,
-} from '@chakra-ui/react'
+import { Flex, VStack } from '@chakra-ui/react'
 import { ApexOptions } from 'apexcharts'
 import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
@@ -99,7 +89,6 @@ export const lineAreaChartOptionsTotalSpent: ApexOptions = {
 
 export function FinanceCard() {
   const { data: weeklyEarnings } = useWeeklyEarnings()
-
 
   const seriesIncomes = [
     {
