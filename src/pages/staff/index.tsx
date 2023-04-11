@@ -1,41 +1,42 @@
-import { Heading, Spinner, Text, Wrap, WrapItem } from '@chakra-ui/react'
-import React from 'react'
+import { Heading, Text, Wrap, WrapItem } from '@chakra-ui/react'
+import React, { useContext } from 'react'
 import { StaffCard } from './components/StaffCard'
 import Link from 'next/link'
 import { GetServerSideProps } from 'next/types'
 import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
-import { StaffModel, StaffReducedModel } from 'domain/models/StaffModel'
-import { parseCookies } from 'nookies'
+import { StaffReducedModel } from 'domain/models/StaffModel'
 import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 import { Container } from 'presentation/components/Defaults/Container'
-import Head from 'next/head'
 import { NewStaffModal } from 'presentation/components/Modals/NewStaffModal'
-import { useStaff } from 'presentation/hooks/useStaff'
+import { StaffSearchBar } from 'presentation/components/Form/StaffSearchBar'
+import { SearchContext } from 'presentation/context/SearchContext'
 
 interface StaffProps {
   staffsInitialData: StaffReducedModel[]
 }
 
 export default function Staff({ staffsInitialData }: StaffProps) {
-  const { data: staffs } = useStaff()
+  const { staffsFounded } = useContext(SearchContext)
 
   return (
     <Container flexDir="column">
-      <Heading display="flex" justifyContent="space-between">
+      <Heading display="flex" mb="1rem" justifyContent="space-between">
         <Text>Staff</Text>
 
         <NewStaffModal />
       </Heading>
-      <Wrap
-        flexWrap="wrap"
-        align="start"
-        p="1rem 1rem 1rem 1.5rem"
-        w="100%"
-        h="100%"
-        spacing={8}
-      >
-        {staffs.length >= 1 ? (
-          staffs.map((staff) => (
+      <StaffSearchBar />
+      <Wrap flexWrap="wrap" align="start" w="100%" h="100%" spacing={8}>
+        {staffsFounded !== undefined ? (
+          staffsFounded.map((staff) => (
+            <WrapItem key={staff.id}>
+              <Link href={`/staff/${staff.id}`}>
+                <StaffCard rounded staff={staff} />
+              </Link>
+            </WrapItem>
+          ))
+        ) : staffsInitialData !== undefined ? (
+          staffsInitialData.map((staff) => (
             <WrapItem key={staff.id}>
               <Link href={`/staff/${staff.id}`}>
                 <StaffCard rounded staff={staff} />
@@ -44,8 +45,12 @@ export default function Staff({ staffsInitialData }: StaffProps) {
           ))
         ) : (
           <ErrorOrEmptyMessage
-            isEmpty={staffs?.length === 0}
-            isError={staffs === undefined}
+            isEmpty={
+              staffsFounded?.length === 0 || staffsInitialData?.length === 0
+            }
+            isError={
+              staffsFounded === undefined || staffsInitialData === undefined
+            }
           />
         )}
       </Wrap>
