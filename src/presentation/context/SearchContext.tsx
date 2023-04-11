@@ -26,9 +26,8 @@ export function SearchContextProvider({ children }: SearchContextProps) {
   const [staffsFounded, setStaffsFounded] =
     useState<StaffReducedModel[]>(allStaff)
   const [breedsFounded, setBreedsFounded] = useState<string[]>([])
-  const [patientsFounded, setPatientsFounded] = useState<PatientReducedModel[]>(
-    [],
-  )
+  const [patientsFounded, setPatientsFounded] =
+    useState<PatientReducedModel[]>(allPatients)
 
   console.log('INITIAL STAFFS FOUNDED ', allStaff)
 
@@ -88,10 +87,10 @@ export function SearchContextProvider({ children }: SearchContextProps) {
       breed.includes(name.toUpperCase()),
     )
 
-    if (name === '' || name === undefined) {
-      setBreedsFounded([])
-    } else {
-      setBreedsFounded(founded)
+    setBreedsFounded(founded)
+
+    if (founded === undefined) {
+      setStaffsFounded([])
     }
   }
 

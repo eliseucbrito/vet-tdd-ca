@@ -1,41 +1,56 @@
 /* eslint-disable no-extra-boolean-cast */
-import { Wrap, WrapItem } from '@chakra-ui/react'
+import { Heading, Text, Wrap, WrapItem } from '@chakra-ui/react'
 import { PatientReducedModel } from 'domain/models/PatientModel'
 import { PatientCard } from './components/PatientCard'
 import Link from 'next/link'
 import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
 import { GetServerSideProps } from 'next/types'
 import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
+import { Container } from 'presentation/components/Defaults/Container'
+import { PatientSearchBar } from 'presentation/components/Form/PatientSeachBar'
+import { useContext } from 'react'
+import { SearchContext } from 'presentation/context/SearchContext'
 
 interface PatientsProps {
-  patients: PatientReducedModel[]
+  patientsInitialData: PatientReducedModel[]
 }
 
-export default function Patients({ patients }: PatientsProps) {
+export default function Patients({ patientsInitialData }: PatientsProps) {
+  const { patientsFounded } = useContext(SearchContext)
+
   return (
-    <Wrap
-      flexWrap="wrap"
-      align="start"
-      p="1rem 1rem 1rem 1.5rem"
-      w="100%"
-      h="100%"
-      spacing={6}
-    >
-      {patients.length >= 1 ? (
-        patients.map((patient) => (
-          <WrapItem key={patient.id}>
-            <Link href={`/patients/${patient.id}`}>
-              <PatientCard rounded patient={patient} />
-            </Link>
-          </WrapItem>
-        ))
-      ) : (
-        <ErrorOrEmptyMessage
-          isError={patients === undefined}
-          isEmpty={patients?.length === 0}
-        />
-      )}
-    </Wrap>
+    <Container flexDir="column">
+      <Heading display="flex" mb="1rem" justifyContent="space-between">
+        <Text>Pacientes</Text>
+      </Heading>
+
+      <PatientSearchBar />
+
+      <Wrap align="start" w="100%" h="100%" spacing={6}>
+        {patientsFounded !== undefined ? (
+          patientsFounded.map((patient) => (
+            <WrapItem key={patient.id}>
+              <Link href={`/patients/${patient.id}`}>
+                <PatientCard rounded patient={patient} />
+              </Link>
+            </WrapItem>
+          ))
+        ) : patientsInitialData !== undefined ? (
+          patientsInitialData.map((patient) => (
+            <WrapItem key={patient.id}>
+              <Link href={`/patients/${patient.id}`}>
+                <PatientCard rounded patient={patient} />
+              </Link>
+            </WrapItem>
+          ))
+        ) : (
+          <ErrorOrEmptyMessage
+            isError={patientsInitialData === undefined}
+            isEmpty={patientsInitialData?.length === 0}
+          />
+        )}
+      </Wrap>
+    </Container>
   )
 }
 
@@ -47,6 +62,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   })
 
   return {
-    props: { patients },
+    props: { patientsInitialData: patients },
   }
 }
