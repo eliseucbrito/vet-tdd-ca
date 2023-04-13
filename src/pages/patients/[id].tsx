@@ -11,7 +11,7 @@ export default function StaffDetails({ patient }) {
   const { data: services } = useServices()
 
   return (
-    <Container gap={4}>
+    <Container flexDir="column" gap={4}>
       <HStack w="100%">
         <PatientCard patient={patient} />
         <PatientDetailsCard patient={patient} />
