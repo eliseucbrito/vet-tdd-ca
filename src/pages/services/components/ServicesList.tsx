@@ -37,7 +37,7 @@ export function ServicesList({ services }: ServicesProps) {
           </Tr>
         </Thead>
         <Tbody>
-          {services.map((service) => {
+          {services?.map((service) => {
             return (
               <Tr key={service.id}>
                 <Td>

@@ -1,34 +1,79 @@
 /* eslint-disable array-callback-return */
-import { VStack, Heading, Divider, Text, Spinner, Flex } from '@chakra-ui/react'
+import {
+  VStack,
+  Heading,
+  Divider,
+  Text,
+  Spinner,
+  Flex,
+  Input,
+} from '@chakra-ui/react'
 import { ServiceModel } from 'domain/models/ServiceModel'
+import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
 import { GetServerSideProps } from 'next'
 import { Container } from 'presentation/components/Defaults/Container'
 import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 import { useServices } from 'presentation/hooks/useServices'
 import { serviceTypeFormatter } from 'presentation/utils/serviceTypeFormatter'
 import { slugToServiceType } from 'presentation/utils/slugToServiceType'
+import { useState } from 'react'
 import { ServicesList } from '../components/ServicesList'
 
 interface ServicePerTypeProps {
   slug: string
-  servicesSSR: ServiceModel[]
+  servicesInitialState: ServiceModel[]
 }
 
 export default function ServicePerType({
-  servicesSSR,
+  servicesInitialState,
   slug,
 }: ServicePerTypeProps) {
-  const { data: services, isFetching, isError, isSuccess } = useServices()
+  const {
+    data: services,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+  } = useServices()
+
+  const servicesSeparated =
+    services !== undefined
+      ? services
+          .filter(
+            (service) => service.type.toString() === slugToServiceType(slug),
+          )
+          .reverse()
+      : servicesInitialState
+          .filter(
+            (service) => service.type.toString() === slugToServiceType(slug),
+          )
+          .reverse()
+
+  const [searchingFor, setSearchingFor] = useState('')
+  const [servicesFounded, setServicesFounded] =
+    useState<ServiceModel[]>(servicesSeparated)
 
   const slugFormatted = slug.substring(0, slug.length - 1).toUpperCase()
 
   const folderName = serviceTypeFormatter(slugFormatted) + 's'
 
-  const servicesSeparated = services
-    ?.filter((service) => service.type.toString() === slugToServiceType(slug))
-    .reverse()
-
   const IsEmpty = services !== undefined && !(services.length > 0)
+
+  function searchServicePerPatient(name: string) {
+    const founded = servicesSeparated?.filter((service) =>
+      service.patient.name.toLowerCase().includes(name.toLowerCase()),
+    )
+
+    if (founded === undefined) {
+      setServicesFounded([])
+    } else {
+      setServicesFounded(founded)
+    }
+
+    if (name === '') {
+      setServicesFounded(servicesSeparated)
+    }
+  }
 
   return (
     <Container
@@ -49,14 +94,26 @@ export default function ServicePerType({
       >
         {folderName}
       </Heading>
+      <Input
+        borderRadius={100}
+        w="min-content"
+        bg="white"
+        placeholder="Pesquisar"
+        marginBottom={2}
+        value={searchingFor}
+        onChange={(e) => {
+          searchServicePerPatient(e.target.value)
+          setSearchingFor(e.target.value)
+        }}
+      />
       {!isSuccess || IsEmpty ? (
         <ErrorOrEmptyMessage
           isError={isError}
           isEmpty={IsEmpty}
-          isLoading={isFetching}
+          isLoading={isLoading}
         />
       ) : (
-        <ServicesList services={servicesSeparated} />
+        <ServicesList services={servicesFounded} />
       )}
     </Container>
   )
@@ -64,24 +121,16 @@ export default function ServicePerType({
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const slug = String(ctx.params!.slug)
-  // const api = setupAPIClient(ctx)
-  // const { data } = await api.get('/api/services/v1', {
-  //   params: {
-  //     sort_by: 'createdAt',
-  //     direction: 'DESC',
-  //   },
-  // })
-
-  // const servicesSSR = data.map((service: Service) => {
-  //   return {
-  //     ...service,
-  //   }
-  // })
+  const axios = new AxiosHttpClient(ctx)
+  const { body: services } = await axios.request<ServiceModel[]>({
+    method: 'get',
+    url: 'api/services/v2',
+  })
 
   return {
     props: {
       slug,
-      // servicesSSR,
+      servicesInitialState: services,
     },
   }
 }
