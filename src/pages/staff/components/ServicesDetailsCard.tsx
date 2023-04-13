@@ -1,7 +1,6 @@
 import {
   HStack,
   VStack,
-  Divider,
   Table,
   Tbody,
   Tr,
@@ -13,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import { ServiceModel } from 'domain/models/ServiceModel'
-import Link from 'next/link'
+import Router from 'next/router'
 import { CardDetailBlock } from 'presentation/components/Cards/CardDetailBlock'
 import { CheckBar } from 'presentation/components/Cards/CheckBar'
 import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
@@ -21,7 +20,6 @@ import { cityFormatter } from 'presentation/utils/cityFormatter'
 import { nameFormatter } from 'presentation/utils/nameFormatter'
 import { serviceStatusFormatter } from 'presentation/utils/serviceStatusFormatter'
 import { serviceTypeFormatter } from 'presentation/utils/serviceTypeFormatter'
-import { ReactNode } from 'react'
 require('dayjs/locale/pt-br')
 
 interface ServicesDetailsCardProps {
@@ -33,6 +31,10 @@ export function ServicesDetailsCard({
   services,
   patientVersion,
 }: ServicesDetailsCardProps) {
+  function handleRedirectToServiceDetails(id: number) {
+    Router.push(`/services/${id}`)
+  }
+
   return (
     <HStack w="100%" h="100%" gap={10}>
       {services?.length >= 1 ? (
@@ -78,6 +80,8 @@ export function ServicesDetailsCard({
                         },
                       },
                     }}
+                    cursor="pointer"
+                    onClick={() => handleRedirectToServiceDetails(service.id)}
                   >
                     <Td>
                       <CardDetailBlock>
