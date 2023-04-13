@@ -1,17 +1,9 @@
-import {
-  Flex,
-  Icon,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-  VStack,
-} from '@chakra-ui/react'
+import { Table, Tbody, Td, Th, Thead, Tr, VStack } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import { ServiceModel } from 'domain/models/ServiceModel'
 import Link from 'next/link'
+import Router from 'next/router'
+import { StatusTag } from 'presentation/components/Stats/StatusTag'
 import { nameFormatter } from 'presentation/utils/nameFormatter'
 import {
   serviceStatusColor,
@@ -23,6 +15,10 @@ interface ServicesProps {
 }
 
 export function ServicesList({ services }: ServicesProps) {
+  function handleRedirectToServiceDetails(id: number) {
+    Router.push(`/services/${id}`)
+  }
+
   return (
     <VStack w="100%" h="100%">
       <Table>
@@ -39,33 +35,23 @@ export function ServicesList({ services }: ServicesProps) {
         <Tbody>
           {services?.map((service) => {
             return (
-              <Tr key={service.id}>
-                <Td>
-                  <Link href={`/services/${service.id}`}>{service.id}</Link>
-                </Td>
-                <Td>
-                  <Link href={`/patients/${service.patient.id}`}>
-                    {service.patient.name}
-                  </Link>
-                </Td>
+              <Tr
+                key={service.id}
+                cursor="pointer"
+                onClick={() => handleRedirectToServiceDetails(service.id)}
+              >
+                <Td>{service.id}</Td>
+                <Td>{service.patient.name}</Td>
                 <Td>{nameFormatter(service.patient.owner)}</Td>
                 <Td>
                   {dayjs(service.serviceDate).format('DD[/]MM[/]YYYY HH:mm')}
                 </Td>
                 <Td>{nameFormatter(service.medic.fullName)}</Td>
-                <Td
-                  display="flex"
-                  alignItems="center"
-                  gap={1}
-                  _before={{
-                    content: '""',
-                    width: '0.5rem',
-                    height: '0.5rem',
-                    backgroundColor: serviceStatusColor(service.status),
-                    borderRadius: '100%',
-                  }}
-                >
-                  {serviceStatusFormatter(service.status)}
+                <Td>
+                  <StatusTag
+                    color={serviceStatusColor(service.status)}
+                    label={serviceStatusFormatter(service.status)}
+                  />
                 </Td>
               </Tr>
             )
