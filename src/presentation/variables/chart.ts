@@ -150,6 +150,19 @@ export const pieChartDailyIncomesOptions: ApexGeneric = {
   colors: ['#4318FF', '#18C29C', '#FF7F27', '#D32F2F'],
   chart: {
     width: '50px',
+    animations: {
+      enabled: true,
+      easing: 'linear',
+      speed: 800,
+      animateGradually: {
+        enabled: true,
+        delay: 150,
+      },
+      dynamicAnimation: {
+        enabled: true,
+        speed: 350,
+      },
+    },
   },
   states: {
     hover: {
