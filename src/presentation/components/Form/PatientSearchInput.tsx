@@ -55,7 +55,7 @@ export const PatientSearchInput = forwardRef<
       <Popover
         autoFocus={false}
         isOpen={
-          patientsFounded.length > 0 &&
+          patientsFounded?.length > 0 &&
           isOpen &&
           !hasOneSelected &&
           searchingFor !== ''
@@ -84,7 +84,7 @@ export const PatientSearchInput = forwardRef<
           <PopoverHeader>Pacientes Encontrados</PopoverHeader>
           <PopoverArrow bg="white" />
           <PopoverBody display="flex" flexDir="column">
-            {patientsFounded.map((patient) => (
+            {patientsFounded?.map((patient) => (
               <SearchResultButton
                 key={patient.id}
                 onClick={(e) => {

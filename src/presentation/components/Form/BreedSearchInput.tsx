@@ -52,7 +52,7 @@ export const BreedSearchInput = forwardRef<HTMLInputElement, BreedSearchProps>(
       <Popover
         autoFocus={false}
         isOpen={
-          breedsFounded.length > 0 &&
+          breedsFounded?.length > 0 &&
           isOpen &&
           !hasOneSelected &&
           searchingFor !== ''

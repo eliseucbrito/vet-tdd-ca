@@ -53,7 +53,7 @@ export const StaffSearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       <Popover
         autoFocus={false}
         isOpen={
-          staffsFounded.length > 0 &&
+          staffsFounded?.length > 0 &&
           isOpen &&
           !hasOneSelected &&
           searchingFor !== ''
@@ -83,7 +83,7 @@ export const StaffSearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           <PopoverHeader>Médicos Disponíveis</PopoverHeader>
           <PopoverArrow bg="white" />
           <PopoverBody display="flex" flexDir="column" gap={1}>
-            {staffsFounded.map((staff) => (
+            {staffsFounded?.map((staff) => (
               <SearchResultButton
                 key={staff.id}
                 onClick={(e) => {
