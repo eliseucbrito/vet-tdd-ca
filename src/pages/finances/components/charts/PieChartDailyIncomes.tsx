@@ -2,9 +2,8 @@
 import { Flex, HStack, Text, VStack, Icon } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
-import { useServices } from 'presentation/hooks/useServices'
+import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 import { useWeeklyEarnings } from 'presentation/hooks/useWeeklyEarnings'
-import { ServiceType } from '../../../../domain/models/ServiceModel'
 import { pieChartDailyIncomesOptions } from '../../../../presentation/variables/chart'
 
 const isToday = require('dayjs/plugin/isToday')
@@ -49,15 +48,25 @@ function SubtitleBlock({ label, percent, color }: SubtitleBlockProps) {
 }
 
 export function PieChartDailyIncomes() {
-  const { data: weeklyEarnings } = useWeeklyEarnings()
+  const { data: weeklyEarnings, isError, isLoading } = useWeeklyEarnings()
 
-  const dailyIncomes = weeklyEarnings?.dailyIncomes
+  if (isError || weeklyEarnings === undefined || isLoading) {
+    return (
+      <ErrorOrEmptyMessage
+        isEmpty={weeklyEarnings === undefined}
+        isError={isError}
+        isLoading={isLoading}
+      />
+    )
+  }
+
+  const dailyIncomes = weeklyEarnings.dailyIncomes
 
   const chartSeries = [
-    dailyIncomes?.exams / 1000,
-    dailyIncomes?.medicalCare / 1000,
-    dailyIncomes?.surgerys / 1000,
-    dailyIncomes?.emergencys / 1000,
+    dailyIncomes.exams / 1000,
+    dailyIncomes.medicalCare / 1000,
+    dailyIncomes.surgerys / 1000,
+    dailyIncomes.emergencys / 1000,
   ]
   const totalDailyIncomes = chartSeries.reduce((prev, cur, index) => {
     return prev + cur
@@ -71,45 +80,43 @@ export function PieChartDailyIncomes() {
 
   return (
     <Flex bg="white" w="max-content" h="max-content" borderRadius={12} p="1rem">
-      {dailyIncomes !== undefined && (
-        <>
-          <VStack align="start">
-            <Text fontWeight={600}>Faturamento diário</Text>
+      <VStack align="start">
+        <Text fontWeight={600}>Faturamento diário</Text>
 
-            <ReactApexChart
-              options={pieChartDailyIncomesOptions}
-              series={chartSeries}
-              type="pie"
-            />
-          </VStack>
+        <ReactApexChart
+          options={pieChartDailyIncomesOptions}
+          series={chartSeries}
+          type="pie"
+        />
+      </VStack>
 
-          <VStack>
-            <SubtitleBlock
-              color={ColorsEnum.BLUE}
-              label="Exames"
-              percent={numberFormatter(dailyIncomes.exams)}
-            />
+      <>
+        <VStack>
+          <SubtitleBlock
+            color={ColorsEnum.BLUE}
+            label="Exames"
+            percent={numberFormatter(dailyIncomes.exams)}
+          />
 
-            <SubtitleBlock
-              color={ColorsEnum.GREEN}
-              label="Atendimentos"
-              percent={numberFormatter(dailyIncomes.medicalCare)}
-            />
+          <SubtitleBlock
+            color={ColorsEnum.GREEN}
+            label="Atendimentos"
+            percent={numberFormatter(dailyIncomes.medicalCare)}
+          />
 
-            <SubtitleBlock
-              color={ColorsEnum.ORANGE}
-              label="Cirurgias"
-              percent={numberFormatter(dailyIncomes.surgerys)}
-            />
+          <SubtitleBlock
+            color={ColorsEnum.ORANGE}
+            label="Cirurgias"
+            percent={numberFormatter(dailyIncomes.surgerys)}
+          />
 
-            <SubtitleBlock
-              color={ColorsEnum.RED}
-              label="Emergências"
-              percent={numberFormatter(dailyIncomes.emergencys)}
-            />
-          </VStack>
-        </>
-      )}
+          <SubtitleBlock
+            color={ColorsEnum.RED}
+            label="Emergências"
+            percent={numberFormatter(dailyIncomes.emergencys)}
+          />
+        </VStack>
+      </>
     </Flex>
   )
 }
