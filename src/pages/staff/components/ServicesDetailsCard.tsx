@@ -11,7 +11,7 @@ import {
   Box,
 } from '@chakra-ui/react'
 import dayjs from 'dayjs'
-import { ServiceModel } from 'domain/models/ServiceModel'
+import { ServiceModel, ServiceStatus } from 'domain/models/ServiceModel'
 import Router from 'next/router'
 import { CardDetailBlock } from 'presentation/components/Cards/CardDetailBlock'
 import { CheckBar } from 'presentation/components/Cards/CheckBar'
@@ -43,7 +43,7 @@ export function ServicesDetailsCard({
             {services.map((service) => (
               <CheckBar
                 key={service.id}
-                completed={service.status === 'COMPLETED'}
+                completed={service.status === ServiceStatus.COMPLETED}
               />
             ))}
           </VStack>

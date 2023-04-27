@@ -52,7 +52,7 @@ export function Reports() {
           <VStack align="end">
             <Icon
               as={
-                report.type.toString() === 'PAYMENT'
+                report.type === ReportTypes.PAYMENT
                   ? FcSalesPerformance
                   : FcDocument
               }
