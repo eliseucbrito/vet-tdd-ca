@@ -93,17 +93,11 @@ export function FinanceCard() {
   const seriesIncomes = [
     {
       name: 'Faturamento',
-      data:
-        weeklyEarnings !== undefined
-          ? weeklyEarnings.incomes
-          : [0, 0, 0, 0, 0, 0, 0, 0],
+      data: weeklyEarnings?.incomes ?? [0, 0, 0, 0, 0, 0, 0, 0],
     },
     {
       name: 'Despesas',
-      data:
-        weeklyEarnings !== undefined
-          ? weeklyEarnings.outcomes
-          : [0, 0, 0, 0, 0, 0, 0, 0],
+      data: weeklyEarnings?.outcomes ?? [0, 0, 0, 0, 0, 0, 0, 0],
     },
   ]
 
@@ -123,12 +117,21 @@ export function FinanceCard() {
         series={seriesIncomes}
       />
       <VStack align="start" px={2}>
-        <StatsIndicator
-          label="Faturamento diario"
-          stat={weeklyEarnings?.incomes[6]}
-          newValue={[weeklyEarnings?.incomes[6]]}
-          oldValue={[weeklyEarnings?.incomes[5]]}
-        />
+        {weeklyEarnings ? (
+          <StatsIndicator
+            label="Faturamento diário"
+            stat={weeklyEarnings.incomes[6]}
+            newValue={[weeklyEarnings.incomes[6]]}
+            oldValue={[weeklyEarnings.incomes[5]]}
+          />
+        ) : (
+          <StatsIndicator
+            label="Faturamento diário"
+            stat={0}
+            newValue={[0]}
+            oldValue={[0]}
+          />
+        )}
       </VStack>
     </Flex>
   )

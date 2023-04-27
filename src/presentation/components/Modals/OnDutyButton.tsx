@@ -22,21 +22,6 @@ export function OnDutyButton() {
   const cancelRef = useRef()
   const { user, handleSetUser } = useContext(UserContext)
 
-  const buttonText =
-    user?.onDuty === true ? 'Sair do plantão' : 'Entrar no plantão'
-
-  const toastTitle =
-    user?.onDuty === true ? 'Saiu do plantão' : 'Entrou no plantão'
-
-  const toastDescription =
-    user?.onDuty === true
-      ? 'Agora suas horas não serão registradas!'
-      : 'Agora você pode receber clientes e suas horas serão contadas!'
-
-  async function handleSetOnDuty() {
-    await submitOnDutyState.mutateAsync(!user.onDuty)
-  }
-
   const submitOnDutyState = useMutation(
     async (onDuty: boolean) => {
       const { body } = await axios.request({
@@ -70,6 +55,35 @@ export function OnDutyButton() {
       },
     },
   )
+
+  if (user === undefined) {
+    return (
+      <Button
+        p={2}
+        bg="red.600"
+        _hover={{ background: 'green.800' }}
+        borderRadius={500}
+        fontSize="0.75rem"
+        fontWeight={600}
+        color="white"
+        onClick={onOpen}
+      >
+        Usuario não logado
+      </Button>
+    )
+  }
+
+  const buttonText = user.onDuty ? 'Sair do plantão' : 'Entrar no plantão'
+
+  const toastTitle = user.onDuty ? 'Saiu do plantão' : 'Entrou no plantão'
+
+  const toastDescription = user.onDuty
+    ? 'Agora suas horas não serão registradas!'
+    : 'Agora você pode receber clientes e suas horas serão contadas!'
+
+  async function handleSetOnDuty() {
+    await submitOnDutyState.mutateAsync(!user.onDuty)
+  }
 
   return (
     <>
