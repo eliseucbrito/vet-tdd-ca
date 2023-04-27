@@ -19,7 +19,7 @@ export default function Staff({ staffsInitialData }: StaffProps) {
   const { staffsFounded } = useContext(SearchContext)
 
   return (
-    <Container flexDir="column">
+    <Container display="block">
       <Heading display="flex" mb="1rem" justifyContent="space-between">
         <Text>Staff</Text>
 
@@ -27,7 +27,7 @@ export default function Staff({ staffsInitialData }: StaffProps) {
       </Heading>
       <StaffSearchBar />
       <Wrap flexWrap="wrap" align="start" w="100%" h="100%" spacing={8}>
-        {staffsFounded !== undefined ? (
+        {staffsFounded ? (
           staffsFounded.map((staff) => (
             <WrapItem key={staff.id}>
               <Link href={`/staff/${staff.id}`}>

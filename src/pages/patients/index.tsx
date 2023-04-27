@@ -19,15 +19,15 @@ export default function Patients({ patientsInitialData }: PatientsProps) {
   const { patientsFounded } = useContext(SearchContext)
 
   return (
-    <Container flexDir="column">
+    <Container overflowY="scroll" display="block">
       <Heading display="flex" mb="1rem" justifyContent="space-between">
         <Text>Pacientes</Text>
       </Heading>
 
       <PatientSearchBar />
 
-      <Wrap align="start" w="100%" h="100%" spacing={6}>
-        {patientsFounded !== undefined ? (
+      <Wrap align="start" w="100%" spacing={6}>
+        {patientsFounded ? (
           patientsFounded.map((patient) => (
             <WrapItem key={patient.id}>
               <Link href={`/patients/${patient.id}`}>
@@ -35,7 +35,7 @@ export default function Patients({ patientsInitialData }: PatientsProps) {
               </Link>
             </WrapItem>
           ))
-        ) : patientsInitialData !== undefined ? (
+        ) : patientsInitialData ? (
           patientsInitialData.map((patient) => (
             <WrapItem key={patient.id}>
               <Link href={`/patients/${patient.id}`}>
