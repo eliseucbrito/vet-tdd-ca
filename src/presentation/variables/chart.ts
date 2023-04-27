@@ -1,7 +1,7 @@
 // Daily Traffic Dashboards Default
 import { ApexOptions } from 'apexcharts'
 
-type ApexGeneric = ApexOptions & any
+export type ApexGeneric = ApexOptions & any
 
 export const barChartDataDailyTraffic = [
   {
