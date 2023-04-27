@@ -1,12 +1,4 @@
-import {
-  Avatar,
-  Flex,
-  HStack,
-  Spinner,
-  Tag,
-  Text,
-  VStack,
-} from '@chakra-ui/react'
+import { Avatar, HStack, Tag, Text, VStack } from '@chakra-ui/react'
 import { PatientReducedModel } from 'domain/models/PatientModel'
 import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 import { nameFormatter } from 'presentation/utils/nameFormatter'
@@ -26,9 +18,7 @@ export function PatientCard({ rounded, patient }: PatientCardProps) {
       borderLeftRadius="2xl"
       borderRightRadius={rounded ? '2xl' : 0}
     >
-      {patient === undefined ? (
-        <ErrorOrEmptyMessage isError={true} />
-      ) : (
+      {patient ? (
         <>
           <Avatar size="lg" src={'https://github.com/eliseubrito7z.png'} />
           <Text lineHeight={1} whiteSpace="nowrap">
@@ -52,6 +42,8 @@ export function PatientCard({ rounded, patient }: PatientCardProps) {
             <Text fontWeight={600}>{patient.id}</Text>
           </HStack>
         </>
+      ) : (
+        <ErrorOrEmptyMessage isError={true} />
       )}
     </VStack>
   )

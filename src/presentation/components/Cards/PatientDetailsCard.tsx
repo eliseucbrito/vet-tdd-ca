@@ -1,5 +1,5 @@
-import { Box, Divider, Flex, Text, TextProps, VStack } from '@chakra-ui/react'
-import { ReactElement, ReactNode } from 'react'
+import { Box, Divider, Flex, Text, VStack } from '@chakra-ui/react'
+import { ReactNode } from 'react'
 import { PatientModel } from 'domain/models/PatientModel'
 import { phoneFormatter } from 'presentation/utils/phoneFormatter'
 import { ageFormatter } from 'presentation/utils/ageFormatter'
