@@ -73,27 +73,3 @@ export default function Dashboard() {
     </Container>
   )
 }
-
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//   const axios = new AxiosHttpClient()
-//   const { 'vet.token': token } = parseCookies(ctx)
-//   const { body: lastServices } = await axios.request({
-//     method: 'get',
-//     url: 'api/services/v2',
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   })
-
-//   const { body: reports } = await axios.request({
-//     method: 'get',
-//     url: 'api/reports/v2',
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   })
-
-//   return {
-//     props: { lastServices, reports },
-//   }
-// }
