@@ -1,6 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react'
 import { ApexOptions } from 'apexcharts'
 import dynamic from 'next/dynamic'
+import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 import { useServices } from 'presentation/hooks/useServices'
 
 type ApexGeneric = ApexOptions & any
@@ -9,7 +10,7 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), {
 })
 
 export function BarChartMedicsWithMoreServices() {
-  const { data: services } = useServices()
+  const { data: services, isError, isLoading } = useServices()
 
   const staffs: { name: string; value: number }[] = []
   const servicesPerStaff = {}
@@ -155,11 +156,19 @@ export function BarChartMedicsWithMoreServices() {
       p="1rem"
     >
       <Text fontWeight={600}>Mais atendimentos</Text>
-      <ReactApexChart
-        options={barChartOptions}
-        series={barChartData}
-        type="bar"
-      />
+      {totalServicesPerMedic.length > 0 ? (
+        <ReactApexChart
+          options={barChartOptions}
+          series={barChartData}
+          type="bar"
+        />
+      ) : (
+        <ErrorOrEmptyMessage
+          isEmpty={totalServicesPerMedic.length === 0 || services === undefined}
+          isError={isError}
+          isLoading={isLoading}
+        />
+      )}
     </Flex>
   )
 }
