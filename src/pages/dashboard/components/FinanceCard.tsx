@@ -126,7 +126,7 @@ export function FinanceCard() {
           />
         ) : (
           <StatsIndicator
-            label="Faturamento diário"
+            label="Sem dados"
             stat={0}
             newValue={[0]}
             oldValue={[0]}
