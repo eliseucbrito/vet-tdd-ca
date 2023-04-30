@@ -61,9 +61,6 @@ const newServiceModalSchema = z.object({
   reason: z
     .string()
     .min(5, { message: 'O Motivo deve conter no mínimo 5 caracteres' }),
-  description: z
-    .string()
-    .min(20, { message: 'A descrição deve conter no mínimo 20 caracteres' }),
   price: z
     .string()
     .min(1, { message: 'O valor do atendimento é obrigatório' })
@@ -107,6 +104,8 @@ export function NewServiceModal() {
         queryClient.invalidateQueries({ queryKey: ['services'] })
         queryClient.invalidateQueries({ queryKey: ['VetData'] })
         queryClient.invalidateQueries({ queryKey: ['weeklyEarnings'] })
+        queryClient.invalidateQueries({ queryKey: ['detailedEarnings'] })
+        queryClient.invalidateQueries({ queryKey: ['monthlyEarnings'] })
         reset()
         toast({
           title: 'Serviço criado',
@@ -267,11 +266,6 @@ export function NewServiceModal() {
                       })}
                   </Select>
                 </HStack>
-                <Textarea
-                  placeholder="Descrição"
-                  isInvalid={!!errors.description}
-                  {...register('description')}
-                />
               </VStack>
             </ModalBody>
 
