@@ -53,6 +53,9 @@ export default function ReportDetails({ id }: ReportDetailsProps) {
         const approvedState = approved ? 'Aprovado' : 'Negado'
         queryClient.invalidateQueries(['report', { id }])
         queryClient.invalidateQueries({ queryKey: ['reports'] })
+        queryClient.invalidateQueries({ queryKey: ['weeklyEarnings'] })
+        queryClient.invalidateQueries({ queryKey: ['detailedEarnings'] })
+        queryClient.invalidateQueries({ queryKey: ['monthlyEarnings'] })
         toast({
           title: 'Relatório atualizado',
           description: `O pedido foi ${approvedState} com sucesso!`,
