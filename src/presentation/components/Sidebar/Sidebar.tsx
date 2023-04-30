@@ -8,6 +8,14 @@ import {
   Avatar,
   Text,
   Spinner,
+  useDisclosure,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
 } from '@chakra-ui/react'
 import { SidebarButton } from './SidebarButton'
 import {
@@ -35,6 +43,7 @@ export const SidebarContext = createContext({} as SidebarContextData)
 export function Sidebar() {
   const { user } = useContext(UserContext)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   function handleSidebarState() {
     setSidebarOpen(!sidebarOpen)
@@ -113,9 +122,35 @@ export function Sidebar() {
             </>
           )}
 
-          <Button variant="unstyled" onClick={SignOut}>
+          <Button variant="unstyled" onClick={onOpen}>
             <Icon margin="0 auto" as={CgLogOut} boxSize={6} />
           </Button>
+
+          <Modal isOpen={isOpen} onClose={onClose} isCentered size="xs">
+            <ModalOverlay />
+            <ModalContent>
+              <ModalBody>Confirmar logout</ModalBody>
+
+              <ModalFooter
+                w="100%"
+                display="flex"
+                justifyContent="space-between"
+                border={0}
+              >
+                <Button w="48%" onClick={onClose}>
+                  Cancelar
+                </Button>
+                <Button
+                  w="48%"
+                  onClick={SignOut}
+                  background={'green.600'}
+                  _hover={{ background: 'green.800' }}
+                >
+                  Confirmar
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
         </Flex>
       </SidebarContext.Provider>
     </VStack>
