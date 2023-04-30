@@ -1,5 +1,6 @@
-import { PatientModel, PatientReducedModel } from './PatientModel'
-import { StaffModel, StaffReducedModel } from './StaffModel'
+import { CityModel } from './CityModel'
+import { PatientReducedModel } from './PatientModel'
+import { StaffReducedModel } from './StaffModel'
 
 export enum ServiceType {
   EXAM = 'EXAM',
@@ -31,10 +32,7 @@ export type ServiceModel = {
   type: ServiceType
   status: ServiceStatus
   paymentStatus: PaymentStatus
-  city: {
-    id: number
-    name: string
-  }
+  city: CityModel
   price: number
   medic: StaffReducedModel
   patient: PatientReducedModel

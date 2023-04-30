@@ -1,16 +1,9 @@
-import { RoleHistoricModel } from './RoleHistoricModel'
+import { RoleHistoricModel, RoleModel } from './RoleHistoricModel'
 import { ServiceModel } from './ServiceModel'
 
 export type StaffModel = {
   id: number
-  role: {
-    id: number
-    description: string
-    privileges: {
-      id: number
-      description: string
-    }[]
-  }
+  role: RoleModel
   fullName: string
   email: string
   avatarUrl: string
@@ -27,14 +20,7 @@ export type StaffModel = {
 export type StaffReducedModel = {
   id: number
   fullName: string
-  role: {
-    id: number
-    description: string
-    privileges: {
-      id: number
-      description: string
-    }[]
-  }
+  role: RoleModel
   avatarUrl: string
   onDuty: boolean
 }
