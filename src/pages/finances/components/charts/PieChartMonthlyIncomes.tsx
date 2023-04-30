@@ -65,7 +65,6 @@ export function PieChartMonthlyIncomes() {
   ]
 
   function numberFormatter(value: number) {
-    console.log('VALUE RECEIVED ', value)
     const valueInReals = value
     const percent = (valueInReals / totalEarningsInLast30Days) * 100
     return Math.round(percent)
