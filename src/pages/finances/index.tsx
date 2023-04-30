@@ -9,15 +9,17 @@ import { PieChartMonthlyIncomes } from './components/charts/PieChartMonthlyIncom
 export default function Finances() {
   return (
     <Container flexDir="column" justify="space-between" gap={8}>
-      <Flex w="100%" justify="space-between">
-        <BarChart />
+      <Flex w="100%" gap="1rem" justify="space-between">
         <PieChartDailyIncomes />
         <PieChartMonthlyIncomes />
       </Flex>
 
       {/* <BarChartMedicsWithMoreServices /> */}
 
-      <LineChartMonthyDayByDay />
+      <Flex w="100%" gap="1rem" justify="space-between">
+        <LineChartMonthyDayByDay />
+        <BarChart />
+      </Flex>
     </Container>
   )
 }

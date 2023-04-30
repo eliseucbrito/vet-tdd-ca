@@ -3,6 +3,7 @@ import { ApexOptions } from 'apexcharts'
 import dynamic from 'next/dynamic'
 import { useCities } from 'presentation/hooks/useCities'
 import { useServices } from 'presentation/hooks/useServices'
+import { useServicesPerCity } from 'presentation/hooks/useServicesPerCity'
 
 type ApexGeneric = ApexOptions & any
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
@@ -10,8 +11,8 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), {
 })
 
 export function BarChart() {
+  const { data: servicesPerCity } = useServicesPerCity()
   const { data: cities } = useCities()
-  const { data: services } = useServices()
 
   const barChartOptions: ApexGeneric = {
     chart: {
@@ -122,18 +123,12 @@ export function BarChart() {
     },
   }
 
-  const totalServicesPerCity = {}
-
-  cities?.forEach((city) => (totalServicesPerCity[city.name] = 0))
-
-  services?.forEach((service) => (totalServicesPerCity[service.city.name] += 1))
-
-  const servicesPerCity = cities?.map((city) => totalServicesPerCity[city.name])
-
   const barChartData = [
     {
       name: 'Atendimentos hoje',
-      data: servicesPerCity,
+      data: cities?.map(
+        (city) => servicesPerCity.dailyServicesPerCity[city.name],
+      ),
     },
   ]
 
@@ -146,7 +141,7 @@ export function BarChart() {
       borderRadius={12}
       p="1rem"
     >
-      <Text fontWeight={600}>Atendimentos diários</Text>
+      <Text fontWeight={600}>Atendimentos diários por cidade</Text>
 
       <ReactApexChart
         options={barChartOptions}
