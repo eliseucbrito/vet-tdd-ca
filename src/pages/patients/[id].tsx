@@ -1,11 +1,11 @@
 import { HStack } from '@chakra-ui/react'
-import { PatientCard } from './components/PatientCard'
-import { ServicesCard } from './components/ServicesCard'
+import { PatientCard } from '../../presentation/components/Patients/PatientCard'
 import { GetServerSideProps } from 'next/types'
 import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
 import { PatientDetailsCard } from 'presentation/components/Cards/PatientDetailsCard'
 import { useServices } from 'presentation/hooks/useServices'
 import { Container } from 'presentation/components/Defaults/Container'
+import { ServicesCard } from 'presentation/components/Patients/ServicesCard'
 
 export default function StaffDetails({ patient }) {
   const { data: services } = useServices()

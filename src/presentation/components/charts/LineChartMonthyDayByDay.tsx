@@ -72,7 +72,14 @@ export function LineChartMonthyDayByDay() {
   ]
 
   return (
-    <Flex w="62%" bg="white" h="max-content" borderRadius={12} p="1rem">
+    <Flex
+      w="100%"
+      maxW="65%"
+      bg="white"
+      h="max-content"
+      borderRadius={12}
+      p="1rem"
+    >
       <Box w="100%">
         <ReactApexChart
           options={lineChartOptionsEarningsDayPerDay}

@@ -1,6 +1,5 @@
 import { Heading, Text, Wrap, WrapItem } from '@chakra-ui/react'
 import React, { useContext } from 'react'
-import { StaffCard } from './components/StaffCard'
 import Link from 'next/link'
 import { GetServerSideProps } from 'next/types'
 import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
@@ -10,6 +9,7 @@ import { Container } from 'presentation/components/Defaults/Container'
 import { NewStaffModal } from 'presentation/components/Modals/NewStaffModal'
 import { StaffSearchBar } from 'presentation/components/Form/StaffSearchBar'
 import { SearchContext } from 'presentation/context/SearchContext'
+import { StaffCard } from 'presentation/components/Staff/StaffCard'
 
 interface StaffProps {
   staffsInitialData: StaffReducedModel[]

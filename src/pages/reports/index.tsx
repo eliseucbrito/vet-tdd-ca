@@ -7,7 +7,6 @@ import {
   Th,
   Thead,
   Tr,
-  VStack,
 } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import Router from 'next/router'

@@ -115,6 +115,7 @@ export function EditableCard({
       </Text>
       <Heading p={4}>
         <Image
+          alt=""
           w="128px"
           src="https://i.pinimg.com/originals/b1/69/7d/b1697d7a63314dd55015100c592d078c.png"
         />

@@ -10,7 +10,7 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 })
 
-export function BarChart() {
+export function BarChartMonthlyServicesPerCity() {
   const { data: servicesPerCity } = useServicesPerCity()
   const { data: cities } = useCities()
 
@@ -125,9 +125,9 @@ export function BarChart() {
 
   const barChartData = [
     {
-      name: 'Atendimentos hoje',
+      name: 'Atendimentos mensal',
       data: cities?.map(
-        (city) => servicesPerCity.dailyServicesPerCity[city.name],
+        (city) => servicesPerCity?.monthlyServicesPerCity[city.name],
       ),
     },
   ]
@@ -136,12 +136,14 @@ export function BarChart() {
     <Flex
       flexDir="column"
       bg="white"
-      w="max-content"
-      h="max-content"
+      w="100%"
+      h="100%"
+      maxW="max-content"
       borderRadius={12}
       p="1rem"
+      justify="space-between"
     >
-      <Text fontWeight={600}>Atendimentos diários por cidade</Text>
+      <Text fontWeight={600}>Atendimentos mensais por cidade</Text>
 
       <ReactApexChart
         options={barChartOptions}

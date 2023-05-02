@@ -1,7 +1,7 @@
 /* eslint-disable no-extra-boolean-cast */
 import { Heading, Text, Wrap, WrapItem } from '@chakra-ui/react'
 import { PatientReducedModel } from 'domain/models/PatientModel'
-import { PatientCard } from './components/PatientCard'
+import { PatientCard } from '../../presentation/components/Patients/PatientCard'
 import Link from 'next/link'
 import { AxiosHttpClient } from './../../infra/http/axios-http-client/axios-http-client'
 import { GetServerSideProps } from 'next/types'

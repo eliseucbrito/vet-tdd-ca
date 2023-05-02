@@ -1,5 +1,6 @@
 import {
   HttpPostClient,
+  HttpPostParams,
   HttpResponse,
   HttpStatusCode,
 } from '../protocols/http/http-client'

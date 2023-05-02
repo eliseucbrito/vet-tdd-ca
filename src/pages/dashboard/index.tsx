@@ -7,11 +7,6 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import { DataCards } from './components/DataCards'
-import { FinanceCard } from './components/FinanceCard'
-import { LastPatients } from './components/LastPatients'
-import { ServicesPerPatientSearchBar } from './components/ServicesPerPatientSearchBar'
-import { Reports } from './components/Reports'
 import { NewPatientModal } from 'presentation/components/Modals/NewPatientModal'
 import { NewServiceModal } from 'presentation/components/Modals/NewServiceModal'
 import { useContext } from 'react'
@@ -19,6 +14,11 @@ import { UserContext } from 'presentation/context/UserContext'
 import { OnDutyButton } from 'presentation/components/Modals/OnDutyButton'
 import { useServices } from 'presentation/hooks/useServices'
 import { Container } from 'presentation/components/Defaults/Container'
+import { DataCards } from 'presentation/components/Dashboard/DataCards'
+import { FinanceCard } from 'presentation/components/Dashboard/FinanceCard'
+import { LastPatients } from 'presentation/components/Dashboard/LastPatients'
+import { ServicesPerPatientSearchBar } from 'presentation/components/Dashboard/ServicesPerPatientSearchBar'
+import { Reports } from 'presentation/components/Dashboard/Reports'
 
 export default function Dashboard() {
   const { user } = useContext(UserContext)

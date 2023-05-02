@@ -61,7 +61,7 @@ export function NewReportModal() {
     resolver: zodResolver(newReportModalSchema),
   })
 
-  const axios = new AxiosHttpClient()
+  const axios = new AxiosHttpClient(undefined)
 
   const createNewReport = useMutation(
     async (report: newReportModalData) => {

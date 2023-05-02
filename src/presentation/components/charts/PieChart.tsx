@@ -1,9 +1,6 @@
 import { Flex } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
-import {
-  pieChartData,
-  pieChartOptions,
-} from './../../../../presentation/variables/chart'
+import { pieChartData, pieChartOptions } from '../../variables/chart'
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,

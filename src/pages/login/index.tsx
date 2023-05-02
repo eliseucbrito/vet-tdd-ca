@@ -50,7 +50,7 @@ export default function Login() {
   }
 
   return (
-    <Container>
+    <Container p={0}>
       <VStack w="100%" h="100%" align="center" justify="center" p="1rem">
         <Heading w="100%" justifyContent="flex-start">
           <ChakraImage alt="" src={Logo} />

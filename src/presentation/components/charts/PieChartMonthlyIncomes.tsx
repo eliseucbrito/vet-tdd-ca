@@ -1,9 +1,9 @@
 /* eslint-disable no-useless-return */
-import { Flex, HStack, Text, VStack, Icon } from '@chakra-ui/react'
+import { Flex, HStack, Text, VStack, Icon, Box } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
 import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 import { useMonthlyEarnings } from 'presentation/hooks/useMonthlyEarnings'
-import { pieChartDailyIncomesOptions } from '../../../../presentation/variables/chart'
+import { pieChartDailyIncomesOptions } from '../../variables/chart'
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
@@ -71,15 +71,29 @@ export function PieChartMonthlyIncomes() {
   }
 
   return (
-    <Flex bg="white" w="max-content" h="max-content" borderRadius={12} p="1rem">
+    <Flex
+      bg="white"
+      w="100%"
+      maxW="max-content"
+      h="100%"
+      borderRadius={12}
+      p="1rem"
+    >
       <VStack align="start">
-        <Text fontWeight={600}>Faturamento mensal</Text>
+        <Text fontWeight={600} lineHeight={1}>
+          Faturamento mensal
+        </Text>
+        <Text fontSize="0.875rem" color="gray.200" lineHeight={1}>
+          Total: {totalEarningsInLast30Days}
+        </Text>
 
-        <ReactApexChart
-          options={pieChartDailyIncomesOptions}
-          series={chartSeries}
-          type="pie"
-        />
+        <Box w="100%">
+          <ReactApexChart
+            options={pieChartDailyIncomesOptions}
+            series={chartSeries}
+            type="pie"
+          />
+        </Box>
       </VStack>
 
       {!!monthlyEarnings && (

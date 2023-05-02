@@ -5,21 +5,18 @@ import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage
 import { UserContext } from 'presentation/context/UserContext'
 import { useServiceDetails } from 'presentation/hooks/useServices'
 import { useContext } from 'react'
-import { ServiceInformations } from './components/ServiceInformations'
-import { UpdatePaymentStatusModal } from './components/UpdatePaymentStatusModal'
-import { UpdateServiceStatusModal } from './components/UpdateServiceStatusModal'
-import { EditableCard } from './components/EditableCard'
+import { EditableCard } from '../../presentation/components/Services/EditableCard'
 import { Container } from 'presentation/components/Defaults/Container'
+import { ServiceInformations } from 'presentation/components/Services/ServiceInformations'
+import { UpdatePaymentStatusModal } from 'presentation/components/Services/UpdatePaymentStatusModal'
+import { UpdateServiceStatusModal } from 'presentation/components/Services/UpdateServiceStatusModal'
 
 interface ServiceDetailsProps {
   id: string
   initialData: ServiceModel
 }
 
-export default function ServiceDetails({
-  id,
-  initialData,
-}: ServiceDetailsProps) {
+export default function ServiceDetails({ id }: ServiceDetailsProps) {
   const { user } = useContext(UserContext)
 
   const {

@@ -8,7 +8,7 @@ import { HttpResponse } from 'data/protocols/http'
 import { AxiosError } from 'axios'
 import { destroyCookie, parseCookies } from 'nookies'
 import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
-import { StaffModel, StaffReducedModel } from 'domain/models/StaffModel'
+import { StaffReducedModel } from 'domain/models/StaffModel'
 
 export const validationSchema = z.object({
   email: z.string().email({ message: 'Email invalido!' }),

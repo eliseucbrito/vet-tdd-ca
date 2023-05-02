@@ -3,7 +3,5 @@ export function nameFormatter(name: string) {
   const nameFormatted =
     nameSplited[0] + ' ' + nameSplited[nameSplited.length - 1]
 
-
-
   return nameFormatted
 }

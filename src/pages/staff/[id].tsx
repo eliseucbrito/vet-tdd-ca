@@ -2,12 +2,12 @@ import { HStack } from '@chakra-ui/react'
 import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
 import { GetServerSideProps } from 'next'
 import { StaffDetailsCard } from 'presentation/components/Cards/StaffDetailsCard'
-import { RolesAndServicesCard } from './components/RolesAndServicesCard'
-import { StaffCard } from './components/StaffCard'
 import { StaffModel } from 'domain/models/StaffModel'
 import { useStaffDetails } from 'presentation/hooks/useStaff'
 import { Container } from 'presentation/components/Defaults/Container'
 import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
+import { RolesAndServicesCard } from 'presentation/components/Staff/RolesAndServicesCard'
+import { StaffCard } from 'presentation/components/Staff/StaffCard'
 
 interface StaffDetailsProps {
   id: string

@@ -1,6 +1,6 @@
 import { VStack, HStack, Text, Box } from '@chakra-ui/react'
 import { ServiceModel } from 'domain/models/ServiceModel'
-import { ServicesDetailsCard } from 'pages/staff/components/ServicesDetailsCard'
+import { ServicesDetailsCard } from '../Staff/ServicesDetailsCard'
 
 interface ServicesCardProps {
   services: ServiceModel[]

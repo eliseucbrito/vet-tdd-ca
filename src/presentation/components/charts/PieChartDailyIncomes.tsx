@@ -1,10 +1,10 @@
 /* eslint-disable no-useless-return */
-import { Flex, HStack, Text, VStack, Icon } from '@chakra-ui/react'
+import { Flex, HStack, Text, VStack, Icon, Box } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
 import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
 import { useWeeklyEarnings } from 'presentation/hooks/useWeeklyEarnings'
-import { pieChartDailyIncomesOptions } from '../../../../presentation/variables/chart'
+import { pieChartDailyIncomesOptions } from '../../variables/chart'
 
 const isToday = require('dayjs/plugin/isToday')
 
@@ -72,22 +72,54 @@ export function PieChartDailyIncomes() {
     return prev + cur
   })
 
+  if (totalDailyIncomes === 0) {
+    return (
+      <Flex
+        flexDir="column"
+        bg="white"
+        w="100%"
+        maxW="max-content"
+        h="100%"
+        borderRadius={12}
+        p="1rem"
+      >
+        <Text fontWeight={600}>Faturamento diário</Text>
+        <Text>Sem dados</Text>
+      </Flex>
+    )
+  }
+
   function numberFormatter(value: number) {
-    const valueInReais = value / 1000
-    const percent = (valueInReais / totalDailyIncomes) * 100
+    if (value === 0) {
+      return 0
+    }
+    const valueInReal = value / 1000
+    const percent = (valueInReal / totalDailyIncomes) * 100
     return Math.round(percent)
   }
 
   return (
-    <Flex bg="white" w="max-content" h="max-content" borderRadius={12} p="1rem">
+    <Flex
+      bg="white"
+      w="100%"
+      maxW="max-content"
+      h="100%"
+      borderRadius={12}
+      p="1rem"
+    >
       <VStack align="start">
         <Text fontWeight={600}>Faturamento diário</Text>
+        <Text fontSize="0.875rem" color="gray.200" lineHeight={1}>
+          Total: {totalDailyIncomes}
+        </Text>
 
-        <ReactApexChart
-          options={pieChartDailyIncomesOptions}
-          series={chartSeries}
-          type="pie"
-        />
+        <Box w="100%">
+          <ReactApexChart
+            options={pieChartDailyIncomesOptions}
+            series={chartSeries}
+            type="pie"
+          />
+        </Box>
       </VStack>
 
       <>

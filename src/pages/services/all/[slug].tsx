@@ -13,11 +13,11 @@ import { AxiosHttpClient } from 'infra/http/axios-http-client/axios-http-client'
 import { GetServerSideProps } from 'next'
 import { Container } from 'presentation/components/Defaults/Container'
 import { ErrorOrEmptyMessage } from 'presentation/components/ErrorOrEmptyMessage'
+import { ServicesList } from 'presentation/components/Services/ServicesList'
 import { useServices } from 'presentation/hooks/useServices'
 import { serviceTypeFormatter } from 'presentation/utils/serviceTypeFormatter'
 import { slugToServiceType } from 'presentation/utils/slugToServiceType'
 import { useState } from 'react'
-import { ServicesList } from '../components/ServicesList'
 
 interface ServicePerTypeProps {
   slug: string
